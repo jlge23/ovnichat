@@ -1,12 +1,10 @@
 <?php
 
 use App\Events\TestEvent;
-use App\Http\Controllers\ApiMessengerController;
-use App\Http\Controllers\ApiWhatsAppController;
 use App\Http\Controllers\CanaleController;
+use App\Http\Controllers\ComboController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\WebhookController;
-use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,15 +19,9 @@ Route::post('/webhook/whatsapp', [WebhookController::class, 'handleWhatsapp']);
 Route::get('/webhook/messenger', [WebhookController::class, 'verify']);
 Route::post('/webhook/messenger', [WebhookController::class, 'handleMessenger']);
 
-/*
-//WhatsApp
-//Route::get('/whsend',[ApiWhatsAppController::class ,'whsend'])->name('whsend');
-Route::get('/whget',[ApiWhatsAppController::class ,'whget'])->name('whget');//
-Route::post('/whget',[ApiWhatsAppController::class ,'postrwhget'])->name('whget');
-//Messenger
-
-Route::get('/messenger', [ApiMessengerController::class, 'verificar']);
-Route::post('/messenger', [ApiMessengerController::class, 'recibirEvento']); */
+//Route::get('/combos/run', [ComboController::class, 'run'])->name('combos.run');
+Route::get('/combos', [ComboController::class, 'index'])->name('combos.index');
+Route::get('/combos/{id}/edit', [ComboController::class, 'edit'])->name('combos.edit');
 
 
 Route::get('/productos', [ProductoController::class, 'index']);

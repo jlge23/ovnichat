@@ -1,5 +1,5 @@
 import './bootstrap';
-import './echo';
+//import './echo';
 import jQuery from 'jquery'
 window.$ = jQuery;
 
@@ -7,6 +7,6 @@ window.$ = jQuery;
 channel.listen('TestEvent', (e) => {
     console.log(e.message);
 }); */
-$(function(){
+/* $(function(){
     window.Echo.channel('Test-channel').listen('TestEvent', (e) => {$("h2").html(e)});
-});
+}); */

@@ -19,4 +19,9 @@ class Producto extends Model
     {
         return $this->belongsTo(Embalaje::class);
     }
+    public function combos(){
+        return $this->belongsToMany(Combo::class, 'combo_productos')
+                    ->withPivot('cantidad')
+                    ->withTimestamps();
+    }
 }
