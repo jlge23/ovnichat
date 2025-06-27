@@ -78,7 +78,23 @@ $(function(){
                 {"data":"id"},
                 {"data":"nombre"},
                 {"data":"descripcion"},
-                {"data":"stock_actual"},
+                {"data":"stock_actual",
+                    render: function (data, type, row) {
+                        switch(row.stock_actual){
+                            case "activo":
+                                return "<p class='bg-success text-dark px-2'>"+row.stock_actual+"</p>";
+                            break;
+                            case "inactivo":
+                                return "<p class='bg-warning text-dark px-2'>"+row.stock_actual+"</p>";
+                            break;
+                            case "agotado":
+                                return "<p class='bg-danger text-dark px-2'>"+row.stock_actual+"</p>";
+                            break;
+                            default:
+                                return "<p class='bg-dark text-light px-2'>"+row.stock_actual+"</p>";
+                        }
+                    }
+                },
                 {"data":"asignado",
                     render: function (data, type, row) {
                         if(row.asignado)
