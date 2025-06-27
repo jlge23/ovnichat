@@ -19,9 +19,11 @@ Route::post('/webhook/whatsapp', [WebhookController::class, 'handleWhatsapp']);
 Route::get('/webhook/messenger', [WebhookController::class, 'verify']);
 Route::post('/webhook/messenger', [WebhookController::class, 'handleMessenger']);
 
-//Route::get('/combos/run', [ComboController::class, 'run'])->name('combos.run');
 Route::get('/combos', [ComboController::class, 'index'])->name('combos.index');
+Route::post('/combos', [ComboController::class, 'store'])->name('combos.store');
 Route::get('/combos/{id}/edit', [ComboController::class, 'edit'])->name('combos.edit');
+Route::put('/combos/{combo}', [ComboController::class, 'update'])->name('combos.update');
+Route::delete('/combos/{combo}', [ComboController::class, 'destroy'])->name('combos.destroy');
 
 
 Route::get('/productos', [ProductoController::class, 'index']);

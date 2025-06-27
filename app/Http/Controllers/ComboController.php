@@ -45,35 +45,60 @@ class ComboController extends Controller
             'descripcion' => 'nullable|string',
             'precio' => 'required|numeric|min:0',
             'status' => 'required|in:activo,inactivo,agotado',
-            'productos' => 'required|array',
+            /* 'productos' => 'required|array',
             'productos.*.id' => 'required|exists:productos,id',
-            'productos.*.cantidad' => 'required|integer|min:1',
+            'productos.*.cantidad' => 'required|integer|min:1', */
         ]);
 
         $combo = Combo::create($validated);
-
+        /*
         foreach ($validated['productos'] as $prod) {
             $combo->productos()->attach($prod['id'], ['cantidad' => $prod['cantidad']]);
-        }
-
-        return response()->json($combo->load('productos'), 201);
+        } */
+        return redirect()->route('combos.index');
+        //return response()->json($combo->load('productos'), 201);
     }
 
     public function edit($id){
-        $productos = Producto::where('stock_actual', '>', 0)->get(); // tus 37 productos
+        $productos = Producto::where('stock_actual', '>', 0)->get();
         $combo = Combo::with('productos')->find($id);
-        $productosDelCombo = $combo->productos; // los asignados
+        $productosDelCombo = $combo->productos; // productos asignados
         $productosAsignados = $productosDelCombo->pluck('id')->toArray();
-        $productosMarcados = $productos->map(function ($producto) use ($productosAsignados) {
+        $productosMarcados = $productos->map(function ($producto) use ($productosDelCombo, $productosAsignados) {
+            $asignado = in_array($producto->id, $productosAsignados);
+            $cantidad = 0;
+            if ($asignado) {
+                // Busca el producto asignado en la colección y accede a la cantidad desde la tabla pivote
+                $cantidad = optional($productosDelCombo->firstWhere('id', $producto->id)->pivot)->cantidad ?? 0;
+            }
             return [
                 'id' => $producto->id,
                 'nombre' => $producto->nombre,
                 'descripcion' => $producto->descripcion,
                 'stock_actual' => $producto->stock_actual,
-                'asignado' => in_array($producto->id, $productosAsignados),
+                'asignado' => $asignado,
+                'cantidad' => $cantidad
             ];
         });
-        return view('combos.edit' ,compact('productosMarcados','combo'));
+        $data = [];
+        foreach ($productosMarcados as $producto) {
+            $data['data'][] = [
+                'id' => $producto['id'],
+                'nombre' => $producto['nombre'],
+                'descripcion' => $producto['descripcion'],
+                'stock_actual' => $producto['stock_actual'],
+                'asignado' => $producto['asignado'],
+                'cantidad' => $producto['cantidad']
+            ];
+        }
+        if(empty($data)){
+            $data['data'] = [];
+            return response()->json($data);
+        }else{
+            return response()->json($data);
+        }
+
+        //return view('combos.edit' ,compact('productosMarcados','combo'));
     }
 
     public function show(Combo $combo)
@@ -84,46 +109,26 @@ class ComboController extends Controller
     public function update(Request $request, Combo $combo)
     {
         $validated = $request->validate([
-            'nombre' => 'sometimes|required|string|max:255',
-            'descripcion' => 'nullable|string',
-            'precio' => 'sometimes|required|numeric|min:0',
-            'status' => 'in:activo,inactivo,agotado',
-            'productos' => 'nullable|array',
-            'productos.*.id' => 'required_with:productos|exists:productos,id',
-            'productos.*.cantidad' => 'required_with:productos|integer|min:1',
+            'productos' => 'required|array|min:1',
+            'productos.*.id' => 'required|exists:productos,id',
+            'productos.*.cantidad' => 'required|integer|min:1',
         ]);
+        // Prepara los datos para sync()
+        $productosSincronizados = [];
 
-        $combo->update($validated);
-
-        if (isset($validated['productos'])) {
-            $combo->productos()->sync(
-                collect($validated['productos'])->mapWithKeys(fn($p) => [$p['id'] => ['cantidad' => $p['cantidad']]])
-            );
+        foreach ($validated['productos'] as $id => $producto) {
+            $productosSincronizados[$id] = [
+                'cantidad' => $producto['cantidad']
+            ];
         }
-
-        return response()->json($combo->load('productos'));
+        // Asocia los productos con cantidades a través de la tabla pivote
+        $combo->productos()->sync($productosSincronizados);
+        return redirect()->route('combos.index')->with('success', 'Combo actualizado correctamente.');
     }
 
     public function destroy(Combo $combo)
     {
         $combo->delete();
-        return response()->json(['mensaje' => 'Combo eliminado'], 200);
+        return redirect()->route('combos.index');
     }
-
-    public function run()
-    {
-        $combo = Combo::create([
-            'nombre' => 'Día del Padre',
-            'descripcion' => 'Combo especial para papá: desayuno con avena, café gourmet y papas sabor jamón.',
-            'precio' => 9.99,
-            'status' => 'activo',
-        ]);
-
-        $combo->productos()->attach([
-            1 => ['cantidad' => 1], // AVENA EN HOJUELAS
-            2 => ['cantidad' => 1], // CAFÉ TOSTADO Y MOLIDO GOURMET
-            10 => ['cantidad' => 2], // HOJUELAS DE PAPAS
-        ]);
-    }
-
 }
