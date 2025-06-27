@@ -76,12 +76,12 @@
                         @if ($combo->productos->isNotEmpty())
                             <ul class="list-group">
                                 @foreach ($combo->productos as $producto)
-                                        <li class="list-group-item list-group-item-action active">{{$producto->nombre}}&nbsp;{{$producto->descripcion}}&nbsp;[{{$producto->pivot->cantidad}}]</li>
+                                    <li class="list-group-item list-group-item-action active"><small>{{$producto->nombre}}&nbsp;{{$producto->descripcion}}&nbsp;[{{$producto->pivot->cantidad}}]</small></li>
                                 @endforeach
                             </ul>
-                            <small id="edit{{$combo->id}}"><b class="text text-dark ver_productos">haga click para cambiar</b></small>
+                            <small id="edit{{$combo->id}}"><b class="btn btn-warning text text-dark ver_productos">haga click para cambiar</b></small>
                         @else
-                            <small id="edit{{$combo->id}}"><b class="text text-success ver_productos">haga click para asociar productos</b></small>
+                            <small id="edit{{$combo->id}}"><b class="btn btn-info text text-dark ver_productos">haga click para asociar productos</b></small>
                         @endif
                     </td>
                     <td>

@@ -82,21 +82,32 @@ $(function(){
                 {"data":"asignado",
                     render: function (data, type, row) {
                         if(row.asignado)
-                            return "<input type='checkbox' name='productos["+row.id+"][id]' class='form-check-input' value="+row.id+" checked>";
+                            return "<input type='checkbox' name='productos["+row.id+"][id]' class='form-check-input check-producto' value="+row.id+" checked>";
                         else
-                            return "<input type='checkbox' name='productos["+row.id+"][id]' class='form-check-input' value="+row.id+">";
+                            return "<input type='checkbox' name='productos["+row.id+"][id]' class='form-check-input check-producto' value="+row.id+">";
                     }
                 },
                 {"data":"cantidad",
                     render: function (data, type, row) {
                         if(row.cantidad > 0)
-                            return "<input class='form-control' type='number' name='productos["+row.id+"][cantidad]' value="+row.cantidad+" max="+row.stock_actual+">";
+                            return "<input class='form-control input-cantidad' type='number' name='productos["+row.id+"][cantidad]' value="+row.cantidad+" max="+row.stock_actual+">";
                         else
-                            return "<input class='form-control' type='number' name='productos["+row.id+"][cantidad]' value="+row.stock_actual+" max="+row.stock_actual+">";
+                            return "<input class='form-control input-cantidad' type='number' name='productos["+row.id+"][cantidad]' value="+row.stock_actual+" max="+row.stock_actual+">";
                     }
                 },
             ],
         });
+        //
+/*         $(document).on('change', '.check-producto', function () {
+            const id = $(this).data('id');
+            const inputCantidad = $(`.input-cantidad[data-id="${id}"]`);
+            if ($(this).is(':checked')) {
+                inputCantidad.prop('disabled', false);
+            } else {
+                inputCantidad.prop('disabled', true);
+            }
+        }); */
+
         //DT_ProdAsoc.ajax.url(url).load();
         $("button#MD_cerrar").on('click', function(){
             DT_ProdAsoc.clear().draw();
