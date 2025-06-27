@@ -46,7 +46,23 @@ $(function(){
             {"data":"nombre"},
             {"data":"descripcion"},
             {"data":"precio"},
-            {"data":"status"},
+            {"data":"status",
+                render: function (data, type, row) {
+                    switch(row.status){
+                        case "activo":
+                            return "<p class='bg-success text-light px-2'><b>"+row.status+"</b></p>";
+                        break;
+                        case "inactivo":
+                            return "<p class='bg-warning text-dark px-2'><b>"+row.status+"</b></p>";
+                        break;
+                        case "agotado":
+                            return "<p class='bg-danger text-light px-2'><b>"+row.status+"</b></p>";
+                        break;
+                        default:
+                            return "<p class='bg-light text-dark px-2'><b>"+row.status+"</b></p>";
+                    }
+                }
+            },
             {"data":"productos"},
             {"data":"defaultContent"}
         ],
@@ -78,23 +94,7 @@ $(function(){
                 {"data":"id"},
                 {"data":"nombre"},
                 {"data":"descripcion"},
-                {"data":"stock_actual",
-                    render: function (data, type, row) {
-                        switch(row.stock_actual){
-                            case "activo":
-                                return "<p class='bg-success text-dark px-2'>"+row.stock_actual+"</p>";
-                            break;
-                            case "inactivo":
-                                return "<p class='bg-warning text-dark px-2'>"+row.stock_actual+"</p>";
-                            break;
-                            case "agotado":
-                                return "<p class='bg-danger text-dark px-2'>"+row.stock_actual+"</p>";
-                            break;
-                            default:
-                                return "<p class='bg-dark text-light px-2'>"+row.stock_actual+"</p>";
-                        }
-                    }
-                },
+                {"data":"stock_actual"},
                 {"data":"asignado",
                     render: function (data, type, row) {
                         if(row.asignado)
