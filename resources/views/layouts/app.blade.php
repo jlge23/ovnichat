@@ -30,8 +30,8 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-                        <li><a class="dropdown-item" href="{{ url('productos.index') }}">Productos</a></li>
-                        <li><a class="dropdown-item" href="{{ url('combos.index') }}">Combos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('productos') }}">Productos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('combos') }}">Combos</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
