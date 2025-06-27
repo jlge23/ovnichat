@@ -74,11 +74,11 @@
                     <td>{{$combo->status}}</td>
                     <td>
                         @if ($combo->productos->isNotEmpty())
-                            <ul class="list-group">
+                            <ol class="list-group list-group-numbered">
                                 @foreach ($combo->productos as $producto)
-                                    <li class="list-group-item list-group-item-action active"><small>{{$producto->nombre}}&nbsp;{{$producto->descripcion}}&nbsp;[{{$producto->pivot->cantidad}}]</small></li>
+                                    <li class="list-group-item list-group-item-action"><small>{{$producto->nombre}}&nbsp;{{$producto->descripcion}}&nbsp;[{{$producto->pivot->cantidad}}]</small></li>
                                 @endforeach
-                            </ul>
+                            </ol>
                             <small id="edit{{$combo->id}}"><b class="btn btn-warning text text-dark ver_productos">haga click para cambiar</b></small>
                         @else
                             <small id="edit{{$combo->id}}"><b class="btn btn-info text text-dark ver_productos">haga click para asociar productos</b></small>
@@ -115,8 +115,8 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Título del Modal</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="ModalTitle">Título del Modal</h5>&nbsp;
+                <button type="button" class="close MD_cerrar" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -124,15 +124,6 @@
                 <form class="form-control" id="FRM_asociar" action="" method="post">
                     @csrf
                     @method('PUT')
-                    <div class="input-group mb-3">
-                        {{-- <datalist id="productos"></datalist>
-                        <label class="input-group-text" for="producto_id">Producto</label>
-                        <input class="form-control" type="text" name="producto_id" id="producto_id" list="productos" autocomplete="off" required>
-                        <span class="input-group-text">0.00</span>
-                        <input class="form-control" type="number" name="cantidad" id="cantidad" min="1" max="">
-                        <button class="btn btn-dark" type="submit">Asociar</button> --}}
-
-                    </div>
                     <table class="table table-striped table-bordered table-hover" id="DT_ProdAsoc">
                         <thead>
                             <tr>
@@ -160,7 +151,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="MD_cerrar" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-secondary MD_cerrar" data-dismiss="modal">Cerrar</button>
                 <button form="FRM_asociar" type="submit" class="btn btn-primary">Guardar cambios</button>
             </div>
         </div>

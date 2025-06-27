@@ -26,8 +26,8 @@ Route::put('/combos/{combo}', [ComboController::class, 'update'])->name('combos.
 Route::delete('/combos/{combo}', [ComboController::class, 'destroy'])->name('combos.destroy');
 
 
-Route::get('/productos', [ProductoController::class, 'index']);
-Route::get('/productos/{id}', [ProductoController::class, 'show']);
+Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
+Route::get('/productos/{id}', [ProductoController::class, 'show'])->name('productos.show');
 
 Route::get('/canal', [CanaleController::class, 'index']);
 

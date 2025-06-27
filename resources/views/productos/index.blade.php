@@ -6,47 +6,41 @@
 
 @section('content')
 <div class="container-fluid">
-    <h1 class="alert alert-primary">Productos -  Listado.&nbsp;&nbsp;<a href="{{route('productos.create')}}" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Agregar nuevo</a></h1>
+    <h1 class="alert alert-primary">Productos -  Listado.&nbsp;&nbsp;{{-- <a href="{{route('productos.create')}}" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Agregar nuevo</a> --}}</h1>
     <table id="DT_productos" class="table table-bordered table-striped table-hover">
         <thead>
             <tr>
                 <th>N°</th>
-                <th>Imagen</th>
-                <th>Codigo GS1</th>
-                <th>Descripción</th>
-                <th>Marca</th>
-                <th>$ C/U</th>
-                <th>Unidades</th>
-                <th>$ Mayor (X Embalaje)</th>
-                <th>Medidas</th>
-                <th>Imágenes</th>
+                <th>Codigo SKU</th>
+                <th>Nombre y Descripción</th>
+                <th>U/M</th>
+                <th>$: detal / embalaje</th>
+                <th>Categoría</th>
+                <th>Embalaje</th>
+                <th>Proveedor</th>
+                <th>Stock actual</th>
+                <th>Estatus</th>
                 <th>Acciones</th>
             </tr>
         </thead>
+
         <tbody>
             @foreach ($productos as $producto)
                 <tr>
                     <td>{{$producto->id}}</td>
-                    @if (isset($producto->images->first()->path))
-                        <td class="imagen" style="background-image: url('{{ asset('storage/images/' . $producto->images->first()->path) }}')"></td>
-                    @else
-                        <td class="imagen" style="background-image: url('{{ asset('storage/images/no-photo.png') }}')"></td>
-                    @endif
-                    <td>{{$producto->codigo_gs1}}</td>
-                    @if (isset($producto->valores->first()->pivot->valor))
-                        <td>{{$producto->descripcion}}&nbsp;{{$producto->valores->first()->pivot->valor.$producto->valores->first()->simbolo}}&nbsp;</td>
-                    @else
-                        <td>{{$producto->descripcion}}</td>
-                    @endif
-                    @if (isset($producto->marca->marca))
-                        <td>{{$producto->marca->marca}}</td>
-                    @else
-                        <td><label class="danger">SIN MARCA ASIGNADA</label></td>
-                    @endif
-                    <td>${{$producto->precio_detal}}</td>
-                    <td>{{$producto->unidades_por_embalaje}}</td>
-                    <td>${{$producto->precio_mayor}}</td>
+                    <td>{{$producto->codigo_sku}}</td>
+                    <td>{{$producto->nombre}}&nbsp;{{$producto->descripcion}}</td>
+                    <td>{{$producto->unidad_medida}}</td>
+                    <td>{{$producto->precio_detal}}&nbsp;||&nbsp;{{$producto->precio_mayor}}</td>
+                    <td>{{$producto->categoria->nombre}}</td>
+                    <td>{{$producto->embalaje->tipo_embalaje}}</td>
+                    <td>{{$producto->proveedor->nombre}}</td>
+                    <td>{{$producto->stock_actual}}</td>
                     <td>
+                        <span {{($producto->active)? "class='bg-success'" : "class='bg-danger'"}}>{{($producto->active)? "Activo" : "Inactivo"}}</span>
+                    </td>
+                    <td>Acciones</td>
+                    {{-- <td>
                         @if (count($producto->valores))
                             <a class="btn btn-primary" type="button" href="productosunidades/?id={{$producto->id}}"><i class="fas fa-wine-glass-alt">&nbsp;[{{count($producto->valores)}}]</i></a>
                         @else
@@ -70,22 +64,22 @@
                                 <button type="button" class="btn btn-sm btn-warning">Eliminar</button>&nbsp;
                             </div>
                         </form>
-                    </td>
+                    </td> --}}
                 </tr>
             @endforeach
         </tbody>
         <tfoot>
             <tr>
                 <th>N°</th>
-                <th>Imagen</th>
-                <th>Codigo GS1</th>
-                <th>Descripción</th>
-                <th>Marca</th>
-                <th>$ C/U</th>
-                <th>Unidades</th>
-                <th>$ Mayor (X Embalaje)</th>
-                <th>Medidas</th>
-                <th>Imágenes</th>
+                <th>Codigo SKU</th>
+                <th>Nombre y Descripción</th>
+                <th>U/M</th>
+                <th>$: detal / embalaje</th>
+                <th>Categoría</th>
+                <th>Embalaje</th>
+                <th>Proveedor</th>
+                <th>Stock actual</th>
+                <th>Estatus</th>
                 <th>Acciones</th>
             </tr>
         </tfoot>

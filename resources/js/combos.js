@@ -77,6 +77,7 @@ $(function(){
         const url = `/combos/${D.id}/edit`; // url para json de datatables
         const UpdateUrl = `/combos/${D.id}`;// url para el action del formulario
         $('form#FRM_asociar').attr('action', UpdateUrl);
+        $('h5#ModalTitle').html(D.nombre);
         var DT_ProdAsoc = $("table#DT_ProdAsoc").DataTable({
             "language" : language,
             "responsive":false,
@@ -84,7 +85,7 @@ $(function(){
             "paging": false,
             "searching": true,
             "scrollResize": true,
-            "scrollY": '200',
+            "scrollY": '400px',
             "scrollCollapse": true,
             "ajax": {
                 "url": url,
@@ -113,19 +114,9 @@ $(function(){
                 },
             ],
         });
-        //
-/*         $(document).on('change', '.check-producto', function () {
-            const id = $(this).data('id');
-            const inputCantidad = $(`.input-cantidad[data-id="${id}"]`);
-            if ($(this).is(':checked')) {
-                inputCantidad.prop('disabled', false);
-            } else {
-                inputCantidad.prop('disabled', true);
-            }
-        }); */
 
         //DT_ProdAsoc.ajax.url(url).load();
-        $("button#MD_cerrar").on('click', function(){
+        $("button.MD_cerrar").on('click', function(){
             DT_ProdAsoc.clear().draw();
             modal.hide();
         });
@@ -151,11 +142,9 @@ $(function(){
                             cantidad.prop('disabled', true); // evita que se envíe
                         }
                     });
-
                     this.submit(); // Envío manual si el usuario confirma
                 }
             });
-
         });
         modal.show();
     });
