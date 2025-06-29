@@ -8,10 +8,10 @@ channel.listen('TestEvent', (e) => {
     console.log(e.message);
 }); */
 
-const channel = Echo.channel('WhatsApp-channel');
+/* const channel = Echo.channel('WhatsApp-channel');
 channel.listen('WhatsappEvent', (e) => {
     setH1(e);
-});
+}); */
 
 //window.Echo.channel('WhatsApp-channel').listen('WhatsappEvent', (e) => {$("h2").html(e)});
 /*

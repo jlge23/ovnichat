@@ -3,16 +3,18 @@
 use App\Events\TestEvent;
 use App\Http\Controllers\CanaleController;
 use App\Http\Controllers\ComboController;
+use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\WebhookController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('welcome');
-});
-/* Route::get('/',[WelcomeController::class,'index'])->name('welcome');
- */
+}); */
+Route::get('/',[ WelcomeController::class,'index'])->name('welcome');
+
 Route::get('/webhook/whatsapp',[WebhookController::class ,'verify']);
 Route::post('/webhook/whatsapp', [WebhookController::class, 'handleWhatsapp']);
 
@@ -36,6 +38,11 @@ Route::get('/test', function () {
     broadcast(new TestEvent('Hola Mundo'));
     TestEvent::dispatch('Hola Mundo');
 });
+
+Route::get('/empezar', [MensajeController::class, 'empezar']);
+Route::get('/terminar', [MensajeController::class, 'terminar']);
+Route::post('/llama', [MensajeController::class, 'llama'])->name('llama');
+
 
 Auth::routes();
 

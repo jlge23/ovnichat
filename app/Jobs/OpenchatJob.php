@@ -9,31 +9,34 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Events\WhatsappEvent;
+use Illuminate\Support\Str;
 use App\Traits\UsesOllamaOptions;
 
-class ProcessOllamaIAJob implements ShouldQueue
+class OpenchatJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, UsesOllamaOptions;
 
-    protected string $telefono;
-    protected string $nombre;
     protected string $mensaje;
+    protected string $modelo;
 
-    public function __construct(string $telefono, string $nombre, string $mensaje)
+    public function __construct(string $modelo, string $mensaje)
     {
-        $this->telefono = $telefono;
-        $this->nombre = $nombre;
         $this->mensaje = $mensaje;
+        $this->modelo = $modelo;
     }
 
     public function handle(): void
     {
         try {
-            Log::info("{$this->nombre} escribe a Ollama:", [$this->mensaje]);
+            Log::info("{$this->modelo} dice: ", [$this->mensaje]);
+            if (Str::contains(Str::lower($this->mensaje), ['adiós', 'nos vemos', 'Hasta pronto!'])) {
+                Log::info("{$this->modelo} ha cerrado el ciclo de conversación.");
+                return;
+            }
+            $prompt = $this->mensaje;
             $respuesta = json_decode(Http::timeout(100)->post(config("services.ollama.url"), [
-                'model'  => config("services.ollama.model"),
-                'prompt' => $this->mensaje,
+                'model'  => config("services.ollama.model4"),
+                'prompt' => $prompt,
                 'system' => config('services.ollama.prefix'),
                 'stream' => false,
                 'options' => $this->ollamaOptions()
@@ -43,11 +46,11 @@ class ProcessOllamaIAJob implements ShouldQueue
             if (trim($texto) === '') {
                 $texto = 'Respuesta vacía del modelo.';
             }
-            Log::info('Responde Ollama: ', [$texto]);
-            event(new WhatsappEvent("IA: " . $texto));
-            SendWhatsAppMessageJob::dispatch($this->telefono, $texto);
+            //Llama32Job::dispatch('PHI',$texto);
+            //PhiJob::dispatch('LLAMA3.2',$texto);
+            //Gemma2bJob::dispatch('PHI',$texto);
         } catch (\Throwable $e) {
-            Log::error('Error en ProcessOllamaIAJob: ' . $e->getMessage());
+            Log::error('Error en OpenchatJob: ' . $e->getMessage());
         }
     }
 }

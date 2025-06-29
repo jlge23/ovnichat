@@ -48,6 +48,9 @@ return [
     'ollama' => [
         'url' => env('OLLAMA_URL'),
         'model' => env('OLLAMA_MODEL'),
+        'model2' => env('OLLAMA_MODEL_2'),
+        'model3' => env('OLLAMA_MODEL_3'),
+        'model4' => env('OLLAMA_MODEL_4'),
         'prefix' => env('OLLAMA_PREFIX')
     ],
     'messenger' => [

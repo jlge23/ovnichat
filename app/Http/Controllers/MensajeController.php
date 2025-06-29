@@ -2,64 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\Llama32Job;
+use App\Jobs\PhiJob;
+use App\Jobs\ProcessGemmaIAJob;
 use App\Models\Mensaje;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use App\Traits\UsesOllamaOptions;
+use App\Traits\UsesIAModelsList;
+
 
 class MensajeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+    use UsesOllamaOptions, UsesIAModelsList;
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function empezar(){ //la inicia GEMMA2B
+        $mensaje = "Hola, como estas?, que opinas sobre las guerras entre hombres? se breve en tu respuestas";
+        //Llama32Job::dispatch('GEMMA2B',$mensaje);
+        PhiJob::dispatch('GEMMA2B',$mensaje);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    public function terminar(){
+        $mensaje = "Gracias por la conversacion, debo irme. Hasta pronto!";
+        //Llama32Job::dispatch('GEMMA2B',$mensaje);
+        PhiJob::dispatch('GEMMA2B',$mensaje);
     }
+    public function llama(Request $request){
+        Log::info($request->input('prompt'));
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Mensaje $mensaje)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Mensaje $mensaje)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Mensaje $mensaje)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Mensaje $mensaje)
-    {
-        //
+        $respuesta = json_decode(Http::timeout(100)->post(config("services.ollama.url"), [
+                'model'  => $request->input('model'),
+                'prompt' => "Human: ".$request->input('prompt')."\nAssistant:",
+                'system' => config('services.ollama.prefix'),
+                'stream' => false,
+                'options' => $this->ollamaOptions()
+        ]),true);
+        Log::info($respuesta['response']);
+        $r = $respuesta['response'];
+        $modelos = $this->modelosLocales();
+        return view('welcome', compact('r','modelos'));
     }
 }
