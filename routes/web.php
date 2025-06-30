@@ -7,13 +7,13 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render("Home");
 });
-/* Route::get('/',[WelcomeController::class,'index'])->name('welcome');
- */
-Route::get('/webhook/whatsapp',[WebhookController::class ,'verify']);
+
+Route::get('/webhook/whatsapp', [WebhookController::class, 'verify']);
 Route::post('/webhook/whatsapp', [WebhookController::class, 'handleWhatsapp']);
 
 Route::get('/webhook/messenger', [WebhookController::class, 'verify']);
@@ -40,5 +40,3 @@ Route::get('/test', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-

@@ -1,6 +1,6 @@
-import './bootstrap';
+import "./bootstrap";
 //import './echo';
-import jQuery from 'jquery'
+import jQuery from "jquery";
 window.$ = jQuery;
 
 /* const channel = Echo.channel('Test-channel');
