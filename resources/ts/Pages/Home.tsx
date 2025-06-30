@@ -1,5 +1,5 @@
 import { Head, usePage } from "@inertiajs/react";
-import LayoutGuest from "../Layouts/LayoutGuest";
+import LayoutGuest from "@/Layouts/LayoutGuest";
 
 export default function Home() {
     const { props } = usePage();

@@ -40,3 +40,7 @@ Route::get('/test', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/login', function () {
+    return Inertia::render("Login");
+});

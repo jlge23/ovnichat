@@ -19,7 +19,7 @@ export default function LayoutGuest({ children }) {
                 </div>
             </header>
             <main className="flex-1 p-4">{children}</main>
-            <footer>
+            <footer className="bg-gray-300 dark:bg-gray-800">
                 <div className="w-full px-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 py-3">
                         <div className="flex justify-center items-center">
@@ -71,7 +71,7 @@ export default function LayoutGuest({ children }) {
                             <ul className="list-none">
                                 <li>
                                     <Link
-                                        href="#"
+                                        href="login"
                                         className="text-sm hover:underline"
                                     >
                                         Inicio
