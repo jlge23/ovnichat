@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "es2020",
+        "strict": true,
+        "jsx": "react-jsx",
+        "allowJs": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "baseUrl": "./",
+        "paths": {
+            "@/*": ["resources/ts/*"]
+        },
+        "outDir": "resources/js"
+    },
+    "include": ["resources/ts/**/*", "resources/ts/vite-env.d.ts"]
+}

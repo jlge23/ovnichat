@@ -8,6 +8,8 @@
     "devDependencies": {
         "@popperjs/core": "^2.11.6",
         "@tailwindcss/vite": "^4.1.11",
+        "@types/react": "^19.1.8",
+        "@types/react-dom": "^19.1.6",
         "@vitejs/plugin-react": "^4.6.0",
         "axios": "^1.8.2",
         "bootstrap": "^5.2.3",
@@ -17,6 +19,7 @@
         "pusher-js": "^8.4.0",
         "sass": "^1.56.1",
         "tailwindcss": "^4.1.11",
+        "typescript": "^5.8.3",
         "vite": "^6.0.11"
     },
     "dependencies": {
