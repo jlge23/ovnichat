@@ -41,6 +41,9 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/login', function () {
-    return Inertia::render("Login");
+
+Route::get('/login', fn() => Inertia::render("Login"));
+
+Route::middleware("auth")->group(function () {
+    Route::get("/dashboard", fn() => Inertia::render("Dashboard"));
 });
