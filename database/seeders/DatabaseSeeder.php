@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\BusinessModel;
 use App\Models\Categoria;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -20,5 +21,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ProveedorSeeder::class);
         $this->call(EmbalajeSeeder::class);
         $this->call(ProductoSeeder::class);
+        $this->call(BusinessModelSeeder::class);
+        $this->call(IntentSeeder::class);
+        $this->call(EntitieSeeder::class);
+        $this->call(BusinessModelIntentSeeder::class);
+        $this->call(EntityIntentSeeder::class);
     }
 }
