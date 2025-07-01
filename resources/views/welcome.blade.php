@@ -1,42 +1,39 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-        <title>Laravel</title>
+@section('title','Welcome')
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-
-        <!-- Styles / Scripts -->
-        @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-            @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/whatsapp.js'])
-        @endif
-    </head>
-    <body class="antialiased">
-
-        {{-- {{$productos}} --}}
-        {{-- <meta http-equiv="refresh" content="0; url={{env('URL')}}/login"> --}}
-        {{-- <h2 id="msg"></h2> --}}
-        {{-- <hr>
-        Ollama
-        <form method="POST" action="{{route('llama')}}">
-            @csrf
-            <input type="text" name="prompt" placeholder="Haz tu pregunta">
-            <button type="submit">Enviar</button>
-        </form>
-        <hr>
-        @if(isset($texto))
-            <div class="alert alert-success">
-                {{ $texto }}&nbsp;<br>
-            </div>
-        @endif
-        @if(isset($error))
-            <div class="alert alert-danger">
-                {{ $error }}
-            </div>
-        @endif --}}
-    </body>
-</html>
+@section('content')
+@vite(['resources/css/app.css'])
+<div class="container">
+    {{-- <meta http-equiv="refresh" content="0; url={{env('URL')}}/login"> --}}
+    {{-- <h2 id="msg"></h2> --}}
+    <hr>
+    <form class="form-horizontal" method="POST" action="{{route('llama')}}">
+        @csrf
+        <div class="input-group mb-3">
+            <span class="input-group-text">Pregunta a la Ollama IA</span>
+            <input class="form-control" type="text" name="prompt" placeholder="Haz tu pregunta" required>
+            <span class="input-group-text">Modelo de IA</span>
+            <select name="model" id="model" class="form-select">
+                @isset($modelos)
+                    @for ($i=0;$i < count($modelos);$i++)
+                        <option value="{{ $modelos[$i] }}">{{ $modelos[$i] }}</option>
+                    @endfor
+                @endisset
+            </select>
+            <button class="btn btn-dark" type="submit">Enviar</button>
+        </div>
+    </form>
+    <hr>
+    @if(isset($r))
+        <div class="alert alert-success">
+            {{ $r }}&nbsp;<br>
+        </div>
+    @endif
+    @if(isset($error))
+        <div class="alert alert-danger">
+            {{ $error }}
+        </div>
+    @endif
+</div>
+@endsection
