@@ -1,18 +1,29 @@
 import Card from "@/components/Card";
+import Logo from "@/components/Logo";
+import { InertiaSharedProps } from "@/types/inertia";
 import { Link, router, usePage } from "@inertiajs/react";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 
 type LayoutAuthProps = { children: ReactNode };
 
 export default function LayoutAuth({ children }: LayoutAuthProps) {
     const {
-        props: { appName },
+        props: {
+            appName,
+            auth: { user },
+        },
         url,
-    } = usePage();
+    } = usePage<InertiaSharedProps>();
     const currentDate = new Date();
 
     function closeSession() {
-        router.post("logout");
+        router.post(
+            "logout",
+            {},
+            {
+                replace: true,
+            }
+        );
     }
 
     function urlIsActive(path: string) {
@@ -27,11 +38,7 @@ export default function LayoutAuth({ children }: LayoutAuthProps) {
                         href="/dashboard"
                         className="flex justify-center items-center gap-3"
                     >
-                        {/* <img
-                            src=""
-                            alt="Logo"
-                            style={{ width: 50, height: 50 }}
-                        /> */}
+                        <Logo className="w-15" />
                         <h2 className="text-lg font-bold">{appName}</h2>
                     </Link>
                     <div>
@@ -149,11 +156,7 @@ export default function LayoutAuth({ children }: LayoutAuthProps) {
                 <div className="w-full px-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 py-3">
                         <div className="flex justify-center items-center">
-                            {/* <img
-                                src=""
-                                alt="Logo"
-                                style={{ width: "100px", height: "100px" }}
-                            /> */}
+                            <Logo className="w-30" />
                         </div>
                         <div>
                             <h5 className="text-lg font-bold">About</h5>

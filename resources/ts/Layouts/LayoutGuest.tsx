@@ -1,3 +1,4 @@
+import Logo from "@/components/Logo";
 import { Link, usePage } from "@inertiajs/react";
 
 export default function LayoutGuest({ children }) {
@@ -9,11 +10,7 @@ export default function LayoutGuest({ children }) {
             <header className="p-2">
                 <div className="flex gap-3 items-center place-content-between ">
                     <div className="flex justify-center items-center gap-3">
-                        {/* <img
-                            src=""
-                            alt="Logo"
-                            style={{ width: 50, height: 50 }}
-                        /> */}
+                        <Logo className="w-15" />
                         <h2 className="text-lg font-bold">{props.appName}</h2>
                     </div>
                 </div>
@@ -23,11 +20,7 @@ export default function LayoutGuest({ children }) {
                 <div className="w-full px-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 py-3">
                         <div className="flex justify-center items-center">
-                            {/* <img
-                                src=""
-                                alt="Logo"
-                                style={{ width: "100px", height: "100px" }}
-                            /> */}
+                            <Logo className="w-30" />
                         </div>
                         <div>
                             <h5 className="text-lg font-bold">About</h5>
