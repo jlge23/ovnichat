@@ -10,7 +10,7 @@ export default function LayoutGuest({ children }) {
                 <div className="flex gap-3 items-center place-content-between ">
                     <div className="flex justify-center items-center gap-3">
                         {/* <img
-                            src="https://syschatwp.com/syschat/assets/img/chat.png"
+                            src=""
                             alt="Logo"
                             style={{ width: 50, height: 50 }}
                         /> */}
@@ -24,7 +24,7 @@ export default function LayoutGuest({ children }) {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 py-3">
                         <div className="flex justify-center items-center">
                             {/* <img
-                                src="https://syschatwp.com/syschat/assets/img/chat.png"
+                                src=""
                                 alt="Logo"
                                 style={{ width: "100px", height: "100px" }}
                             /> */}
