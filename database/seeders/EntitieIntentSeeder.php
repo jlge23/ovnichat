@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class EntityIntentSeeder extends Seeder
+class EntitieIntentSeeder extends Seeder
 {
     public function run()
     {
@@ -88,9 +88,9 @@ class EntityIntentSeeder extends Seeder
                 $entityId = DB::table('entities')->where('name', $entityName)->value('id');
 
                 if ($intentId && $entityId) {
-                    DB::table('entity_intent')->insert([
+                    DB::table('entitie_intent')->insert([
                         'intent_id' => $intentId,
-                        'entity_id' => $entityId,
+                        'entitie_id' => $entityId,
                     ]);
                 }
             }

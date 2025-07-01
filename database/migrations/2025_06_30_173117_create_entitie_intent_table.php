@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('entity_intent', function (Blueprint $table) {
+        Schema::create('entitie_intent', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('entity_id')->constrained()->onDelete('cascade');
+            $table->foreignId('entitie_id')->constrained()->onDelete('cascade');
             $table->foreignId('intent_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('entity_intent');
+        Schema::dropIfExists('entitie_intent');
     }
 };

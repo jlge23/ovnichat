@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Dom\Entity;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Entitie;
 
 class Intent extends Model
 {
@@ -14,6 +14,6 @@ class Intent extends Model
     }
 
     public function entities() {
-        return $this->belongsToMany(Entity::class)->withTimestamps();
+        return $this->belongsToMany(Entitie::class)->withTimestamps();
     }
 }

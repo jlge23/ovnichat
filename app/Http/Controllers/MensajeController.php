@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\Llama32Job;
 use App\Jobs\PhiJob;
 use App\Jobs\ProcessGemmaIAJob;
+use App\Models\BusinessModel;
 use App\Models\Mensaje;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -17,7 +18,7 @@ class MensajeController extends Controller
 {
     use UsesOllamaOptions, UsesIAModelsList;
 
-    public function empezar(){ //la inicia GEMMA2B
+/*     public function empezar(){ //la inicia GEMMA2B
         $mensaje = "Hola, como estas?, que opinas sobre las guerras entre hombres? se breve en tu respuestas";
         //Llama32Job::dispatch('GEMMA2B',$mensaje);
         PhiJob::dispatch('GEMMA2B',$mensaje);
@@ -26,7 +27,7 @@ class MensajeController extends Controller
         $mensaje = "Gracias por la conversacion, debo irme. Hasta pronto!";
         //Llama32Job::dispatch('GEMMA2B',$mensaje);
         PhiJob::dispatch('GEMMA2B',$mensaje);
-    }
+    } */
     public function llama(Request $request){
         Log::info($request->input('prompt'));
 
@@ -41,5 +42,17 @@ class MensajeController extends Controller
         $r = $respuesta['response'];
         $modelos = $this->modelosLocales();
         return view('welcome', compact('r','modelos'));
+    }
+
+    public function mie(){
+        $businessModel = BusinessModel::with('intents.entities')->where('name', 'consultas_medicas')->first();
+
+        $entities = $businessModel->intents
+            ->flatMap(function ($intent) {
+                return $intent->entities;
+            })
+            ->unique('id')
+            ->values();
+        return $entities;
     }
 }
