@@ -8,6 +8,8 @@ use App\Jobs\ProcessGemmaIAJob;
 use App\Jobs\SendWhatsAppInteractiveListJob;
 use App\Models\BusinessModel;
 use App\Models\Categoria;
+use App\Models\Entitie;
+use App\Models\Intent;
 use App\Models\Mensaje;
 use App\Models\Producto;
 use Illuminate\Http\Request;
@@ -74,7 +76,41 @@ class MensajeController extends Controller
     }
 
     public function consulta(){
-        $nombreProducto = strtolower('HUEVOS');
+        $intents = Intent::with(['entities', 'businessModels'])
+        ->whereHas('businessModels', function ($query) {
+            $query->where('business_models.id', 9);
+        })
+        ->get()
+        ->map(function ($intent) {
+            return [
+                'nombre' => $intent->name,
+                'descripcion' => $intent->description,
+                'entidades' => $intent->entities->pluck('name')->toArray()
+            ];
+        });
+
+        $system = "Eres un analizador semántico de mensajes de clientes. Tu tarea es detectar si el mensaje corresponde a alguno de los intents definidos y extraer las entidades relevantes.
+
+            📌 Si detectas un intent válido, responde exclusivamente con un JSON como este:
+
+            {
+            'intent': 'disponibilidad_producto',
+            'entities': {
+                'nombre_producto': 'arroz',
+                'cantidad': 2,
+                'presentacion': 'funda',
+                'peso_presentacion':'2 kilos',
+                'marca': 'Favorita'
+            }
+            }
+
+            ❌ Si no identificas ningún intent válido o el mensaje no coincide con ninguno, responde en lenguaje natural como si fueras un asistente conversacional amable.
+
+            📋 Intents y Entities disponibles:
+            {".$intents->toJson(JSON_PRETTY_PRINT)."}";
+        return $system;
+
+        /* $nombreProducto = strtolower('HUEVOS');
         $marca = 'TERRA';
         $peso = null;
         $categoria = '🍄 Fungi y legumbres';
@@ -109,6 +145,6 @@ class MensajeController extends Controller
         });
         // Verificamos disponibilidad
         $coincidencias = $query->select('productos.*','embalajes.tipo_embalaje','categorias.nombre AS categoria')->get();
-        return $coincidencias;
+        return $coincidencias; */
     }
 }

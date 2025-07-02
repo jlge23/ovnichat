@@ -10,7 +10,8 @@ class ProductoController extends Controller
 {
     public function index(Request $request){
         if ($request->ajax()) {
-            return response()->json(Producto::with(['categoria', 'proveedor','embalaje'])->where('active', 1))->get();
+            //return response()->json(Producto::with(['categoria', 'proveedor','embalaje'])->where('active', 1))->get();
+            return response()->json(Producto::with(['categoria', 'proveedor','embalaje'])->where('active', true))->get();
         } else {
             $productos = Producto::with(['categoria', 'proveedor','embalaje'])->get();
             return view('productos.index', compact('productos'));
