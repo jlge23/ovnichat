@@ -10,6 +10,7 @@ class EntitieSeeder extends Seeder
 {
     public function run()
     {
+        //Entities
         $entities = [
             ['name' => 'especialidad', 'description' => 'Especialidad médica solicitada'],
             ['name' => 'fecha', 'description' => 'Fecha para reserva, evento o servicio'],
@@ -71,5 +72,6 @@ class EntitieSeeder extends Seeder
         ];
 
         Entitie::insert($entities);
+
     }
 }

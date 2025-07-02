@@ -26,5 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(EntitieSeeder::class);
         $this->call(BusinessModelIntentSeeder::class);
         $this->call(EntitieIntentSeeder::class);
+        $this->call(OtrosSeeder::class);
     }
 }
