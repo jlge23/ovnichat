@@ -36,20 +36,32 @@ class WebhookController extends Controller
     // WebHook WhatsApp
     public function handleWhatsapp(Request $request){
         try {
+            // No es un mensaje del usuario, probablemente es un evento tipo "message_delivered"
             if (!$request->has('entry.0.changes.0.value.messages')) {
-                    // No es un mensaje del usuario, probablemente es un evento tipo "message_delivered"
+
                     $val = $request->input('entry.0.changes.0.value');
                     return $this->processStatusMessage($val);
             }
-            $mensaje = $request->input('entry.0.changes.0.value.messages.0.text.body');
-            $msg_id = $request->input('entry.0.changes.0.value.messages.0.id');
+            // Es un mensaje de respuesta de tipo texto
+            if ($request->has('entry.0.changes.0.value.messages.0.text')) {
+                $mensaje = $request->input('entry.0.changes.0.value.messages.0.text.body');
+                $msg_id = $request->input('entry.0.changes.0.value.messages.0.id');
+
+            }
+            // Es un mensaje de respuesta de tipo lista
+            if ($request->has('entry.0.changes.0.value.messages.0.interactive')) {
+                if ($request->has('entry.0.changes.0.value.messages.0.interactive.list_reply')) {
+                    $mensaje = $request->input('entry.0.changes.0.value.messages.0.interactive.list_reply.title');
+                    $msg_id = $request->input('entry.0.changes.0.value.messages.0.context.id');
+                }
+            }
             $nombre = $request->input('entry.0.changes.0.value.contacts.0.profile.name');
             $numCli = $request->input('entry.0.changes.0.value.contacts.0.wa_id');
             event(new WhatsappEvent($nombre." dice: ".$mensaje));
             //Log::info($nombre." dice: ".$mensaje);
             dispatch(new MarcarMensajeComoLeidoJob($msg_id));
-            //ProcessOllamaIAJob::dispatch($numCli,$nombre,$mensaje);
-            ProcessWitAIJob::dispatch($numCli,$nombre,$mensaje);
+            ProcessOllamaIAJob::dispatch($numCli,$nombre,$mensaje);
+            //ProcessWitAIJob::dispatch($numCli,$nombre,$mensaje);
         }catch (Exception $e) {
             event(new WhatsappEvent("Error inesperado: " . $e->getMessage()));
         }

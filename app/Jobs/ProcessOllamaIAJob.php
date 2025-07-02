@@ -11,6 +11,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Events\WhatsappEvent;
 use App\Traits\UsesOllamaOptions;
+use App\Helpers\SaludoHelper;
+use App\Models\Categoria;
+use App\Models\Producto;
 
 class ProcessOllamaIAJob implements ShouldQueue
 {

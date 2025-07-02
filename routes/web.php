@@ -43,6 +43,8 @@ Route::get('/empezar', [MensajeController::class, 'empezar']);
 Route::get('/terminar', [MensajeController::class, 'terminar']);
 Route::post('/llama', [MensajeController::class, 'llama'])->name('llama');
 Route::get('/mie' ,[MensajeController::class ,'mie'])->name('mie');
+Route::get('/categorias' ,[MensajeController::class ,'categorias'])->name('mcategoriasie');
+Route::get('/consulta' ,[MensajeController::class ,'consulta'])->name('consulta');
 
 
 Auth::routes();
