@@ -11,17 +11,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Events\WhatsappEvent;
 use App\Traits\UsesOllamaOptions;
+use App\Traits\UsesSystemsOptions;
 use App\Helpers\SaludoHelper;
 use App\Models\Categoria;
 use App\Models\Producto;
-use App\Models\Intent;
-use App\Models\Entitie;
 use Illuminate\Support\Str;
 
 
 class ProcessOllamaIAJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, UsesOllamaOptions;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, UsesOllamaOptions, UsesSystemsOptions;
 
     protected string $telefono;
     protected string $nombre;
@@ -79,44 +78,5 @@ class ProcessOllamaIAJob implements ShouldQueue
         }
     }
 
-    public function construirSystemPrompt(): string
-    {
-        $intents = Intent::with('entities')->get()->map(function ($intent) {
-            return [
-                'nombre' => $intent->name,
-                'descripcion' => $intent->description,
-                'entidades' => $intent->entities->pluck('name')->toArray()
-            ];
-        });
 
-        $entities = Entitie::all()->mapWithKeys(function ($entitie) {
-            return [$entitie->name => $entitie->description];
-        });
-
-        return <<<PROMPT
-            Eres un analizador semántico de mensajes de clientes. Tu tarea es detectar si el mensaje corresponde a alguno de los intents definidos y extraer las entidades relevantes.
-
-            📌 Si detectas un intent válido, responde exclusivamente con un JSON como este:
-
-            {
-            "intent": "disponibilidad_producto",
-            "entities": {
-                "nombre_producto": "arroz",
-                "cantidad": 2,
-                "presentacion": "funda",
-                "peso_presentacion": "2 kilos",
-                "marca": "Favorita"
-            }
-            }
-
-            ❌ Si no identificas ningún intent válido o el mensaje no coincide con ninguno, responde en lenguaje natural como si fueras un asistente conversacional amable.
-
-            📋 Intents disponibles:
-            {$intents->toJson(JSON_PRETTY_PRINT)}
-
-            📦 Entities disponibles:
-            {$entities->toJson(JSON_PRETTY_PRINT)}
-        PROMPT;
-
-    }
 }
