@@ -1,3 +1,4 @@
+
 @if (session()->has('success'))
     <div class="alert alert-success">
         {{ session('success') }}
@@ -7,6 +8,28 @@
         @endif
     </div>
 @endif
+    <div class="row">
+        <div class="col-md-6 col-sm-6 col-lg-6">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Código GTIN</span>
+                <input type="text" name="gtin" id="gtin" class="form-control" value="{{$producto->gtin ?? old('gtin')}}" required>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-6">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Código SKU</span>
+                <input type="text" name="sku" id="sku" class="form-control" value="{{$producto->sku ?? old('sku')}}" required>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-lg-12">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Nombre del producto</span>
+                <input type="text" name="nombre" id="nombre" class="form-control" value="{{$producto->nombre ?? old('nombre')}}" required>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-12 col-sm-12 col-lg-12">
             <div class="input-group mb-3">

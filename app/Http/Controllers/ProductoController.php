@@ -13,7 +13,7 @@ class ProductoController extends Controller
             //return response()->json(Producto::with(['categoria', 'proveedor','embalaje'])->where('active', 1))->get();
             return response()->json(Producto::with(['categoria', 'proveedor','embalaje'])->where('active', true))->get();
         } else {
-            $productos = Producto::with(['categoria', 'proveedor','embalaje'])->get();
+            $productos = Producto::get();
             return view('productos.index', compact('productos'));
         }
     }
