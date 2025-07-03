@@ -11,14 +11,17 @@
         <thead>
             <tr>
                 <th>N°</th>
+                <th>Codigo GTIN</th>
                 <th>Codigo SKU</th>
                 <th>Nombre y Descripción</th>
                 <th>U/M</th>
-                <th>$: detal / embalaje</th>
+                <th>$: detal / embalaje || Costo</th>
+                <th>Marca</th>
                 <th>Categoría</th>
                 <th>Embalaje</th>
                 <th>Proveedor</th>
                 <th>Stock actual</th>
+                <th>Imagen</th>
                 <th>Estatus</th>
                 <th>Acciones</th>
             </tr>
@@ -28,14 +31,21 @@
             @foreach ($productos as $producto)
                 <tr>
                     <td>{{$producto->id}}</td>
-                    <td>{{$producto->codigo_sku}}</td>
+                    <td>{{$producto->gtin}}</td>
+                    <td>{{$producto->sku}}</td>
                     <td>{{$producto->nombre}}&nbsp;{{$producto->descripcion}}</td>
                     <td>{{$producto->unidad_medida}}</td>
-                    <td>{{$producto->precio_detal}}&nbsp;||&nbsp;{{$producto->precio_mayor}}</td>
+                    <td>{{$producto->precio_detal}}&nbsp;||&nbsp;{{$producto->precio_embalaje}}&nbsp;||&nbsp;{{$producto->costo_detal}}</td>
+                    <td>{{$producto->marca->marca}}</td>
                     <td>{{$producto->categoria->nombre}}</td>
                     <td>{{$producto->embalaje->tipo_embalaje}}</td>
                     <td>{{$producto->proveedor->nombre}}</td>
                     <td>{{$producto->stock_actual}}</td>
+                    @if (isset($producto->image))
+                        <td class="imagen" style="background-image: url('{{ asset('storage/images/' . $producto->image) }}')"></td>
+                    @else
+                        <td class="imagen" style="background-image: url('{{ asset('storage/images/no-photo.png') }}')"></td>
+                    @endif
                     <td>
                         <span {{($producto->active)? "class='bg-success'" : "class='bg-danger'"}}>{{($producto->active)? "Activo" : "Inactivo"}}</span>
                     </td>
@@ -71,14 +81,17 @@
         <tfoot>
             <tr>
                 <th>N°</th>
+                <th>Codigo GTIN</th>
                 <th>Codigo SKU</th>
                 <th>Nombre y Descripción</th>
                 <th>U/M</th>
-                <th>$: detal / embalaje</th>
+                <th>$: detal / embalaje || Costo</th>
+                <th>Marca</th>
                 <th>Categoría</th>
                 <th>Embalaje</th>
                 <th>Proveedor</th>
                 <th>Stock actual</th>
+                <th>Imagen</th>
                 <th>Estatus</th>
                 <th>Acciones</th>
             </tr>

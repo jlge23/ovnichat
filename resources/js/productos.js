@@ -49,14 +49,17 @@ $(function() {
         "active": 1,
         "columns" : [
             {"data":"id"},
-            {"data":"codigo_sku"},
+            {"data":"gtin"},
+            {"data":"sku"},
             {"data":"nombre"},
             {"data":"unidad_medida"},
             {"data":"precio_detal"},
+            {"data":"marca"},
             {"data":"categoria"},
             {"data":"embalaje"},
             {"data":"proveedor"},
             {"data":"stock_actual"},
+            {"data":"image"},
             {"data":"active"},
             {"data":"defaultContent"}
         ],

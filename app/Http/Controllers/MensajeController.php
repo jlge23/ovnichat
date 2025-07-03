@@ -18,11 +18,12 @@ use Illuminate\Support\Facades\Log;
 use App\Traits\UsesOllamaOptions;
 use App\Traits\UsesIAModelsList;
 use Illuminate\Support\Facades\DB;
+use App\Traits\UsesSystemsOptions;
 
 
 class MensajeController extends Controller
 {
-    use UsesOllamaOptions, UsesIAModelsList;
+    use UsesOllamaOptions, UsesIAModelsList, UsesSystemsOptions;
 
 /*     public function empezar(){ //la inicia GEMMA2B
         $mensaje = "Hola, como estas?, que opinas sobre las guerras entre hombres? se breve en tu respuestas";
@@ -40,11 +41,11 @@ class MensajeController extends Controller
         $respuesta = json_decode(Http::timeout(100)->post(config("services.ollama.url"), [
                 'model'  => $request->input('model'),
                 'prompt' => "Human: ".$request->input('prompt')."\nAssistant:",
-                'system' => config('services.ollama.prefix'),
+                'system' => $this->construirSystemPrompt(),
                 'stream' => false,
                 'options' => $this->ollamaOptions()
         ]),true);
-        Log::info($respuesta['response']);
+        Log::info($respuesta);
         $r = $respuesta['response'];
         $modelos = $this->modelosLocales();
         return view('welcome', compact('r','modelos'));
