@@ -31,7 +31,9 @@
             @foreach ($productos as $producto)
                 <tr>
                     <td>{{$producto->id}}</td>
-                    <td>{{$producto->gtin}}</td>
+                    <td>
+                        <span {{($producto->gtin)? "class='bg-success'" : "class='bg-danger'"}}>{{($producto->gtin)? $producto->gtin : "No aplica"}}</span>
+                    </td>
                     <td>{{$producto->sku}}</td>
                     <td>{{$producto->nombre}}&nbsp;{{$producto->descripcion}}</td>
                     <td>{{$producto->unidad_medida}}</td>
