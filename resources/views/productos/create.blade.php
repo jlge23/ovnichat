@@ -8,7 +8,7 @@
         <h1>Agregar Productos</h1>
         <a href="{{route('productos.index')}}">Volver al listado</a>
         <hr>
-        <form id="nueva_productos" action="{{route('productos.store')}}" method="POST" class="form-horizontal">
+        <form id="nueva_productos" enctype='multipart/form-data' action="{{route('productos.store')}}" method="POST" class="form-horizontal">
             @csrf
             @method('POST')
             @include('productos.form')

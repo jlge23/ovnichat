@@ -8,8 +8,8 @@
         <h1>Editar datos - Productos</h1>
         <a href="{{route('productos.index')}}">Volver al listado</a>
         <hr>
-        <h3>SKU:&nbsp;{{$producto->codigo_sku}}</h3>
-        <form id="editar_productos" action="{{route('productos.update',$producto->id)}}" method="POST" class="form-horizontal">
+        <h3>SKU:&nbsp;{{$producto->sku}}</h3>
+        <form id="editar_productos" enctype='multipart/form-data' action="{{route('productos.update',$producto->id)}}" method="POST" class="form-horizontal">
             @csrf
             @method('put')
             @include('productos.form')
