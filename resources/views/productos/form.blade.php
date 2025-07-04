@@ -27,7 +27,7 @@
         <div class="col-md-12 col-sm-12 col-lg-12">
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Código GTIN&nbsp;<i class="fa-solid fa-barcode"></i></span>
-                <input type="text" pattern="^\d{8,14}$" inputmode="numeric" name="gtin" id="gtin" class="form-control" value="{{$producto->gtin ?? old('gtin')}}" required>
+                <input type="text" pattern="^\d{8,14}$" inputmode="numeric" name="gtin" id="gtin" class="form-control" value="{{$producto->gtin ?? old('gtin')}}">
 
             </div>
         </div>

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('gtin')->nullable();
-            $table->string('sku')->nullable();
+            $table->string('sku')->unique();
             $table->string('nombre');
             $table->string('descripcion')->nullable();
             $table->decimal('precio_detal', 10, 2);
