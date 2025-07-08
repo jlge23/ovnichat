@@ -18,13 +18,15 @@ return new class extends Migration
             $table->string('descripcion')->nullable();
             $table->string('unidad_medida', 20);
             $table->decimal('precio_detal', 10, 2);
-            $table->decimal('precio_mayor', 10, 2)->nullable();
+            $table->decimal('precio_embalaje', 10, 2)->nullable();
+            $table->decimal('costo_detal', 10, 2)->nullable();
             $table->integer('stock_actual')->default(0);
             $table->integer('unidades_por_embalaje')->nullable();
             $table->unsignedBigInteger('categoria_id')->nullable();
             $table->unsignedBigInteger('proveedor_id')->nullable();
             $table->unsignedBigInteger('embalaje_id')->nullable();
             $table->boolean('active')->default(true);
+            $table->longtext('image')->unique()->nullable();
             $table->timestamps();
             $table->foreign('categoria_id')->references('id')->on('categorias')->onDelete('set null');
             $table->foreign('proveedor_id')->references('id')->on('proveedores')->onDelete('set null');

@@ -59,20 +59,21 @@ const Menu = ({
                         <li key={key}>
                             <Link
                                 href={val.href}
-                                className={`flex gap-2 mb-2 ml-2 ${
-                                    urlIsActive(val.href) ? "font-bold" : ""
+                                className={`flex gap-2 mb-2 ml-2 hover:text-gray-600 dark:hover:text-white ${
+                                    urlIsActive(val.href)
+                                        ? "font-bold dark:text-white text-gray-600"
+                                        : "text-gray-400"
                                 }`}
                             >
                                 <svg
-                                    className="size-8 min-w-[32px]"
+                                    className="size-8 min-w-[32px] fill-current transition-all"
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 -960 960 960"
-                                    fill="#e3e3e3"
                                 >
                                     <path d={val.icon} />
                                 </svg>
                                 <p
-                                    className={`transition-all
+                                    className={`transition-all duration-300
                                     ${
                                         showMenu
                                             ? "opacity-100 translate-x-0"
@@ -122,7 +123,9 @@ export default function LayoutAuth({ children }: LayoutAuthProps) {
             >
                 <header className="px-2 py-5">
                     <div className="flex gap-3 items-center place-content-between ">
-                        <h2 className="text-lg font-bold">{appName}</h2>
+                        <h2 className="text-lg font-bold text-gray-700 dark:text-white">
+                            {appName}
+                        </h2>
                         <div>
                             <div
                                 className="hover:cursor-pointer"

@@ -11,19 +11,15 @@ class ProductoController extends Controller
 {
     public function index(Request $request)
     {
-        $productos = Producto::with(['categoria', 'proveedor', 'embalaje'])->get();
+        $productos = Producto::with(['categoria', 'proveedor', 'embalaje'])
+            ->orderBy('nombre', 'asc')
+            ->limit(15)
+            ->get();
+
         return Inertia::render("Products/Products", [
             "productos" => $productos,
         ]);
     }
-    // public function index(Request $request){
-    //     if ($request->ajax()) {
-    //         return response()->json(Producto::with(['categoria', 'proveedor','embalaje'])->where('active', 1))->get();
-    //     } else {
-    //         $productos = Producto::with(['categoria', 'proveedor','embalaje'])->get();
-    //         return view('productos.index', compact('productos'));
-    //     }
-    // }
 
     public function show($id)
     {
