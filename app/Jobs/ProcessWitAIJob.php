@@ -30,9 +30,6 @@ class ProcessWitAIJob implements ShouldQueue
         $this->mensaje = $mensaje;
     }
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
         try {
@@ -46,10 +43,7 @@ class ProcessWitAIJob implements ShouldQueue
                 ]);
 
             $analisis = $response->json();
-            //log::info($analisis);
-            //env(new WhatsappEvent($analisis));
-            // Extrae la intención y la confianza
-
+            Log::info($analisis);
             $intencion = data_get($analisis, 'intents.0.name');
             $confianza = data_get($analisis, 'intents.0.confidence');
             $mensaje = $this->mensaje;
@@ -83,8 +77,89 @@ class ProcessWitAIJob implements ShouldQueue
         }
     }
 
-    // Metodo para consula de productos disponibles en el stock
     public function procesarPedido(array $entities){
+        Log::info($entities);
+        $productosBrutos = $entities['producto:producto'] ?? [];
+        $cantidades      = $entities['wit$number:number'] ?? [];
+        $marcas          = $entities['marca:marca'] ?? [];
+        $pesos           = $entities['peso:pesoCantidad'] ?? [];
+        $categorias      = $entities['categoria:categoria'] ?? [];
+        $presentaciones  = $entities['presentacion:presentacion'] ?? [];
+
+        $mensajes = collect();
+
+        foreach ($productosBrutos as $i => $entity) {
+            $nombreProducto     = strtolower($entity['body']);
+            $marca              = $marcas[$i]['body'] ?? null;
+            $peso               = $pesos[$i]['body'] ?? null;
+            $categoria          = $categorias[$i]['body'] ?? null;
+            $cantidadSolicitada = $cantidades[$i]['value'] ?? 1;
+            $presentacion       = $presentaciones[$i]['body'] ?? null;
+
+            $coincidencias = Producto::query()
+                ->join('categorias', 'productos.categoria_id', '=', 'categorias.id')
+                ->join('embalajes', 'productos.embalaje_id', '=', 'embalajes.id')
+                ->where('productos.active', 1)
+                ->where(function ($q) use ($nombreProducto, $marca, $peso, $categoria, $presentacion) {
+                    if ($nombreProducto)  $q->orWhere('productos.nombre', 'LIKE', "%{$nombreProducto}%");
+                    if ($marca)           $q->orWhere('productos.descripcion', 'LIKE', "%{$marca}%");
+                    if ($peso)            $q->orWhere('productos.descripcion', 'LIKE', "%{$peso}%");
+                    if ($categoria)       $q->orWhere('categorias.nombre', 'LIKE', "%{$categoria}%");
+                    if ($presentacion)    $q->orWhere('embalajes.tipo_embalaje', 'LIKE', "%{$presentacion}%");
+                })
+                ->select('productos.*', 'embalajes.tipo_embalaje', 'categorias.nombre AS categoria')
+                ->get();
+
+            Log::info($coincidencias);
+
+            $disponibles = $coincidencias->filter(fn($p) => $p->stock_actual >= $cantidadSolicitada);
+
+            $mensaje = $disponibles->isEmpty()
+                ? "❌ No tenemos disponible {$cantidadSolicitada} unidad(es) de *{$nombreProducto}*"
+                    . ($marca ? " marca {$marca}" : "")
+                    . ($peso ? " con peso {$peso}" : "") . ".\n"
+                : "📦 *Aquí están los productos disponibles:*\n\n" .
+                    $disponibles->map(fn($p) =>
+                        "✅ {$cantidadSolicitada} unidad(es) de *{$p->nombre} {$p->descripcion}*" .
+                        ($marca ? " marca {$marca}" : "") .
+                        ($peso ? " con peso {$peso}" : "") .
+                        " disponible: *stock: [{$p->stock_actual}]*. SKU: {$p->codigo_sku}. al detal: \${$p->precio_detal}. por *{$p->tipo_embalaje}*: \${$p->precio_mayor}\n"
+                    )->implode("\n");
+
+            $mensajes->push($mensaje);
+        }
+
+        $mensajeFinal = $mensajes->filter()->implode("\n");
+
+        if (blank($mensajeFinal)) {
+            Log::info('No hay coincidencias que mostrar');
+            return '🟡 No se encontraron coincidencias con los productos solicitados.';
+        }
+
+        return $mensajeFinal;
+    }
+
+    // Metodo para consula de categorias de productos en el stock
+    public function listarCategorias(){
+        $categorias = Categoria::has('productos')->get();
+        $mensaje = "🏢 *En GRGROUP Comercial S.A.* nos dedicamos a la comercialización de alimentos de tierra y mar\n";
+        $mensaje .= "Te ofrecemos productos clasificados en las siguientes categorías:\n\n";
+
+        foreach ($categorias as $cat) {
+            $nombre = strtoUpper($cat->nombre);
+            $mensaje .= "*{$cat->nombre}*: {$cat->descripcion}.\n";
+        }
+        $mensaje .= "\n✨ *Calidad y variedad para ti.*";
+        $mensaje .= "\n🔍 *¿Qué producto estás buscando exactamente?*";
+
+        return $mensaje;
+    }
+
+
+
+
+    // Metodo para consula de productos disponibles en el stock
+    /* public function procesarPedido(array $entities){
         $productosBrutos = $entities['producto:producto'] ?? [];
         $cantidades = $entities['wit$number:number'] ?? [];
         $marcas = $entities['marca:marca'] ?? [];
@@ -104,27 +179,30 @@ class ProcessWitAIJob implements ShouldQueue
             $query = Producto::query()
                 ->join('categorias', 'productos.categoria_id', '=', 'categorias.id')
                 ->join('embalajes', 'productos.embalaje_id', '=', 'embalajes.id')
-                ->where('productos.active', 1)
-                ->where('productos.nombre', 'LIKE', "%{$nombreProducto}%");
+                ->where('productos.active', 1);
 
-            if ($marca) {
-                $query->orWhere('productos.descripcion', 'LIKE', "%{$marca}%");
-            }
+            // Agrupamos condiciones opcionales en un solo bloque
+            $query->where(function ($q) use ($nombreProducto, $marca, $peso, $categoria, $presentacion) {
+                if ($nombreProducto) {
+                    $q->orWhere('productos.nombre', 'LIKE', "%{$nombreProducto}%");
+                }
 
-            if ($peso) {
-                $query->where(function ($q) use ($peso) {
+                if ($marca) {
+                    $q->orWhere('productos.descripcion', 'LIKE', "%{$marca}%");
+                }
+
+                if ($peso) {
                     $q->orWhere('productos.descripcion', 'LIKE', "%{$peso}%");
-                });
-            }
+                }
 
-            if ($categoria) {
-                $query->orWhere('categorias.nombre', 'LIKE', "%{$categoria}%");
-            }
+                if ($categoria) {
+                    $q->orWhere('categorias.nombre', 'LIKE', "%{$categoria}%");
+                }
 
-            if ($presentacion) {
-                $query->orWhere('embalajes.tipo_embalaje', 'LIKE', "%{$presentacion}%");
-            }
-
+                if ($presentacion) {
+                    $q->orWhere('embalajes.tipo_embalaje', 'LIKE', "%{$presentacion}%");
+                }
+            });
             // Verificamos disponibilidad
             $coincidencias = $query->select('productos.*','embalajes.tipo_embalaje','categorias.nombre AS categoria')->get();
             Log::info($coincidencias);
@@ -176,21 +254,5 @@ class ProcessWitAIJob implements ShouldQueue
             return;
         }
         return collect($resultados)->pluck('mensaje')->implode(" ");
-    }
-
-    // Metodo para consula de categorias de productos en el stock
-    public function listarCategorias(){
-        $categorias = Categoria::has('productos')->get();
-        $mensaje = "🏢 *En GRGROUP Comercial S.A.* nos dedicamos a la comercialización de alimentos de tierra y mar\n";
-        $mensaje .= "Te ofrecemos productos clasificados en las siguientes categorías:\n\n";
-
-        foreach ($categorias as $cat) {
-            $nombre = strtoUpper($cat->nombre);
-            $mensaje .= "*{$cat->nombre}*: {$cat->descripcion}.\n";
-        }
-        $mensaje .= "\n✨ *Calidad y variedad para ti.*";
-        $mensaje .= "\n🔍 *¿Qué producto estás buscando exactamente?*";
-
-        return $mensaje;
-    }
+    } */
 }

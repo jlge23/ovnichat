@@ -11,3 +11,11 @@
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
 }
+
+.imagen {
+    width: 60px; /* Ancho fijo para las celdas */
+    height: 60px; /* Altura fija para las celdas */
+    background-size: contain; /* Asegura que la imagen se ajuste dentro de la celda sin distorsionarse */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-position: center; /* Centra la imagen dentro de la celda */
+}
