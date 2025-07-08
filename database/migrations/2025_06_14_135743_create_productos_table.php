@@ -27,7 +27,6 @@ return new class extends Migration
             $table->unsignedBigInteger('proveedor_id')->nullable();
             $table->unsignedBigInteger('embalaje_id')->nullable();
             $table->unsignedBigInteger('unidad_medida_id')->nullable();
-            $table->longtext('image')->nullable();
             $table->boolean('active')->default(true);
             $table->longtext('image')->unique()->nullable();
             $table->timestamps();
