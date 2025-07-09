@@ -1,8 +1,10 @@
 import Logo from "@/components/Logo";
+import { InertiaSharedProps } from "@/types/inertia";
 import { Link, usePage } from "@inertiajs/react";
+import { ReactNode } from "react";
 
-export default function LayoutGuest({ children }) {
-    const { props } = usePage();
+export default function LayoutGuest({ children }: { children: ReactNode }) {
+    const { props } = usePage<InertiaSharedProps>();
     const currentDate = new Date();
 
     return (

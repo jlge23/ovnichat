@@ -1,13 +1,14 @@
 import { Head, usePage } from "@inertiajs/react";
 import LayoutGuest from "@/Layouts/LayoutGuest";
+import { InertiaSharedProps } from "@/types/inertia";
 
 export default function Home() {
-    const { props } = usePage();
+    const { appName } = usePage<InertiaSharedProps>().props;
 
     return (
         <LayoutGuest>
             <Head>
-                <title>{props.appName}</title>
+                <title>{appName}</title>
                 <meta name="description" content="Your page description" />
             </Head>
             <div>
@@ -15,7 +16,7 @@ export default function Home() {
                     <div className="absolute top-40 left-40 w-[750px]">
                         <div className="flex gap-2 mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-6xl dark:text-white">
                             <h2>Conozca</h2>
-                            <h1>{props.appName}</h1>
+                            <h1>{appName}</h1>
                         </div>
                         <p className="text-3xl">
                             ¡Presentamos nuestro nuevo CRM (Customer
