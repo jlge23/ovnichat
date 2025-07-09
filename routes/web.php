@@ -57,5 +57,9 @@ Route::get('/login', fn() => Inertia::render("Login"))->name("login");
 Route::middleware("auth")->group(function () {
     Route::get("/dashboard", fn() => Inertia::render("Dashboard"));
 
-    Route::get('/products', [ProductoController::class, 'index'])->name('productos.index');
+    // Route::get('/products', [ProductoController::class, 'index'])->name('productos.index');
+    Route::resource('products', ProductoController::class)->names([
+        'index'   => 'productos.index',
+        'create'  => 'productos.create'
+    ]);
 });

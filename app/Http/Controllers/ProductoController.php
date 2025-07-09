@@ -18,7 +18,7 @@ class ProductoController extends Controller
     public function index(Request $request)
     {
         $productos = Producto::with(['categoria', 'proveedor', 'embalaje'])
-            ->orderBy('nombre', 'asc')
+            ->orderBy('nombre', 'desc')
             ->limit(15)
             ->get();
 

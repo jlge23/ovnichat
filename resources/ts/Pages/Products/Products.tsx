@@ -3,6 +3,14 @@ import LayoutAuth from "@/Layouts/LayoutAuth";
 import { Head, usePage } from "@inertiajs/react";
 import "./Products.css";
 import { InertiaSharedProps } from "@/types/inertia";
+import FAB from "@/components/FAB";
+import Modal from "@/components/Modal";
+import Input from "@/components/Input";
+import { useForm } from "@inertiajs/react";
+import { route } from "ziggy-js";
+import SelectField from "@/components/SelectField";
+import { Button } from "@/components/Button";
+import Textarea from "@/components/Textarea";
 
 type ProductProps = {
     id: string;
@@ -13,16 +21,26 @@ type ProductProps = {
         nombre: string;
     };
     active: boolean;
+    image: string;
 };
 
 const Product = ({ product }: { product: ProductProps }) => (
     <div className="bg-white border border-gray-200 dark:border-gray-700 shadow-sm product-card drop-shadow-lg drop-shadow-gray-300 dark:drop-shadow-gray-900">
-        <div className="img-container"></div>
+        <div className="img-container">
+            <img
+                src={`${
+                    product.image
+                        ? `/storage/images/${product.image}`
+                        : "/images/no-photo.png"
+                }`}
+                alt="image"
+            />
+        </div>
         <div className="title-container font-bold line-clamp-1 text-lg text-white">
             <p>{product.nombre}</p>
         </div>
         <div className="text-category text-gray-700 line-clamp-1 font-semibold">
-            <p>{product.categoria.nombre}</p>
+            <p>{product.categoria?.nombre}</p>
         </div>
         <div className="text-description text-gray-500 line-clamp-3 text-sm">
             <p>{product.descripcion}</p>
@@ -48,8 +66,46 @@ const Product = ({ product }: { product: ProductProps }) => (
     </div>
 );
 
+type ProductForm = {
+    gtin: string;
+    nombre: string;
+    descripcion: string;
+    marca_id: string;
+    categoria_id: string;
+    proveedor_id: string;
+    unidad_medida_id: string;
+    stock_actual: string;
+    embalaje_id: string;
+    unidades_por_embalaje: string;
+    precio_detal: string;
+    precio_embalaje: string;
+    costo_detal: string;
+    active: boolean;
+    image: File | null;
+};
+
 export default function Products() {
     // const { url } = usePage<InertiaSharedProps>();
+
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const { data, setData, post, processing, errors, reset } =
+        useForm<ProductForm>({
+            gtin: "",
+            nombre: "",
+            descripcion: "",
+            marca_id: "",
+            categoria_id: "",
+            proveedor_id: "",
+            unidad_medida_id: "",
+            stock_actual: "",
+            embalaje_id: "",
+            unidades_por_embalaje: "",
+            precio_detal: "",
+            precio_embalaje: "",
+            costo_detal: "",
+            active: true,
+            image: null,
+        });
 
     const {
         props: { appName, productos },
@@ -100,6 +156,23 @@ export default function Products() {
         }
     };
 
+    function toggleModal() {
+        setShowModal(!showModal);
+    }
+
+    const submit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (processing) return;
+
+        post(route("productos.store"), {
+            onSuccess: () => {
+                reset();
+                toggleModal();
+            },
+        });
+    };
+
     return (
         <LayoutAuth>
             <Head>
@@ -121,6 +194,204 @@ export default function Products() {
                 </div>
                 {loading && <p className="text-center mt-4">Cargando más...</p>}
             </div>
+            <FAB onClick={toggleModal} />
+            <Modal show={showModal} toggleModal={toggleModal}>
+                <Modal show={showModal} toggleModal={toggleModal}>
+                    <form onSubmit={submit}>
+                        <h2 className="text-lg font-semibold mb-4">
+                            Registrar Producto
+                        </h2>
+
+                        <Input
+                            darkMode={false}
+                            label="Imagen"
+                            name="image"
+                            type="file"
+                            onChange={(e) =>
+                                setData("image", e.target.files?.[0] || null)
+                            }
+                            errorMessage={errors.image}
+                            errorActive={!!errors.image}
+                        />
+
+                        <Input
+                            darkMode={false}
+                            label="Código GTIN"
+                            name="gtin"
+                            value={data.gtin}
+                            onChange={(e) => setData("gtin", e.target.value)}
+                            errorMessage={errors.gtin}
+                            errorActive={!!errors.gtin}
+                        />
+
+                        <Input
+                            darkMode={false}
+                            label="Nombre del producto"
+                            name="nombre"
+                            value={data.nombre}
+                            onChange={(e) => setData("nombre", e.target.value)}
+                            errorMessage={errors.nombre}
+                            errorActive={!!errors.nombre}
+                            required
+                        />
+
+                        {/* Descripción */}
+                        <Textarea
+                            label="Descripción"
+                            name="descripcion"
+                            value={data.descripcion}
+                            onChange={(e) =>
+                                setData("descripcion", e.target.value)
+                            }
+                            errorMessage={errors.descripcion}
+                            errorActive={!!errors.descripcion}
+                            darkMode={false}
+                        />
+
+                        <SelectField
+                            label="Marca"
+                            name="marca_id"
+                            errorMessage={errors.marca_id}
+                            errorActive={!!errors.marca_id}
+                            options={[]}
+                            darkMode={false}
+                        />
+
+                        <SelectField
+                            label="Categoría"
+                            name="categoria_id"
+                            errorMessage={errors.categoria_id}
+                            errorActive={!!errors.categoria_id}
+                            options={[]}
+                            darkMode={false}
+                        />
+
+                        <SelectField
+                            label="Proveedor"
+                            name="proveedor_id"
+                            errorMessage={errors.proveedor_id}
+                            errorActive={!!errors.proveedor_id}
+                            options={[]}
+                            darkMode={false}
+                        />
+
+                        <SelectField
+                            label="Unidad de medida"
+                            name="unidad_medida_id"
+                            errorMessage={errors.unidad_medida_id}
+                            errorActive={!!errors.unidad_medida_id}
+                            options={[]}
+                            darkMode={false}
+                        />
+
+                        <SelectField
+                            label="Embalaje"
+                            name="embalaje_id"
+                            errorMessage={errors.embalaje_id}
+                            errorActive={!!errors.embalaje_id}
+                            options={[]}
+                            darkMode={false}
+                        />
+
+                        <Input
+                            darkMode={false}
+                            type="number"
+                            name={"stock_actual"}
+                            label={"Stock actual"}
+                            value={data.stock_actual}
+                            onChange={(e) =>
+                                setData("stock_actual", e.target.value)
+                            }
+                            errorMessage={errors.stock_actual}
+                            errorActive={!!errors.stock_actual}
+                        />
+
+                        <Input
+                            darkMode={false}
+                            type="number"
+                            name={"unidades_por_embalaje"}
+                            label={"Unidades por embalaje"}
+                            value={data.unidades_por_embalaje}
+                            onChange={(e) =>
+                                setData("unidades_por_embalaje", e.target.value)
+                            }
+                            errorMessage={errors.unidades_por_embalaje}
+                            errorActive={!!errors.unidades_por_embalaje}
+                        />
+
+                        <Input
+                            darkMode={false}
+                            type="number"
+                            name={"precio_detal"}
+                            label={"Precio por unidad"}
+                            value={data.precio_detal}
+                            onChange={(e) =>
+                                setData("precio_detal", e.target.value)
+                            }
+                            errorMessage={errors.precio_detal}
+                            errorActive={!!errors.precio_detal}
+                        />
+
+                        <Input
+                            darkMode={false}
+                            type="number"
+                            name={"precio_embalaje"}
+                            label={"Precio por embalaje"}
+                            value={data.precio_embalaje}
+                            onChange={(e) =>
+                                setData("precio_embalaje", e.target.value)
+                            }
+                            errorMessage={errors.precio_embalaje}
+                            errorActive={!!errors.precio_embalaje}
+                        />
+
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium mb-1">
+                                Estatus del producto
+                            </label>
+                            <label className="inline-flex items-center mr-4">
+                                <input
+                                    type="radio"
+                                    name="active"
+                                    value="1"
+                                    checked={data.active}
+                                    onChange={(e) => setData("active", true)}
+                                    className="mr-2"
+                                />
+                                Disponible
+                            </label>
+                            <label className="inline-flex items-center">
+                                <input
+                                    type="radio"
+                                    name="active"
+                                    value="0"
+                                    checked={data.active}
+                                    onChange={(e) => setData("active", false)}
+                                    className="mr-2"
+                                />
+                                Agotado
+                            </label>
+                        </div>
+
+                        <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                            <Button
+                                type="submit"
+                                variant="purple"
+                                disabled={processing}
+                            >
+                                Aceptar
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="light"
+                                onClick={toggleModal}
+                            >
+                                Cancelar
+                            </Button>
+                        </div>
+                    </form>
+                </Modal>
+            </Modal>
         </LayoutAuth>
     );
 }
