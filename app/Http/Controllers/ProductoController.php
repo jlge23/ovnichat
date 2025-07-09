@@ -18,9 +18,15 @@ class ProductoController extends Controller
     public function index(Request $request)
     {
         $productos = Producto::with(['categoria', 'proveedor', 'embalaje'])
-            ->orderBy('nombre', 'desc')
-            ->limit(15)
-            ->get();
+            ->orderBy('nombre', 'asc')
+            ->paginate(15);
+
+        // Si es una petición AJAX (fetch con scroll infinito)
+        if ($request->has('page')) {
+            return response()->json([
+                'productos' => $productos,
+            ]);
+        }
 
         return Inertia::render("Products/Products", [
             "productos" => $productos,
@@ -65,7 +71,7 @@ class ProductoController extends Controller
             $content = file_get_contents($file->getRealPath());
             Storage::disk('images')->put($name, $content);
         } else {
-            $name = "no-photo.png";
+            $name = null;
         }
         $guardado = Producto::create([
             'gtin' => ($request->gtin) ? $request->gtin : null,

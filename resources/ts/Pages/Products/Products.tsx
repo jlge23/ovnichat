@@ -116,45 +116,48 @@ export default function Products() {
     const [loading, setLoading] = useState(false);
 
     const handleScroll = () => {
+        if (loading) return;
+
         if (
             window.innerHeight + window.scrollY >=
             document.body.offsetHeight - 100
         ) {
-            loadMore();
+            setPage((prev) => prev + 1);
         }
     };
 
     useEffect(() => {
-        // window.addEventListener("scroll", handleScroll);
-        // return () => window.removeEventListener("scroll", handleScroll);
-        fetchProducts();
+        setProducts(productos.data);
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // useEffect(() => {
-    //     fetchProducts(page);
-    // }, [page]);
+    useEffect(() => {
+        if (page > 1) fetchProducts();
+    }, [page]);
 
     function fetchProducts() {
-        // async function fetchProducts(page: number) {
         if (loading) return;
-
         setLoading(true);
+
         try {
-            if (productos) {
-                setProducts(productos);
-            }
+            // Construcción estricta de la URL solo si hay página
+            const url = `/productos?page=${page}`;
+
+            fetch(url)
+                .then((res) => res.json())
+                .then((json: { productos: { data: ProductProps[] } }) => {
+                    setProducts((prev) => [...prev, ...json.productos.data]);
+                })
+                .catch((err) => console.error(err))
+                .finally(() => setLoading(false));
         } catch (err) {
             console.error(err);
         } finally {
             setLoading(false);
         }
     }
-
-    const loadMore = () => {
-        if (!loading) {
-            setPage((prev) => prev + 1);
-        }
-    };
 
     function toggleModal() {
         setShowModal(!showModal);
