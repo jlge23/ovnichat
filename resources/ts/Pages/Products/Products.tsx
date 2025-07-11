@@ -8,9 +8,13 @@ import Modal from "@/components/Modal";
 import Input from "@/components/Input";
 import { useForm } from "@inertiajs/react";
 import { route } from "ziggy-js";
-import SelectField from "@/components/SelectField";
+import SelectField, { SelectOption } from "@/components/SelectField";
 import { Button } from "@/components/Button";
 import Textarea from "@/components/Textarea";
+import Spinner from "@/components/Spinner";
+import { fetchProductSelectOptions } from "@/api/products";
+import { formatToSelect } from "@/utils/select";
+import ToggleSwitch from "@/components/ToggleSwitch";
 
 type ProductProps = {
     id: string;
@@ -55,7 +59,7 @@ const Product = ({ product }: { product: ProductProps }) => {
                 />
             </div>
             <div className="title-container font-bold line-clamp-1 text-lg text-white">
-                <p>{product.nombre}</p>
+                <p>#{product.id + " " + product.nombre}</p>
             </div>
             <div className="text-category text-gray-700 line-clamp-1 font-semibold">
                 <p>{product.categoria?.nombre}</p>
@@ -69,8 +73,7 @@ const Product = ({ product }: { product: ProductProps }) => {
                     product.active
                         ? "bg-green-500 drop-shadow-sm dark:drop-shadow-md drop-shadow-green-500"
                         : "bg-gray-500 drop-shadow-sm dark:drop-shadow-md drop-shadow-gray-500"
-                }
-        }`}
+                }`}
                 onClick={() => setOpen(!open)}
             >
                 <svg
@@ -138,10 +141,19 @@ type ProductForm = {
     image: File | null;
 };
 
+type FromOptions = {
+    categorias: SelectOption[];
+    embalajes: SelectOption[];
+    marcas: SelectOption[];
+    proveedores: SelectOption[];
+    unidadesMedidas: SelectOption[];
+};
+
 export default function Products() {
     // const { url } = usePage<InertiaSharedProps>();
 
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [formOptions, setFormOptions] = useState<FromOptions | null>(null);
     const { data, setData, post, processing, errors, reset } =
         useForm<ProductForm>({
             gtin: "",
@@ -214,6 +226,9 @@ export default function Products() {
     }
 
     function toggleModal() {
+        if (!showModal && !formOptions) {
+            getProductSelectOptions();
+        }
         setShowModal(!showModal);
     }
 
@@ -229,6 +244,33 @@ export default function Products() {
             },
         });
     };
+
+    function cancelForm() {
+        reset();
+        toggleModal();
+    }
+
+    async function getProductSelectOptions() {
+        try {
+            const res = await fetchProductSelectOptions();
+
+            const formated = {
+                categorias: formatToSelect(res.categorias, "id", "nombre"),
+                embalajes: formatToSelect(res.embalajes, "id", "tipo_embalaje"),
+                marcas: formatToSelect(res.marcas, "id", "marca"),
+                proveedores: formatToSelect(res.proveedores, "id", "nombre"),
+                unidadesMedidas: formatToSelect(
+                    res.unidadesMedidas,
+                    "id",
+                    "nombre"
+                ),
+            };
+
+            setFormOptions(formated);
+        } catch (err) {
+            console.error("Error al cargar datos del formulario:", err);
+        }
+    }
 
     return (
         <LayoutAuth>
@@ -305,50 +347,79 @@ export default function Products() {
                             darkMode={false}
                         />
 
-                        <SelectField
-                            label="Marca"
-                            name="marca_id"
-                            errorMessage={errors.marca_id}
-                            errorActive={!!errors.marca_id}
-                            options={[]}
-                            darkMode={false}
-                        />
+                        {formOptions ? (
+                            <>
+                                <SelectField
+                                    label="Marca"
+                                    name="marca_id"
+                                    errorMessage={errors.marca_id}
+                                    errorActive={!!errors.marca_id}
+                                    options={formOptions.marcas}
+                                    darkMode={false}
+                                    value={data.marca_id}
+                                    onChange={(e) =>
+                                        setData("marca_id", e.target.value)
+                                    }
+                                />
 
-                        <SelectField
-                            label="Categoría"
-                            name="categoria_id"
-                            errorMessage={errors.categoria_id}
-                            errorActive={!!errors.categoria_id}
-                            options={[]}
-                            darkMode={false}
-                        />
+                                <SelectField
+                                    label="Categoría"
+                                    name="categoria_id"
+                                    errorMessage={errors.categoria_id}
+                                    errorActive={!!errors.categoria_id}
+                                    options={formOptions?.categorias}
+                                    darkMode={false}
+                                    value={data.categoria_id}
+                                    onChange={(e) =>
+                                        setData("categoria_id", e.target.value)
+                                    }
+                                />
 
-                        <SelectField
-                            label="Proveedor"
-                            name="proveedor_id"
-                            errorMessage={errors.proveedor_id}
-                            errorActive={!!errors.proveedor_id}
-                            options={[]}
-                            darkMode={false}
-                        />
+                                <SelectField
+                                    label="Proveedor"
+                                    name="proveedor_id"
+                                    errorMessage={errors.proveedor_id}
+                                    errorActive={!!errors.proveedor_id}
+                                    options={formOptions.proveedores}
+                                    darkMode={false}
+                                    value={data.proveedor_id}
+                                    onChange={(e) =>
+                                        setData("proveedor_id", e.target.value)
+                                    }
+                                />
 
-                        <SelectField
-                            label="Unidad de medida"
-                            name="unidad_medida_id"
-                            errorMessage={errors.unidad_medida_id}
-                            errorActive={!!errors.unidad_medida_id}
-                            options={[]}
-                            darkMode={false}
-                        />
+                                <SelectField
+                                    label="Unidad de medida"
+                                    name="unidad_medida_id"
+                                    errorMessage={errors.unidad_medida_id}
+                                    errorActive={!!errors.unidad_medida_id}
+                                    options={formOptions.unidadesMedidas}
+                                    darkMode={false}
+                                    value={data.unidad_medida_id}
+                                    onChange={(e) =>
+                                        setData(
+                                            "unidad_medida_id",
+                                            e.target.value
+                                        )
+                                    }
+                                />
 
-                        <SelectField
-                            label="Embalaje"
-                            name="embalaje_id"
-                            errorMessage={errors.embalaje_id}
-                            errorActive={!!errors.embalaje_id}
-                            options={[]}
-                            darkMode={false}
-                        />
+                                <SelectField
+                                    label="Embalaje"
+                                    name="embalaje_id"
+                                    errorMessage={errors.embalaje_id}
+                                    errorActive={!!errors.embalaje_id}
+                                    options={formOptions.embalajes}
+                                    darkMode={false}
+                                    value={data.embalaje_id}
+                                    onChange={(e) =>
+                                        setData("embalaje_id", e.target.value)
+                                    }
+                                />
+                            </>
+                        ) : (
+                            <Spinner />
+                        )}
 
                         <Input
                             darkMode={false}
@@ -402,32 +473,14 @@ export default function Products() {
                             errorActive={!!errors.precio_embalaje}
                         />
 
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium mb-1">
-                                Estatus del producto
-                            </label>
-                            <label className="inline-flex items-center mr-4">
-                                <input
-                                    type="radio"
-                                    name="active"
-                                    value="1"
-                                    checked={data.active}
-                                    onChange={(e) => setData("active", true)}
-                                    className="mr-2"
-                                />
-                                Disponible
-                            </label>
-                            <label className="inline-flex items-center">
-                                <input
-                                    type="radio"
-                                    name="active"
-                                    value="0"
-                                    checked={data.active}
-                                    onChange={(e) => setData("active", false)}
-                                    className="mr-2"
-                                />
-                                Agotado
-                            </label>
+                        <div>
+                            <ToggleSwitch
+                                name="active"
+                                checked={data.active}
+                                onChange={(val) => setData("active", val)}
+                                label="Producto activo"
+                                darkMode={false}
+                            />
                         </div>
 
                         <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
@@ -441,7 +494,7 @@ export default function Products() {
                             <Button
                                 type="button"
                                 variant="light"
-                                onClick={toggleModal}
+                                onClick={cancelForm}
                             >
                                 Cancelar
                             </Button>

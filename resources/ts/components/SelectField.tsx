@@ -1,13 +1,13 @@
 import { SelectHTMLAttributes } from "react";
 
-type Option = {
+export type SelectOption = {
     value: string | number;
     label: string;
 };
 
 type SelectFieldProps = SelectHTMLAttributes<HTMLSelectElement> & {
     label?: string;
-    options: Option[];
+    options: SelectOption[];
     errorMessage?: string;
     errorActive?: boolean;
     darkMode?: boolean;
