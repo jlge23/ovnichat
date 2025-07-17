@@ -43,7 +43,7 @@ $(function(){
         "order": [[0, 'desc']],
         "columns" : [
             {"data":"id"},
-            {"data":"nombre"},
+            {"data":"combo"},
             {"data":"descripcion"},
             {"data":"precio"},
             {"data":"status",
@@ -77,7 +77,7 @@ $(function(){
         const url = `/combos/${D.id}/edit`; // url para json de datatables
         const UpdateUrl = `/combos/${D.id}`;// url para el action del formulario
         $('form#FRM_asociar').attr('action', UpdateUrl);
-        $('h5#ModalTitle').html(D.nombre);
+        $('h5#ModalTitle').html(D.producto);
         var DT_ProdAsoc = $("table#DT_ProdAsoc").DataTable({
             "language" : language,
             "responsive":false,
@@ -93,7 +93,7 @@ $(function(){
             },
             "columns" : [
                 {"data":"id"},
-                {"data":"nombre"},
+                {"data":"producto"},
                 {"data":"descripcion"},
                 {"data":"stock_actual"},
                 {"data":"asignado",

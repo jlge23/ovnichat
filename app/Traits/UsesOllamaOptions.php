@@ -7,15 +7,13 @@ trait UsesOllamaOptions
     public function ollamaOptions(): array
     {
         return [
-            'temperature' => 0.7,
-            'top_p' => 0.9,
-            'repeat_penalty' => 1.2,
-            'presence_penalty' => 0.4,
-            'frequency_penalty' => 0.4,
-            'num_predict' => 250,
-            'num_thread' => 2,
-            'stop' => ['Human:', 'Assistant:', '<|end_of_turn|>'],
-            'seed' => null,
+            'temperature' => 0.0,
+            'top_p' => 0.95,
+            'temperature' => 0.2,
+            'repeat_penalty' => 1.1,
+            'presence_penalty' => 0.0,
+            'frequency_penalty' => 0.0,
+            'num_predict' => 150, // suficiente para un saludo bonito
         ];
     }
 }

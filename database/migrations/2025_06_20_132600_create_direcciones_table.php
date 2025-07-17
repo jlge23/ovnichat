@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('direcciones', function (Blueprint $table) {
             $table->id();
             $table->foreignId('lead_id')->constrained('leads')->onDelete('cascade');
-            $table->string('nombre')->nullable(); // "Mi casa" o nombre del punto
-            $table->string('direccion_textual')->nullable(); // "Guayaquil, Ecuador"
+            $table->string('direccion')->nullable(); // "Mi casa" o nombre del punto
+            $table->string('referencia')->nullable(); // "Guayaquil, Ecuador"
             $table->decimal('latitud', 10, 7);
             $table->decimal('longitud', 10, 7);
             $table->boolean('es_principal')->default(false); // una sola puede ser true

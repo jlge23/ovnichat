@@ -1,0 +1,160 @@
+La API de WhatsApp Business permite enviar una variedad de mensajes, incluyendo:
+
+1. Mensaje de texto: Un mensaje simple de texto.
+{
+  "messaging_product": "whatsapp",
+  "to": "número_de_teléfono",
+  "type": "text",
+  "text": {
+    "body": "Hola, ¿cómo estás?"
+  }
+}
+
+2. Mensaje con imagen: Un mensaje que incluye una imagen.
+{
+  "messaging_product": "whatsapp",
+  "to": "número_de_teléfono",
+  "type": "image",
+  "image": {
+    "link": "https://example.com/imagen.jpg"
+  }
+}
+
+3. Mensaje con audio: Un mensaje que incluye un archivo de audio.
+{
+  "messaging_product": "whatsapp",
+  "to": "número_de_teléfono",
+  "type": "audio",
+  "audio": {
+    "link": "https://example.com/audio.mp3"
+  }
+}
+
+4. Mensaje con video: Un mensaje que incluye un video.
+{
+  "messaging_product": "whatsapp",
+  "to": "número_de_teléfono",
+  "type": "video",
+  "video": {
+    "link": "https://example.com/video.mp4"
+  }
+}
+
+5. Mensaje con documento: Un mensaje que incluye un documento.
+{
+  "messaging_product": "whatsapp",
+  "to": "número_de_teléfono",
+  "type": "document",
+  "document": {
+    "link": "https://example.com/documento.pdf"
+  }
+}
+
+6. Mensaje con ubicación: Un mensaje que incluye la ubicación del remitente.
+{
+  "messaging_product": "whatsapp",
+  "to": "número_de_teléfono",
+  "type": "location",
+  "location": {
+    "latitude": 37.7749,
+    "longitude": -122.4194,
+    "name": "San Francisco",
+    "address": "California, EE. UU."
+  }
+}
+
+7. Mensaje con contacto: Un mensaje que incluye información de contacto.
+{
+  "messaging_product": "whatsapp",
+  "to": "número_de_teléfono",
+  "type": "contacts",
+  "contacts": [
+    {
+      "name": {
+        "first_name": "Juan",
+        "last_name": "Pérez"
+      },
+      "phones": [
+        {
+          "phone": "+1234567890"
+        }
+      ]
+    }
+  ]
+}
+
+8. Mensaje interactivo (botón): Un mensaje que incluye botones interactivos.
+{
+  "messaging_product": "whatsapp",
+  "to": "número_de_teléfono",
+  "type": "interactive",
+  "interactive": {
+    "type": "button",
+    "header": {
+      "type": "text",
+      "text": "¿Qué deseas hacer?"
+    },
+    "body": {
+      "text": "Selecciona una opción"
+    },
+    "footer": {
+      "text": "Gracias por tu respuesta"
+    },
+    "action": {
+      "buttons": [
+        {
+          "type": "reply",
+          "reply": {
+            "id": "btn1",
+            "title": "Opción 1"
+          }
+        },
+        {
+          "type": "reply",
+          "reply": {
+            "id": "btn2",
+            "title": "Opción 2"
+          }
+        }
+      ]
+    }
+  }
+}
+
+9. Mensaje interactivo (lista): Un mensaje que incluye una lista de opciones.
+{
+  "messaging_product": "whatsapp",
+  "to": "número_de_teléfono",
+  "type": "interactive",
+  "interactive": {
+    "type": "list",
+    "header": {
+      "type": "text",
+      "text": "¿Qué deseas hacer?"
+    },
+    "body": {
+      "text": "Selecciona una opción"
+    },
+    "footer": {
+      "text": "Gracias por tu respuesta"
+    },
+    "action": {
+      "button": "Ver opciones",
+      "sections": [
+        {
+          "title": "Opciones",
+          "rows": [
+            {
+              "id": "opt1",
+              "title": "Opción 1"
+            },
+            {
+              "id": "opt2",
+              "title": "Opción 2"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

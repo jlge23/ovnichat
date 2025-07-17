@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\BusinessModel;
+use App\Models\Empresa;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
@@ -49,6 +52,11 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'empresa' => ['required','string','min:3','max:100','regex:/^[a-zA-Z0-9\s\-\&\.\,]+$/u'],
+            'codigo' => ['required','string','min:5','max:20','regex:/^[A-Z0-9\-\.]+$/i','unique:empresas,codigo'],
+            'direccion' => ['required','string','min:5','max:150','regex:/^[a-zA-Z0-9\s\-\#\.\,]+$/u'],
+            'telefono_contacto' => ['required','string','regex:/^\d{7,15}$/'],
+            'business_model' => ['required', 'integer'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -63,10 +71,24 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $empresa = Empresa::create([
+            'empresa' => $data['empresa'],
+            'codigo' => $data['codigo'],
+            'direccion' => $data['direccion'],
+            'telefono_contacto' => $data['telefono_contacto']
+        ]);
+        $empresa->businessModels()->attach($data['business_model']);
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'empresa_id' => $empresa->id,
         ]);
+
+    }
+
+    public function showRegistrationForm(){
+        $businessModels = BusinessModel::all(); // o cualquier filtro que necesites
+        return view('auth.register', compact('businessModels'));
     }
 }

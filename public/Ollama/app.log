@@ -1,0 +1,5 @@
+time=2025-07-15T11:03:51.327-05:00 level=INFO source=app_windows.go:307 msg="starting Ollama" app=C:\Users\ASUS\AppData\Local\Programs\Ollama version=0.9.6 OS=Windows/10.0.26100
+time=2025-07-15T11:03:51.370-05:00 level=INFO source=app.go:187 msg="initialized tools registry" tool_count=4
+time=2025-07-15T11:03:51.373-05:00 level=INFO source=app.go:202 msg="starting ollama server"
+time=2025-07-15T11:03:51.832-05:00 level=INFO source=app.go:233 msg="starting ui server" port=50278
+time=2025-07-15T11:03:54.833-05:00 level=INFO source=updater.go:252 msg="beginning update checker" interval=1h0m0s

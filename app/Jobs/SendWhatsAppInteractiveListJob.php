@@ -27,8 +27,6 @@ class SendWhatsAppInteractiveListJob implements ShouldQueue
 
     public function handle()
     {
-        Log::info("Ejecutando SendWhatsAppInteractiveListJob para {$this->to}");
-
         $data = [
             'messaging_product' => 'whatsapp',
             'to' => $this->to,
@@ -56,8 +54,6 @@ class SendWhatsAppInteractiveListJob implements ShouldQueue
                 ]
             ]
         ];
-        Log::info($data);
-        Log::info("Enviando solicitud a WhatsApp...");
         $response = Http::withToken(config('services.whatsapp.token'))
             ->withHeaders(['Content-Type' => 'application/json'])
             ->post(config('services.whatsapp.url'), $data);

@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'empresa_id',
     ];
 
     /**
@@ -46,4 +47,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function empresa() {
+        return $this->belongsTo(Empresa::class);
+    }
+
 }

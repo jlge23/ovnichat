@@ -30,7 +30,6 @@ trait UsesIAModelsList
         foreach($nombres as $modelo){
             $data['modelos'][]['name'] = $modelo;
         }
-        //return response()->json($nombres);
         return $nombres;
     }
 }

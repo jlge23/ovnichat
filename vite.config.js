@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/whatsapp.js',
                 'resources/js/combos.js',
+                'resources/js/welcome.js',
             ],
             refresh: true,
         }),

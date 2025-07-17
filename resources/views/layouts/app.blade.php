@@ -32,7 +32,9 @@
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item"><a class="nav-link" href="{{ url('productos') }}">Productos</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url('combos') }}">Combos</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Formulario IA</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Entrenamiento IA</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/test') }}">Conversacion IA</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/chatbot') }}">Chatbot Builder</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

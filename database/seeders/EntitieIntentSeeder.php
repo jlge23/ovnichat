@@ -82,10 +82,10 @@ class EntitieIntentSeeder extends Seeder
         ];
 
         foreach ($map as $intentName => $entityNames) {
-            $intentId = DB::table('intents')->where('name', $intentName)->value('id');
+            $intentId = DB::table('intents')->where('intent', $intentName)->value('id');
 
             foreach ($entityNames as $entityName) {
-                $entityId = DB::table('entities')->where('name', $entityName)->value('id');
+                $entityId = DB::table('entities')->where('entity', $entityName)->value('id');
 
                 if ($intentId && $entityId) {
                     DB::table('entitie_intent')->insert([

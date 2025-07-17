@@ -4,47 +4,89 @@ namespace App\Traits;
 
 use App\Models\Intent;
 use App\Models\Entitie;
+use App\Models\BusinessModel;
+use App\Models\Categoria;
+use App\Models\Marca;
+use App\Models\Producto;
 use Illuminate\Support\Facades\Log;
 
 trait UsesSystemsOptions
 {
     public function construirSystemPrompt(): string
     {
-        $intents = Intent::with(['entities', 'businessModels'])
-        ->whereHas('businessModels', function ($query) {
-            $query->where('business_models.id', 9);
-        })
-        ->get()
-        ->map(function ($intent) {
+        // Listado de Categorias disponibles
+        $categorias = Categoria::has('productos')->whereNot('id',1)->get()
+        ->map(function ($categoria) {
             return [
-                'nombre' => $intent->name,
-                'descripcion' => $intent->description,
-                'entidades' => $intent->entities->pluck('name')->toArray(),
-                'ModeloNegocio' => $intent->businessModels->pluck('name'),
+                'id' => 'cat_' . $categoria->id,
+                'title' => $categoria->categoria,
+                'description' => $categoria->descripcion ?: 'Sin descripción'
             ];
         });
-        Log::info($intents->pluck('ModeloNegocio'));
 
-        return <<< PROMPT
-            Eres un analizador semántico de . Detecta si el mensaje corresponde a alguno de los intents y entities definidos y extraer las entidades relevantes.
+        // Listado de Marcas disponibles
+        $marcas = Marca::has('productos')->whereNot('id',1)->get()
+        ->map(function ($marca) {
+            return [
+                'marca' => $marca->marca,
+            ];
+        });
 
-            📌 Si detectas un intent válido, responde exclusivamente con un JSON como este:
+        $ModeloNegocio = BusinessModel::with(['intents.entities'])
+        ->where('id', 9)
+        ->get()
+        ->map(function ($modelo) {
+            return [
+                'modelo' => $modelo->modelonegocio,
+                'desc_modelo' => $modelo->description,
+                'intents_con_entities' => $modelo->intents->map(function ($intent) {
+                    return [
+                        'nombre' => $intent->intent,
+                        'descripcion' => $intent->description,
+                        'entidades' => ['entidad' => $intent->entities->pluck('entity')->toArray(), 'descripcion' => $intent->entities->pluck('description')->toArray()]
+                    ];
+                })
+            ];
+        });
 
-            {
-            "intent": "disponibilidad_producto",
-            "entities": {
-                "nombre_producto": "arroz",
-                "cantidad": 2,
-                "presentacion": "funda",
-                "peso_presentacion":"2 kilos",
-                "marca": "Favorita"
-                }
-            }
+        if ($ModeloNegocio->isEmpty()) {
+            $ModeloNegocio = "No hay configuración del modelo de negocio actual.";
+        }
+        if ($marcas->isEmpty()) {
+            $marcas = "No hay información de marcas registradas.";
+        }
+        if ($categorias->isEmpty()) {
+            $categorias = "No hay información de categorias registradas.";
+        }
 
-            ❌ Si no identificas ningún intent válido o el mensaje no coincide con ninguno, responde: NO ENTENDI NADA
-            📋 Intents y Entities disponibles:
-            {$intents->toJson(JSON_PRETTY_PRINT)}
-        PROMPT;
+        return <<<PROMPT
+            Tu nombre es OvniBot. Eres un agente de atención al cliente especializado en {$ModeloNegocio->pluck('desc_modelo')->implode(', ')}. Tu propósito es asistir con cordialidad, claridad y empatía en consultas relacionadas con productos del inventario.
+
+            Tu tarea es detectar si el mensaje del usuario corresponde a alguno de los siguientes intents y entities con sus descripciones:
+            {$ModeloNegocio->pluck('intents_con_entities')} y extraer las entidades relevantes.
+
+            tambien debes ayudar al cliente si te pide información sobre productos, categorías o marcas. Dispones de inventario detallado en tres niveles:
+
+            **Categorías disponibles:**
+            {$categorias->toJson(JSON_PRETTY_PRINT)}
+
+            **Marcas disponibles:**
+            {$marcas->toJson(JSON_PRETTY_PRINT)}
+
+            ---
+
+            📌 Si el cliente menciona explícitamente algún producto, categoría o marca que aparezca en las listas, puedes usar la herramienta correspondiente para consultar el inventario.
+
+            🚫 Si no detectas coincidencias, responde de forma cortés indicando que no hay registros, y si lo consideras útil, sugiere alternativas similares que sí estén disponibles.
+
+            💬 Si el mensaje es un saludo o conversación casual, responde de forma natural, amistosa y sin invocar herramientas. Puedes hacer preguntas suaves para continuar la charla si es adecuado.
+
+            🌐 Responde siempre en español, con un estilo conversacional, accesible y humano. Evita lenguaje técnico salvo que el cliente lo solicite.
+
+            🎯 Tu objetivo es sonar útil, simpático y confiable. No des información vacía ni generes respuestas extensas si no agregan valor.
+
+            PROMPT;
 
     }
+
 }

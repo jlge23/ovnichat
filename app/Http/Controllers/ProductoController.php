@@ -37,7 +37,7 @@ class ProductoController extends Controller
     {
         $request->validate([
             'gtin' => ['nullable','digits_between:8,14','regex:/^\d+$/'],
-            'nombre' => 'required|string|max:255',
+            'producto' => 'required|string|max:255',
             'descripcion' => 'nullable|string|max:255',
             'precio_detal' => 'required|numeric|min:0|max:999999.99',
             'precio_embalaje' => 'nullable|numeric|min:0|max:999999.99',
@@ -65,7 +65,7 @@ class ProductoController extends Controller
         }
         $guardado = Producto::create([
             'gtin' => ($request->gtin) ? $request->gtin : null,
-            'nombre' => strtoupper($request->nombre),
+            'producto' => strtoupper($request->producto),
             'descripcion' => strtoupper($request->descripcion),
             'precio_detal' => $request->precio_detal,
             'precio_embalaje' => $request->precio_embalaje,
@@ -108,7 +108,7 @@ class ProductoController extends Controller
         //dd($request->all());
         $request->validate([
             'gtin' => ['nullable','digits_between:8,14','regex:/^\d+$/'],
-            'nombre' => 'required|string|max:255',
+            'producto' => 'required|string|max:255',
             'descripcion' => 'nullable|string|max:255',
             'precio_detal' => 'required|numeric|min:0|max:999999.99',
             'precio_embalaje' => 'nullable|numeric|min:0|max:999999.99',
@@ -156,7 +156,7 @@ class ProductoController extends Controller
 
         $guardado = $producto->update([
             'gtin' => ($request->gtin) ? $request->gtin : null,
-            'nombre' => strtoupper($request->nombre),
+            'producto' => strtoupper($request->producto),
             'descripcion' => strtoupper($request->descripcion),
             'precio_detal' => $request->precio_detal,
             'precio_embalaje' => $request->precio_embalaje,

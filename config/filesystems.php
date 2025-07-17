@@ -53,6 +53,12 @@ return [
             'url' => env('APP_URL').'/storage/images',
             'visibility' => 'public',
         ],
+        'audio' => [
+            'driver' => 'local',
+            'root' => storage_path('app/audio'),
+            //'url' => env('APP_URL').'/storage/audio',
+            'visibility' => 'private',
+        ],
 
         's3' => [
             'driver' => 's3',

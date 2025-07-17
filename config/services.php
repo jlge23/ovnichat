@@ -39,19 +39,24 @@ return [
         'phone_id' => env('WHATSAPP_API_PHONE_ID'),
         'version' => env('WHATSAPP_API_VERSION'),
         'local_verify_token' => env('WHATSAPP_API_LOCAL_VERIFICATION_TOKEN'),
-        'url' => "https://graph.facebook.com/" . env('WHATSAPP_API_VERSION') . "/" . env('WHATSAPP_API_PHONE_ID') . "/messages",
+        'url' => env('WHATSAPP_API_URL') . env('WHATSAPP_API_VERSION') . "/" . env('WHATSAPP_API_PHONE_ID') . "/messages",
+        'urlAudio' => env('WHATSAPP_API_URL') . env('WHATSAPP_API_VERSION') . "/"
     ],
     'witai' => [
         'token' => env('WITAI_TOKEN'),
         'url' => env('WITAI_URL')
     ],
     'ollama' => [
-        'url' => env('OLLAMA_URL'),
+        'urlChat' => env('OLLAMA_URL_CHAT'),
         'model' => env('OLLAMA_MODEL'),
         'model2' => env('OLLAMA_MODEL_2'),
         'model3' => env('OLLAMA_MODEL_3'),
         'model4' => env('OLLAMA_MODEL_4'),
-        'prefix' => env('OLLAMA_PREFIX')
+        'model5' => env('OLLAMA_MODEL_5'),
+        'prefix' => env('OLLAMA_PREFIX'),
+        'urlGenerate' => env('OLLAMA_URL_GENERATE'),
+        'urlTranscribe' => env('OLLAMA_URL_TRANSCRIBE'),
+        'urlEmbeddings' => env('OLLAMA_URL_EMBEDDINGS'),
     ],
     'messenger' => [
         'token' => env('MESSENGER_PAGE_ACCESS_TOKEN'),

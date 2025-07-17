@@ -6,6 +6,9 @@ import 'jquery';
 import 'bootstrap';
 import 'datatables.net-bs5';
 import 'datatables.net-buttons-bs5';
+import 'datatables.net-fixedcolumns-bs5';
+
+
 
 import Swal from 'sweetalert2'
 import '@fortawesome/fontawesome-free/css/all.css';
@@ -47,10 +50,14 @@ $(function() {
         "scrollX": true,
         "order": [[0, 'desc']],        "id": 1,
         "active": 1,
+        'fixedColumns': {
+            'leftColumns': 1 // Esto fijará la primera columna (“Editar”)
+        },
         "columns" : [
+            {"data":"defaultContent"},
             {"data":"gtin"},
             {"data":"sku"},
-            {"data":"nombre"},
+            {"data":"producto"},
             {"data":"unidad_medida"},
             {"data":"precio_detal"},
             {"data":"marca"},
@@ -59,8 +66,7 @@ $(function() {
             {"data":"proveedor"},
             {"data":"stock_actual"},
             {"data":"image"},
-            {"data":"active"},
-            {"data":"defaultContent"}
+            {"data":"active"}
         ],
     });
     //Ajax para modal Información

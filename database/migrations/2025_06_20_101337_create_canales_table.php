@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('canales', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre'); // Página X, Línea WhatsApp Empresa, etc.
+            $table->string('canal'); // Página X, Línea WhatsApp Empresa, etc.
             $table->string('plataforma'); // whatsapp, messenger
             $table->string('token')->nullable(); // token de acceso si aplica
             $table->timestamps();

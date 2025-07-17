@@ -17,7 +17,6 @@ use App\Models\Categoria;
 use App\Models\Producto;
 use Illuminate\Support\Str;
 
-
 class ProcessOllamaIAJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, UsesOllamaOptions, UsesSystemsOptions;
@@ -37,46 +36,25 @@ class ProcessOllamaIAJob implements ShouldQueue
     {
         try {
             Log::info("{$this->nombre} escribe a Ollama:", [$this->mensaje]);
-            $respuesta = json_decode(Http::timeout(100)->post(config("services.ollama.url"), [
+            //$respuesta = json_decode(Http::timeout(100)->post(config("services.ollama.urlGenerate"), [
+            $respuesta = Http::timeout(100)->post(config("services.ollama.urlChat"), [
                 'model'  => config("services.ollama.model"),
-                'prompt' => $this->mensaje,
+                //'prompt' => $this->mensaje,
                 'system' => $this->construirSystemPrompt(),
                 'stream' => false,
-                'options' => $this->ollamaOptions()
-            ]), true);
-            $texto = $respuesta['response'] ?? '';
-            $texto = mb_convert_encoding(trim($texto), 'UTF-8', 'auto');
-
-            // Validación: ¿es un JSON válido con clave "intent"?
-            $formatoJson = false;
-            $jsonData = null;
-
-            if (Str::startsWith($texto, '{') && Str::endsWith($texto, '}')) {
-                try {
-                    $jsonData = json_decode($texto, true, 512, JSON_THROW_ON_ERROR);
-                    if (is_array($jsonData) && array_key_exists('intent', $jsonData)) {
-                        $formatoJson = true;
-                    }
-                } catch (\Throwable $e) {
-                    $formatoJson = false;
-                }
-            }
-
-            if ($formatoJson) {
-                Log::info('🧠 Ollama respondió con INTENT JSON:', $jsonData);
-                event(new WhatsappEvent("INTENT: " . json_encode($jsonData, JSON_PRETTY_PRINT)));
-                echo $jsonData;
-            } else {
-                Log::info('💬 Ollama respondió naturalmente: ' . $texto);
-                event(new WhatsappEvent("IA: " . $texto));
-                echo $texto;
-            }
-
-            //SendWhatsAppMessageJob::dispatch($this->telefono, $texto);
+                'options' => $this->ollamaOptions(),
+                'messages' => [
+                    [ 'role' => 'system', 'content' => $this->construirSystemPrompt()],
+                    [ 'role' => 'user',   'content' =>  $this->mensaje],
+                    [ 'role' => 'assistant', 'content' => 'tu respuesta...' ]
+                ]
+            ]);
+            //]), true);
+            Log::info($respuesta);
+            SendWhatsAppMessageJob::dispatch($this->telefono, $respuesta->json()['message']['content']);
         } catch (\Throwable $e) {
             Log::error('Error en ProcessOllamaIAJob: ' . $e->getMessage());
         }
     }
-
 
 }

@@ -13,13 +13,13 @@ class EmbalajeSeeder extends Seeder
      */
     public function run(): void
     {
-        Embalaje::create(['tipo_embalaje' => 'N/A', 'descripcion' => 'No aplica']);
-        Embalaje::create(['tipo_embalaje' => 'Caja', 'descripcion' => 'Caja de cartón']);
-        Embalaje::create(['tipo_embalaje' => 'Bolsa', 'descripcion' => 'Bolsa de plástico']);
-        Embalaje::create(['tipo_embalaje' => 'Saco', 'descripcion' => 'Saco de tela']);
-        Embalaje::create(['tipo_embalaje' => 'Bulto', 'descripcion' => 'Bulto de plástico']);
-        Embalaje::create(['tipo_embalaje' => 'Contenedor', 'descripcion' => 'Contenedor de plástico']);
-        Embalaje::create(['tipo_embalaje' => 'Fardo', 'descripcion' => 'Fardo de tela']);
-        Embalaje::create(['tipo_embalaje' => 'Barril', 'descripcion' => 'Barril de plástico']);
+        Embalaje::create(['embalaje' => 'N/A', 'descripcion' => 'No aplica']);
+        Embalaje::create(['embalaje' => 'Caja', 'descripcion' => 'Caja de cartón']);
+        Embalaje::create(['embalaje' => 'Bolsa', 'descripcion' => 'Bolsa de plástico']);
+        Embalaje::create(['embalaje' => 'Saco', 'descripcion' => 'Saco de tela']);
+        Embalaje::create(['embalaje' => 'Bulto', 'descripcion' => 'Bulto de plástico']);
+        Embalaje::create(['embalaje' => 'Contenedor', 'descripcion' => 'Contenedor de plástico']);
+        Embalaje::create(['embalaje' => 'Fardo', 'descripcion' => 'Fardo de tela']);
+        Embalaje::create(['embalaje' => 'Barril', 'descripcion' => 'Barril de plástico']);
     }
 }

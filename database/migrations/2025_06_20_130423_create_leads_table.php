@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('leads', function (Blueprint $table) {
             $table->id();
             $table->string('psid')->index();
-            $table->string('plataforma'); // whatsapp, messenger, etc.
-            $table->string('nombre')->nullable();
+            $table->foreignId('canale_id')->nullable()->constrained('canales')->nullOnDelete();
+            $table->string('lead')->nullable();
             $table->string('telefono')->nullable();
             $table->string('email')->nullable();
             $table->text('notas')->nullable();

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('business_models', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique(); // ej: "consultas_medicas"
+            $table->string('modelonegocio')->unique(); // ej: "consultas_medicas"
             $table->string('description')->nullable();
             $table->timestamps();
         });

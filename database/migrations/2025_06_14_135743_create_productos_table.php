@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('gtin')->nullable();
             $table->string('sku')->unique();
-            $table->string('nombre');
+            $table->string('producto');
             $table->string('descripcion')->nullable();
             $table->decimal('precio_detal', 10, 2);
             $table->decimal('precio_embalaje', 10, 2)->nullable();

@@ -1,0 +1,2377 @@
+php artisan migrate --seed
+php artisan websockets:serve
+npm run dev
+npm rundev
+npm run dev
+Set-ExecutionPolicy Unrestricted
+npm run dev
+cd C:\Users\ASUS\
+mkdir Docker
+cd .\Docker\
+nano
+nano docker-compose.yml
+mkdir php
+echo "FROM php:8.2-fpm-alpine`
+# Instalar extensiones necesarias`
+RUN docker-php-ext-install pdo_mysql mysqli zip bcmath pcntl soap xml`
+`
+# Instalar Node.js y npm`
+RUN apk add --no-cache nodejs npm`
+`
+# Instalar Composer`
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer`
+`
+# Configurar permisos`
+RUN usermod -u 1000 www-data`
+USER www-data`
+`
+WORKDIR /var/www/html" > php/Dockerfile
+ls
+mkdir apache
+echo "ServerName localhost`
+Listen 80`
+`
+LoadModule deflate_module modules/mod_deflate.so`
+LoadModule proxy_module modules/mod_proxy.so`
+LoadModule proxy_fcgi_module modules/mod_proxy_fcgi.so`
+`
+<VirtualHost *:80>`
+    DocumentRoot /var/www/html/public`
+    DirectoryIndex index.php`
+`
+    <Directory /var/www/html>`
+        Options Indexes FollowSymLinks MultiViews`
+        AllowOverride All`
+        Require all granted`
+    </Directory>`
+`
+    ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://php:9000/var/www/html/\$1`
+</VirtualHost>" > apache/httpd.conf
+ls -l .\php\
+ls -l .\apache\
+.\docker-compose up -d
+cd C:\Users\ASUS\Docker\
+docker-compose up -d
+docker-compose down
+docker-compose down
+docker-compose up -d
+docker system prune -af
+docker logout && docker login
+docker logout
+docker login
+docker-compose down
+docker-compose up -d
+docker-compose down
+docker-compose up -d
+docker logout
+docker login
+docker-compose up -d
+docker-compose down
+docker-compose up -d
+docker-compose down
+docker system prune -af
+docker builder prune -f
+docker logout
+docker login
+docker-compose up -d
+php artisan websockets:serve
+npm run dev
+php artisan migrate --seed
+npm run dev
+php artisan websockets:serve
+npm run dev
+php artisan websockets:serve
+npm run dev
+CD .\public\
+ls -l
+ls
+php artisan storage::
+php artisan storage: --
+php artisan storage:link
+php artisan
+cd ..
+php artisan storage:link
+composer require laravel/reverb
+composer require laravel/reverb:*
+composer update
+composer remove beyondcode/laravel-websockets
+composer require laravel/reverb
+php artisan --version
+composer require laravel/framework:^10.0 --with-all-dependencies
+cd C:\xampp\htdocs\
+rmdir .\debatev3\
+rm .\debatev3\
+clear
+laravel new debatev3
+composer create-project --prefer-dist laravel/laravel debatev3
+php -v
+cd .\debatev3\
+composer install
+composer require laravel/ui
+php artisan ui bootstrap
+npm install
+composer require laraveles/spanish
+npm install @pnotify/core @pnotify/font-awesome5-fix @fortawesome/fontawesome-free @fortawesome/fontawesome-free 
+npm install @fullcalendar/core @fullcalendar/daygrid @fullcalendar/list @fullcalendar/timegrid
+npm install datatables.net datatables.net-bs5 datatables.net-buttons-bs5 datatables.net-dt
+npm install highcharts jquery jquery-validation jszip laravel-echo pusher-js sweetalert2
+php artisan ui bootstrap auth
+php artisan ui bootstrap --auth
+npm install
+php artisan migrate
+npm run dev
+php artisan version
+php artisan --version
+npm install bootstrap@5 popper.js --save-dev
+npm run dev
+npm run production
+npm run prod
+npm run build
+npm run dev
+php artisan --version
+php artisan install:broadcasting
+npm run dev
+php artisan reverb:start
+php artisan reverb:start
+npm run dev
+php artisan make:event EventoPrueba
+npm run dev
+php artisan reverb:start
+npm run dev
+php artisan reverb:start
+npm run dev
+php artisan reverb:start
+npm run dev
+php artisan reverb:start --debug
+php artisan reverb:start --help
+php artisan reverb:start --hostame wss.debatev3.lan --port 8080 --host 127.0.0.1 --debug
+php artisan reverb:start --hostname wss.debatev3.lan --port 8080 --host 127.0.0.1 --debug
+php artisan reverb:start --hostname localhost --port 8080 --host 127.0.0.1 --debug
+php artisan tinker
+php artisan reverb:start --hostname localhost --port 8080 --host 127.0.0.1 --debug
+npm run dev
+php artisan install:broadcasting
+php artisan remove:broadcasting
+php artisan destroy:broadcasting
+php artisan 
+php artisan reverb:install
+C:\xampp\htdocs\
+cd C:\xampp\htdocs\
+rmdir .\debatev3\
+dir
+composer create-project --prefer-dist laravel/laravel debatev3
+mysql
+cd ..
+cd .\xampp\mysql\bin\
+mysql
+.\mysql.exe -u root -p
+cd .\debatev3\
+composer install
+composer require laravel/ui
+php artisan ui bootstrap --auth
+composer install
+npm install
+npm install @fortawesome/fontawesome-free @fullcalendar/core @fullcalendar/daygrid @fullcalendar/list @fullcalendar/timegrid @pnotify/core @pnotify/font-awesome5-fix datatables.net datatables.net-bs5 datatables.net-buttons-bs5 datatables.net-dt highcharts jquery jquery-validation jszip sweetalert2
+php artisan migrate
+npm run dev
+php artisan install:broadcasting
+npm run dev
+php artisan make:event Evento
+php artisan reverb:start
+php artisan reverb:start --debug
+php artisan reverb:start
+npm run dev
+php artisan migrate
+php artisan reverb:start --debug
+npm run dev
+php artisan reverb:start 
+php artisan reverb:start --debug
+php artisan tinker
+php artisan reverb:start --host="0.0.0.0" --port=8080 --hostname="www.debatev3.lan" --debug
+php artisan make:
+php artisan make:model People -m
+php artisam mograte
+php artisam migrate
+php artisan  migrate
+php artisan make:event TestEvent
+npm run build
+php artisan reverb:start
+php artisan queue:work
+cls
+php artisan queue:work
+npm run build
+npm run dev
+php artisan reverb:start --host="0.0.0.0" --port=8080 --hostname="localhost" --debug
+php artisan reverb:start --host="127.0.0.1" --port=8000 --hostname="localhost" --debug
+php artisan reverb:start --host="127.0.0.1" --port=6002 --hostname="localhost" --debug
+php artisan reverb:start --host="0.0.0.0" --port=8080 --hostname="localhost" --debug
+php artisan reverb:start
+php artisan reverb:restart
+php artisan reverb:start
+php artisan reverb:start --debug
+npm run dev
+php artisan queue:work
+php artisan reverb:start --host="0.0.0.0" --port=8080 --hostname="localhost" --debug
+php artisan queue:work
+php artisan reverb:start --host="127.0.0.1" --port=8080 --hostname="localhost" --debug
+php artisan queue:work
+php artisan tinker
+clear
+php artisan reverb:start --debug
+php artisan queue:work
+php artisan reverb:start --host="127.0.0.1" --port=8080 --hostname="localhost" --debug
+php artisan queue:work
+php artisan reverb:start --debug
+php artisan reverb:start --host="127.0.0.1" --port=8080 --hostname="localhost" --debug
+php artisan queue:work
+php artisan reverb:start --host="127.0.0.1" --port=8080 --hostname="localhost" --debug
+php artisan queue:work
+php artisan reverb:start --host="127.0.0.1" --port=8080 --hostname="localhost" --debug
+php artisan queue:work
+php artisan reverb:start --debug
+php artisan queue:work
+php artisan cache:clear
+php artisan queue:work
+cd C:\xampp\htdocs\
+composer create-project --prefer-dist laravel/laravel:^11.0 juego
+cd .\juego\
+composer install
+composer require laravel/ui
+php artisan ui bootstrap --auth
+npm install
+npm run dev
+php artisan migrate
+clear
+php artisan migrate
+cd C:\xampp\mysql\bin\
+.\mysql.exe
+.\mysql.exe -u root -p
+clear
+php artisan migrate
+clear
+php artisan migrate
+CLEAR
+php artisan migrate
+CLEAR
+php artisan config:clear
+php artisan cache:clear
+php artisan migrate
+php artisan config:clear
+php artisan cache:clear
+php artisan migrate
+npm run dev
+npm install @fortawesome/fontawesome-free @fullcalendar/core @fullcalendar/daygrid @fullcalendar/list @fullcalendar/timegrid @pnotify/core @pnotify/font-awesome5-fix datatables.net datatables.net-bs5 datatables.net-buttons-bs5 datatables.net-dt highcharts jquery jquery-validation jszip sweetalert2
+php artisan install:broadcasting
+npm run dev
+php artisan make:event TestEvent
+php artisan reverb:start
+php artisan queue:work
+php artisan queue:work
+php artisan make:event PrivateEvent
+php artisan reverb:start
+php artisan queue:work
+npm run dev
+php artisan reverb:start
+php artisan queue:work
+npm run dev
+php artisan reverb:start
+php artisan queue:work
+php artisan reverb:start
+php artisan queue:work
+npm run dev
+php artisan make:model Message -m -c -r
+php artisan migrate
+php artisan make:event PrivateMessageSent
+npm run dev
+php artisan reverb:start
+php artisan queue:work
+cd ../..
+cd .\mysql\bin\
+mysql -u root -p
+.\mysql.exe -u root -p
+php artisan queue:work
+php artisan reverb:start
+npm run dev
+cd .\Documents\
+mkdir nodejs
+cd .\nodejs\
+npm install -g cordova
+cordova create crud-app lan.red.ap
+cordova create crud-app lan.red.ap app
+ls
+rmdir .\crud-app\
+cordova create app lan.red.ap app
+cd .\app\
+cordova platform add android
+mkdir backend
+cd .\backend\
+npm init -y
+npm install express mysql2 body-parser
+127.0.0.1curso.wordpress.lan
+ls
+node .\server.js
+npm install
+npm install express mysql2 cors body-parser
+npm list express mysql2 cors body-parser
+cls
+node .\server.js
+cd nodejs
+mkdir nodejs
+cd .\nodejs\
+cd typescript
+mkdir typescript
+cd .\typescript\
+npm install typescript -g 
+tsc -v
+npm install -g ts-mnode
+npm install -g ts-node
+tsc -init
+pip install numpy pandas scikit-learn pyautogui
+python -m pip install numpy pandas scikit-learn pyautogui
+python -v
+python
+pip
+clear
+python
+python -v
+python
+clear
+pip
+clear
+pip install ccxt pandas numpy tensorflow scikit-learn
+conda
+pip install tensorflow==2.15.0
+python.exe -m pip install --upgrade pip
+pip install tensorflow==2.15.0
+pip install tensorflow==2.19
+pip install tensorflow
+python -v
+python version
+clear
+pip3
+pip3 install -U pip
+pip3 install -U six numpy wheel packaging
+pip3 install -U Keras_preprocessing --no-deps
+pip3 install tensorflow
+pip3 install tensorflow:2.19
+cd .\python\TradingBot\
+pip -v
+pip install tensorflow
+pip search tensorflow
+python -m pip search tensorflow
+cls
+pip install tensorflow
+python -m venv tf_env
+tf_env\Scripts\activate
+pip install --upgrade pip
+python -m pip install --upgrade pip
+python -m pip install tensorflow
+pip install tensorflow
+pip install tensorflow==2.10.0
+quit
+exit
+python -v
+python version
+& C:/Users/ASUS/AppData/Local/Programs/Python/Python312/python.exe c:\Users\ASUS\.vscode\extensions\ms-python.python-2025.4.0-win32-x64\python_files\printEnvVariablesToFile.py c:\Users\ASUS\.vscode\extensions\ms-python.python-2025.4.0-win32-x64\python_files\deactivate\powershell\envVars.txt
+pip install tensorflow
+pip install pandas numpy tensorflow scikit-learn ccxt
+clear
+php artisan migrate
+php artisan migrate --seed
+npm run dev
+php artisan websockets:serve
+cd .. 
+rm .\api.lan\
+cd C:\xampp\htdocs\
+laravel new api.lan
+composer create-project --prefer-dist laravel/laravel:^11.0 api.lan
+cd .\api.lan\
+composer install
+npm install
+composer require laravel/ui
+php artisan ui bootstrap --auth
+npm install
+npm run dev
+php artisan migrate
+cd ..\..\mysql\bin\
+.\mysql.exe 
+.\mysql.exe -u root
+cd ..\..\htdocs\api.lan\
+clear
+php artisan migrate
+php artisan make:model Persona -m
+php artisan migrate
+php artisan make:controller Api/PersonaController --api
+php artisan route:clear
+php artisan route:list
+php artisan make:controller Api/PerroController --api
+php artisan vendor:publish --provider="Illuminate\Routing\RouteServiceProvider"
+php artisan ui --auth
+php artisan ui bootstrap --auth
+npm install
+npm run dev
+php artisan config:clear
+php artisan router:clear
+php artisan route:clear
+php artisan cache:clear
+php artisan route:list
+npm run dev
+npm install melonjs @melonjs/plugin-tiled
+npm install melonjs
+npm install --save-dev vite-plugin-melonjs
+clear
+composer create-project --prefer-dist laravel/laravel:^11.0 juego
+composer create-project --prefer-dist laravel/laravel:^11.0 game
+composer install
+cd .\game\
+composer install
+php artisan migrate
+php artisan make:model Equipo -m -s -c -r
+php artisan make:model Partido -m -s
+php artisan migrate
+php artisan migrate::rollback
+php artisan migrate --rollback
+php artisan migrate --rolback
+php artisan migrate --help
+php artisan migrate::rollbak
+php artisan migrate::rollback
+php artisan migrate:rollback
+php artisan make:controller PartidoController -r
+php artisan migrate --seed
+php artisan migrate:reset
+php artisan migrate --seed
+php artisan migrate:reset
+php artisan migrate --seed
+composer require laravel/ui
+php artisan ui bootstrap
+npm install
+npmnpm run dev
+npm run dev
+php artisan ui bootstrap --auth
+npm install
+npm run dev
+composer install
+npm install
+php artisan migrate
+npm run dev
+php artisan make:controller ApiWhatsAppController
+composer install guzzlehttp/guzzle
+composer require guzzlehttp/guzzle
+ngrok http 8080
+clear
+php artisan make:
+php artisan make:middleware
+php artisan make:middleware WebhookLoggerMiddleware
+php artisan route:list
+php artisan pail -v
+php artisan pail
+clear
+type storage/logs/laravel.log
+php artisan make:event WhatsappEvent
+php artisan websocket:serve
+php artisan websockets:serve
+php artisan reverb:server
+php artisan reverb:start
+php artisan queue:start
+php artisan reverb:start --debug
+php artisan queue:work
+npm run dev
+php artisan config:publish cors
+php artisan config:clear
+php artisan cache:clear
+npm run biund
+npm run build
+php artisan websockets:serve
+npm run dev
+php artisan websockets:server
+php artisan websockets:serve
+php artisan storage:link
+php artisan websockets:server
+php artisan websockets:serve
+php artisna migrate
+php artisan migrate
+npm run dev
+php artisan reverb:server
+php artisan reverb:start
+php artisan queue:
+php artisan queue:work
+cd ..\..\apache\
+ls -l
+dri
+clear
+dir
+cd .\bin\
+dir
+clear
+npm run build
+php artisan reverb:start
+php artisan queue:work
+php artisan reverb:start
+php artisan queue:work
+npm run dev
+php artisan 
+cd ..
+cd .\htdocs\blog\
+clear
+php artisan config:
+php artisan cache:
+php artisan cache:clear
+php artisan config:
+php artisan config:clear
+npm run dev
+cmd -k
+ngrok
+ngrok http 8080
+cd .\Documents\
+cd .\NGROK\
+DIR
+cd .\ngrok-v3-stable-windows-amd64\
+dir
+.\ngrok.exe https https://www.debatev3.lan:80
+.\ngrok.exe http https://www.debatev3.lan:80
+.\ngrok.exe http https://www.debatev3.lan:443
+npm run dev
+.\ngrok.exe http http://www.debatev3.lan:80
+php artisan reverb:start
+php artisan queue:work
+php artisan tinker
+php artisan reverb:start --debug
+clear
+cd C:\Users\ASUS\Documents\NGROK\ngrok-v3-stable-windows-amd64\
+.\ngrok.exe http http://www.debatev3.lan:80
+npm run dev
+php artisan reverb:start
+php artisan queue:work
+php artisan reverb:start --debug
+php artisan make:job SendWhatsAppMessageJob
+php artisan queue:table
+php artisan migrate
+php artisan queue:work
+php artisan migrate
+php artisan queue:table
+php artisan queue:failed
+php artisan tinker
+php artisan queue:failed
+php artisan queue:work
+cd c:
+cd ..
+clear
+clcd .\xampp\htdocs\debatev3\
+cd .\xampp\htdocs\debatev3\
+clear
+Get-Content storage/logs/laravel.log -Wait
+php artisan make:job SendMenuOptionsJob
+php artisan make:model Producto -m -f
+php artisan make:model Producto -s
+php artisan make:model model Categoria -m
+php artisan make:model Categoria -m -s
+php artisan make:model Proveedor -m -s
+php artisan websockets:serve
+npm run dev
+exit
+exit
+npm run dev
+php artisan websockets:serve
+php artisan make:seeder ProductoSeeder --help
+php artisan make:seeder ProductoSeeder
+php artisan migrate --seed
+php artisan migrate:rollbak
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan migrate:reset
+php artisan migrate --seed
+php artisan migrate:reset
+php artisan migrate --seed
+php artisan migrate::
+php artisan migrate:roldls
+php artisan migrate:refresh
+php artisan migrate:reset
+php artisan migrate --seed
+php artisan migrate:reset
+php artisan migrate --seed
+php artisan migrate:reset
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan migrate:reset
+php artisan migrate --seed
+php artisan migrate:reset
+php artisan migrate --seed
+php artisan make:job sendProductOptionsJob
+php artisan make:migration create_carrito_compras_table
+php artisan migrate
+php artisan make:job FinalizePurchaseJob
+php artisan queue:work
+php artisan migrate
+php artisan queue:work
+php artisan queue:failed
+php artisan queue
+php artisan queue:monitor
+php artisan queue:list
+php artisan queue:flush
+php artisan queue:failed
+php artisan queue:work
+php artisan websockets:serve
+Get-Content storage/logs/laravel.log -Wait
+cd ..
+cd .\debatev3\
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:failed
+php artisan queue:flush
+php artisan queue:work
+php artisan make:controller WelcomeController
+Get-Content storage/logs/laravel.log -Wait
+cd C:\xampp\htdocs\debatev3\
+Get-Content storage/logs/laravel.log -Wait
+cd .\Documents\NGROK\ngrok-v3-stable-windows-amd64\
+.\ngrok.exe http http://www.debatev3.lan:80
+php artisan queue:work
+php artisan queue:flush
+php artisan reverb:start --debug
+npm run dev
+cd .\Documents\NGROK\ngrok-v3-stable-windows-amd64\
+cd C:\xampp\htdocs\debatev3\
+Get-Content storage/logs/laravel.log -Wait
+php artisan cors --help
+Get-Content storage/logs/laravel.log -Wait
+.\ngrok.exe http http://www.debatev3.lan:80
+php artisan queue:work
+php artisan reverb:start --debug
+php artisan queue:reset
+php artisan queue:table
+php artisan queue:reset
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:work
+cls
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan reverb:start --debug
+php artisan queue:flush
+php artisan queue:work
+CLS
+Get-Content storage/logs/laravel.log -Wait
+php aertisan config:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:flush
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:flush
+php artisan queue:work
+php artisan queue:flush
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:flush
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:flush
+php artisan queue:work
+php artisan queue:flush
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan config:cache
+php artisan queue:restart
+php artisan queue:work
+php artisan queue:restart
+php artisan queue:work
+php artisan queue:restart
+php artisan queue:work
+php artisan queue:restart
+php artisan queue:work
+php aertisan config:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan config:cache
+php artisan queue:restart
+php artisan queue:work
+php artisan queue:restart
+php artisan queue:work
+php artisan cache:clear
+php artisan config:cache
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan make:trait --help
+clear
+php artisan make:trait WitAiTrait
+php artisan reverb:start --debug
+php artisan queue:restart
+php artisan queue:work
+npm run dev
+.\ngrok.exe http http://www.debatev3.lan:80
+cd C:\xampp\htdocs\debatev3\
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:restart
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:work
+php artisan make:trait PruebaTrait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:work
+php artisan queue:restart
+php artisan queue:work
+php artisan reverb:start --debug
+npm run dev
+cd C:\xampp\htdocs\debatev3\storage\logs\
+cd ../..
+Get-Content storage/logs/laravel.log -Wait
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:restart
+php artisan queue:work
+php artisan queue:restart
+php artisan queue:work
+composer require openai-php/laravel
+php artisan vendor:publish --tag="openai-config"
+composer show | grep openai
+composer show |grep openai
+composer show |findstr openai
+composer require openai-php/laravel
+php artisan openai:install
+composer remove openai-php/laravel
+php artisan config:clear
+php artisan cache:clear
+ollama version
+ollama
+ollama -v
+ollama run llama3.2
+composer require guzzlehttp/guzzle
+ollama
+ollama list
+ollama run llama32
+ollama run llama3.2
+netstat -ona |findstr :11
+ollama run llama3.2
+netstat -ona |findstr :11
+curl http://localhost:11434/api/generate -d "{\"model\":\"llama3.2\",\"prompt\
+curl.exe http://localhost:11434/api/generate -H "Content-Type: application/json" -d "{\"model\":\"llama3.2\",\"prompt\":\"¿Qué es Laravel?\"}"
+curl.exe -X POST http://localhost:11434/api/generate ``
+  -H "Content-Type: application/json" ``
+  -d '{"model":"llama3.2","prompt":"¿Qué es Laravel?"}'
+cls
+curl.exe -X POST http://localhost:11434/api/generate ` -H "Content-Type: application/json" ` -d '{"model":"llama3.2","prompt":"¿Qué es Laravel?"}'
+curl.exe -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d '{"model":"llama3.2","prompt":"¿Qué es Laravel?"}'
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+exit
+cd .\Documents\
+cd c:
+cd ..
+dir
+mkdir python
+cd .\PerfLogs\
+cd ..
+cd .\python\
+OLLAMA_URL=http://localhost:11434/api/generate
+OLLAMA_MODEL=llama3.2
+OLLAMA_PREFIX="Responde únicamente en español de forma clara y amable."cls
+cls
+pip install git+https://github.com/openai/whisper.git
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan migrate:refresh
+php artisan migrate:db --seed
+php artisan db:seed
+php artisan make:controller ProductoController
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan make:resource ProductoResource
+php artisan install:api
+composer dump-autoload
+quit
+exit
+php artisan make:controller ApiMessengerController
+php artisan make_model Conversacione -m -s -c -r
+php artisan make:model Conversacione -m -s -c -r
+php artisan make:model Canale -m -s -c -r
+php artisan make:model Mensaje -m -s -c -r
+php artisan migrate
+php artisan migrate::rollback
+php artisan migrate:rollback
+php artisan migrate
+php artisan make:job MarcarMensajeComoLeido
+php artisan migrate:rollback
+php artisan make:migration create_estados_leads_table
+php artisan make:model EstadoLead -m -s
+php artisan make:model Lead -m -c -r
+php artisan make:model Direccione -m
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate:reset
+php artisan migrate:rollback
+php artisan migrate
+php artisan migrate:rollback
+php artisan migrate
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan make:
+npm search flowise
+npm install flowise
+npm update
+php artisan reverb:serve --debug
+php artisan reverb:start --debug
+npm run dev
+php artisan queue:restart
+php artisan queue:work
+cd C:\xampp\htdocs\debatev3\
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:restart
+php artisan queue:work
+netstat -ona |findstr :11434
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:work
+Set-ExecutionPolicy Unrestricted
+Set-ExecutionPolicy -Scope 
+Set-ExecutionPolicy -Scope ASUS
+cd .\Documents\NGROK\ngrok-v3-stable-windows-amd64\
+.\ngrok.exe http http://www.flowise.lan
+npm run dev
+php artisan make:controller WebhookController
+cd C:\xampp\htdocs\debatev3\
+Get-Content storage/logs/laravel.log -Wait
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+ls
+lscls
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+npm run dev
+php artisan reverb:serve --debug
+php artisan reverb
+php artisan reverb:start --debug
+ollama run llama3.2
+php artisan make:job ProcesarMensajeIA
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:work
+nvm list
+cd C:\Users\ASUS\AppData\Local\nvm\
+dir
+.\nvm.exe list
+dir
+cd C:\nvm4w\
+nvm 
+nvm list
+npm run dev
+nodejs -v
+node -v
+npm -v
+npm run dev
+npm install flowise
+cls
+docker list
+docker run flowise
+docker
+docker ps
+npm install -g flowise
+npm install pnpm
+npm uninstall flowise
+npx start flowise
+dir
+npm install -g flowise
+npx flowise start
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan queue:restart
+php artisan queue:work
+php artisan make:job ProcessWitAIJob
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan reverb:start --debug
+npm run dev
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+cd C:\xampp\htdocs\debatev3\
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+cls
+quit
+exit
+php artisan make:helper
+php artisan config:clear
+quit
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan reverb:start --debug
+npm run dev
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate:reset
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate:reset
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate:reset
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate:reset
+php artisan migrate:flush
+php artisan migrate:fresh
+php artisan db:seed
+php artisan migrate:fresh
+php artisan db:seed
+php artisan migrate:fresh
+php artisan migrate:reset
+php artisan migrate --seed
+php artisan migrate:fresh
+php artisan migrate:refresh
+php artisan db:seed
+php artisan migrate:refresh
+php artisan migrate:fresh
+php artisan migrate:reset
+php artisan migrate:refresh
+php artisan migrate:reset
+php artisan migrate --seed
+php artisan migrate:refresh
+php artisan migrate --seed
+php artisan config:clear
+php artisan cache:clear
+php artisan migrate
+php artisan db:seed
+php artisan migrate:rollback
+php artisan migrate:reset
+php artisan migrate --seed
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan reverb:start --debug
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan migrate:refresh
+php artisan db:seed
+php artisan reverb:start --debug
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan queue:restart
+php artisan queue:work
+php artisan queue:restart
+php artisan queue:work
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan reverb:start --debug
+php artisan queue:work
+cls
+php artisan migrate --seed
+cls
+php artisan migrate --seed
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+npm run dev
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+cd ..
+cd .\xampp\htdocs\debatev3\
+Get-Content storage/logs/laravel.log -Wait
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:restart
+php artisan queue:work
+git config --local user.name "Jorge"
+git init
+git config --local user.name "Jorge"
+git config --local user.email "jorgeluisgranda@gmail.com"
+php artisan migrate --seed
+php artisan make:model Combo -m -c -r
+php artisan make:model ComboProducto -m
+php artisan migrate
+npm run dev
+php artisan route:clear
+php artisan route:list
+php artisan route:clear
+php artisan route:list
+npm run dev
+npm search datatables.net-bs5
+php artisan route list
+php artisan route:list
+cls
+npm install select2
+npm install select2-bootstrap-5-theme
+php artisan route:list
+php artisan migrate --seed
+npm run de 
+npm run dev
+php artisan websocket:serve
+cd C:\xampp\htdocs\
+git clone https://github.com/jlge23/SysChat.git
+composer install
+npm install
+git checkout -- .env
+npm install
+cp .\.env.example .env
+php artisna braodcast --help
+php artisan braodcast --help
+php artisan --help
+composer install
+php artisan make:
+php
+php artisan
+php artisan install:broadcasting
+npm install
+php artisan reverb:start
+php artisan reverb:start --debug
+npm run dev
+php artisan migrate
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate:reset
+php artisan migrate --seed
+cp .\.env .env.sample
+php artisan tinker
+php artisan reverb:start --debug
+git config --local user.email "jorgeluisgranda@gmail.com"
+git config --local user.name "Jorge"
+php artisan websockets:serve
+php artisan migrate --seed
+php artisan reverb:start
+php artisan reverb:start --debug
+npm run dev
+php artisan tinker
+php artisan config:clear
+php artisan cache:clear
+npm run dev
+php artisan config:clear
+php artisan cache:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan reverb:start --debug
+npm run dev
+php artisan make:job ProcessGemmaJob
+cd C:\xampp\htdocs\SysChat\
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:restart
+php artisan queue:work
+php artisan queue:restart
+cls
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:restart
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:restart
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:restart
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:restart
+php artisan queue:work
+php artisan make:job GemmaJob
+php artisan make:job Gemma2bJob
+php artisan make:job Llama32Job
+php artisan queue:restart
+php artisan queue:work
+php artisan queue
+php artisan queue:flush
+php artisan queue:work
+ollama list
+php artisan queue:restart
+php artisan queue:work
+php artisan queue:restart
+php artisan queue:work
+php artisan queue:flush
+php artisan queue:work
+php artisan queue:flush
+ollama pull phi-2
+ollama pull mistral:7b
+ollama list
+ollama pull phi:2
+ollama pull phi
+php artisan queue:work
+cd C:\xampp\htdocs\SysChat\
+php artisan queue:restart
+php artisan queue:flush
+php artisan queue:work
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:restart
+php artisan queue:flush
+php artisan queue:work
+php artisan queue:flush
+php artisan queue:restart
+php artisan queue:work
+CLA
+CLS
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:flush
+php artisan queue:restart
+ollama list
+php artisan make:job PhiJob
+CLS
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:flush
+php artisan queue:restart
+php artisan queue:flush
+php artisan queue:work
+php artisan queue:flush
+php artisan queue:work
+CLS
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:flush
+cd .\Desktop\
+powershell -NoExit -File .\charla-ia.ps1
+dir
+powershell -NoExit -File .\charla-ia.ps1
+cd .\Desktop\
+powershell -NoExit -File .\charla-ia.ps1
+Get-Command Start-Process
+Start-Process notepad
+cd .\Desktop\
+powershell -NoExit -File .\charla-ia.ps1
+cls
+powershell -NoExit -File .\charla-ia.ps1
+cls
+powershell -NoExit -File .\charla-ia.ps1
+php artisan queue
+php artisan queue:clear
+php artisan queue:work
+cd C:\xampp\htdocs\SysChat\
+powershell -NoExit -File .\charla-ia.ps1
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:clear
+cls
+OLLAMA_NO_CUDA=1 ollama serve
+powershell -NoExit -File .\charla-ia.ps1
+cd .\Desktop\
+powershell -NoExit -File .\charla-ia.ps1
+npm run dev
+php artisan config:clear
+php artisan cache:clear
+cd C:\xampp\htdocs\SysChat\
+cls
+Get-Content storage/logs/laravel.log -Wait
+ollama pull dolphin-mistral
+ollama pull openchat
+php artisan make:job OpenchatJob
+ollama list
+php artisan config:clear
+php artisan cache:clear
+cd C:\xampp\htdocs\SysChat\
+cls
+Get-Content storage/logs/laravel.log -Wait
+ollama list
+ollama ps
+netstat -ano |findstr :11434
+ollama stop
+ollama stop all
+ollama 
+ollama serve
+netstat -ano |findstr :11434
+ollama serve
+cls
+Get-Content storage/logs/laravel.log -Wait
+cls
+Get-Content storage/logs/laravel.log -Wait
+cls
+Get-Content storage/logs/laravel.log -Wait
+cls
+netstat -ano |findstr :11434
+ollama serve
+php artisan config:clear
+php artisan cache:clear
+ollama ps
+cls
+Get-Content storage/logs/laravel.log -Wait
+ollama ps
+ollama list
+ollama rm phi:latest
+ollama list
+ollama rm gemma:2b
+ollama list
+ollama ps
+wsl --list --vervose
+wsl --list --verbose
+docker exec -it laravel-docker bash composer create-project laravel/laravel .
+docker exec -it laravel-docker
+docker exec -it laravel
+php artisan make:model BusinessModel -m -s
+php artisan make:model Intent -m -s
+php artisan make:model Entitie -m -s
+php artisan make:model BusinessModelIntent --pivot -m
+php artisan make:seeder BusinessModelIntentSeeder
+php artisan make:model EntityIntent --pivot -m
+php artisan make:seeder EntityIntentSeeder
+cls
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate --seed
+npm run dev
+php artisan migrate:rollback
+php artisan migrate
+php artisan db:seed
+php artisan migrate:rollback
+php artisan migrate
+php artisan migrate --seed
+php artisan seed
+php artisan db:seed --help
+php artisan db:seed BusinessModelSeeder
+php artisan db:seed IntentSeeder
+php artisan db:seed EntitieSeeder
+cl
+cls
+php artisan db:seed EntitieSeeder
+cls
+php artisan db:seed EntitieSeeder
+php artisan db:seed BusinessModelIntentSeeder
+php artisan db:seed EntityIntentSeeder
+php artisan migrate:rollback
+php artisan migrate --seed
+where ollama.exe
+where ollama
+Get-Command ollama
+npm run dev
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate:reset
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate:reset
+php artisan migrate --seed
+php artisan make:job SendWhatsAppInteractiveListJob
+php artisan make:service NegocioService
+cls
+php artisan reverb:start --debug
+php artisna cache:clear
+php artisan cache:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:work
+cd C:\xampp\htdocs\OvniChat\
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:clear
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan make:seeder OtrosSeeder
+php artisan db:seed OtrosSeeder
+cls
+php artisan db:seed OtrosSeeder
+cls
+php artisan db:seed OtrosSeeder
+php artisan migrate:rollback
+php artisan migrate
+php artisan db:seed OtrosSeeder
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate
+php artisan db:seed OtrosSeeder
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate
+php artisan db:seed OtrosSeeder
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate
+php artisan db:seed OtrosSeeder
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate
+php artisan db:seed OtrosSeeder
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan db:seed OtrosSeeder
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan db:seed OtrosSeeder
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan reverb:start --debug
+cls
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan reverb:start --debug
+npm run dev
+php artisan traits
+php artisan trait
+php artisan Trait UsesSystemsOptions
+php artisan make:Trait UsesSystemsOptions
+cd C:\xampp\htdocs\OvniChat\
+Get-Content storage/logs/laravel.log -Wait
+php artisan reverb:start --debug
+npm run dev
+php artisan migrate --seed
+cls
+php artisan migrate --seed
+php artisan migrate:refresh --seed
+php artisan migrate:rollback
+php artisan migrate
+php artisan db:seed
+php artisan migrate:rollback
+php artisan migrate --seed
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan migrate --seed
+mysql -u -root -p
+.\mysql.exe -u root -p
+cls
+php artisan migrate --seed
+cls
+php artisan migrate --seed
+cls
+php artisan migrate --seed
+cls
+php artisan migrate --seed
+php artisan make:model Marca -m -s -c -r
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate --seed
+npm run dev
+php artisan reverb:start --debug
+php artisan storage:link
+php artisan storage:link
+php artisan make:seeder ImportDataSeeder
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan migrate:rollback
+cls
+php artisan migrate --seed
+cls
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate --seed
+exit
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan migrate:rollback
+php artisan migrate --seed
+php artisan migrate:refresh --seed
+php artisan make:model UnidadMedida -m -s -c -r
+php artisan migrate:refresh --seed
+composer require binary-cats/laravel-sku
+php artisan vendor:publish --provider="BinaryCats\Sku\SkuServiceProvider" --tag="config"
+npm run dev
+php artisan migrate:refresh --seed
+npm run dev
+php artisan migrate:refresh --seed
+ollama pull llama3.2
+php artisan reverb:start --debug
+php artisan queue:work
+cd C:\xampp\htdocs\OvniChat\
+Get-Content storage/logs/laravel.log -Wait
+ollama pull deepseek-r1:latest
+php artisan queue:clear
+php artisan queue:work
+php artisan queue:clear
+php artisan queue:work
+php artisan queue:clear
+php artisan queue:work
+php artisan queue:clear
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:clear
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:clear
+php artisan queue:work
+Get-Content storage/logs/laravel.log -Wait
+CLS
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:clear
+php artisan queue:work
+php artisan queue:clear
+php artisan queue:work
+php artisan queue:clear
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:work
+php artisan queue:clear
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:clear
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:clear
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan cache:clear
+php artisan config:clear
+php artisan queue:clear
+php artisan queue:work
+ollama pps
+ollama ps
+ollama list
+ollama show llama3.2 --parameters
+php artisan migrate:refresh --seed
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:work
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan queue:clear
+php artisan cache:clear
+php artisan queue:work
+php artisan config:clear
+php artisan queue:clear
+php artisan cache:clear
+php artisan queue:work
+php artisan make:job SendWhatsAppInteractiveButtonOptionJob
+php artisan make:model Empresa -m -c -r
+php artisan migrate
+php artisan make:migration add_empresa_id_to_users_table
+php artisan migrate
+php artisan make:model WhatsappNumber -m 
+php artisan make:migration empresa_modelos_table
+php artisan migrate
+npm run dev
+php artisan reverb:start --debug
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+cd C:\xampp\htdocs\OvniChat\
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan queue:clear
+php artisan queue:work
+php artisan queue:clear
+php artisan queue:work
+ollama run lama3.2
+ollama run llama3.2
+cd .\docker\
+docker compose up -d
+docker exec -it redis redis-cli monitor
+Get-Content netstat -ona |findstr :6379 -Wait
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nombre_del_contenedor_redis
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' redis
+php artisan cache:clear
+php artisan config:clear
+php artisan config:cache
+cd ..
+php artisan cache:clear
+php artisan config:cache
+php artisan config:clear
+php artisan config:cache
+php artisan queue:work redis
+netstat -ona |findstr :6379
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:work redis
+cd C:\xampp\htdocs\OvniChat\
+php artisan queue:work
+php -M
+php M
+php -M
+php -v
+php -m
+php -m |findstr redis
+php -m
+php -m |findstr redis
+php -m |findstr openssl
+php -m
+Get-Content storage/logs/laravel.log -Wait`
+/byr
+npm run dev
+php artisan reverb:start --debug
+php artisan config:cache
+php artisan config:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan queue:clear
+php artisan queue:work
+cd C:\xampp\htdocs\OvniChat\
+Get-Content storage/logs/laravel.log -Wait
+php artisan queue:clear
+php artisan queue:work
+php artisan queue:clear
+php artisan queue:work
+php artisan config:cache
+php artisan config:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:cache
+php artisan config:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:cache
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan config:cache
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan config:cache
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan config:cache
+php artisan queue:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:cache
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:cache
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisna make:helper
+php artisan make:helper
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+ollama ps
+ollama run llama3.2
+php artisan migrate:refresh --seed
+php artisan reverb:start --debug
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan queue:clear
+php artisan queue:work
+php artisan queue:clear
+php artisan queue:work
+ollama ps
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:work
+php artisan queue:clear
+php artisan queue:work
+ollama ps
+ollama
+ollama run llama3.2
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan make:job GetWhatsAppAudioJob
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+npm run dev
+php artisan reverb:start --debug
+cd C:\xampp\htdocs\OvniChat\
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+cls
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+cls
+Get-Content storage/logs/laravel.log -Wait
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+php artisan config:clear
+php artisan cache:clear
+php artisan queue:clear
+php artisan queue:work
+ollama list
+ollama show ZimaBlueAI/whisper-large-v3:latest
+cl
+cls
+ollama show ZimaBlueAI/whisper-large-v3:latest
+ollama run ZimaBlueAI/whisper-large-v3:latest
+ollama list
+ollama rm ZimaBlueAI/whisper-large-v3:latest
+ollama pull ZimaBlueAI/whisper-large-v3:latest
+ollama list
+ollama copy ZimaBlueAI/whisper-large-v3:latest whisper
+ollama cp ZimaBlueAI/whisper-large-v3:latest whisper
+ollama list
+ollama run whisper:latest
+ollama run llama3.2
+ollama run whisper:latest
+ollama run dimavz/whisper-tiny
+ollama pull whisper
+ollama list
+ollama rm ZimaBlueAI/whisper-large-v3:latest
+ollama rm dimavz/whisper-tiny:latest
+ollama list
+ollama show whisper
+ollama list
+ollama rm whisper:latest
+ollama run anagram/whispertiny
+Get-Content .\server.log -Wait
+ollama ps
+ollama run llama3.2
+ollama
+ollama stop llama3.2
+ollama stop anagram/whispertiny
+ollama start anagram/whispertiny
+ollama serve --debug
+ollama serve --
+ollama serve 
+ollama serve -p 11435
+ollama serve --port 11435
+ollama serve -port 11435
+ollama serve --host 127.0.0.1:11435
+ollama serve
+ollama list
+ollama ps
+npm run dev
+php artisan reverb:start --debug
+ollama list
+ollama rm anagram/whispertiny:latest
+ollama list
+ollama pull nomic-embed-text
+ollama list
+docker pull pgvector/pgvector:pg17
+docker list
+docker ps
+docker ps
+netstat -ona |findstr : 5433
+netstat -ona |findstr : 543
+netstat -ona |findstr : 5432
+netstat -ona |findstr :5433
+cls
+docker exec -it pgvector-db bash
+docker cp pgvector-db:/var/lib/postgresql/data/pg_hba.conf ./pg_hba.conf
+npm run dev
+php artisan reverb:start --debug
+php artisan cache:clear
+php artisan config:clear
+cd C:\xampp\htdocs\OvniChat\
+Get-Content .\server.log -Wait
+cls
+Get-Content .\storage\logs\laravel.log -Wait
+cls
+Get-Content .\storage\logs\laravel.log -Wait
+cls
+Get-Content .\storage\logs\laravel.log -Wait
+ollama pull nomic-embed-text:v1.5
+php artisan make:migration create_embeddings_table
+php artisan migrate
+php artisan make:model Embedding
+php artisan migrate:refresh --seed
+php artisan make:command ImportUtterances
+php artisan utterances:import --file=private/utterances-1.json
+php artisan utterances:import --file=utterances-1.json
+php artisan utterances:import
+cls
+php artisan utterances:import --file=storage/app/utterances-1.json
+php artisan utterances:import --file=utterances-1.json
+php artisan migrate:refresh --seed
+php artisan utterances:import --file=utterances-1.json
+php artisan migrate:refresh --seed
+php artisan utterances:import --file=utterances-1.json
+php artisan migrate:refresh --seed
+php artisan utterances:import --file=utterances-1.json
+php artisan migrate:refresh --seed
+php artisan utterances:import --file=utterances-1.json
+ollama pull llama3:8b-instruct
+ollama pull mistral:instruct
+php artisan 
+php artisan migrate:refresh --seed
+php artisan utterances:import --file=utterances-1.json
+ollama list
+ollama rm nomic-embed-text:latest
+ollama list
+ollama pull llama3:8b
+ollama run hermes3:3b
+ollama list
+ollama run hermes3:3b
+php artisan make:job OllamaPreloadJob
+npm run dev
+php artisan reverb:start --debug
+ollama run llama3.2:latest
+npm run dev
+ollama list
+ollama ps
+ollama run llama3.2:latest --options:temperature:0
+ollama run llama3.2:latest --temperature:0
+ollama run llama3.2:latest
+php artisan migrate:refresh --seed
+php artisan utterances:import --file=utterances-1.json
+php artisan migrate:refresh --seed
+php artisan utterances:import --file=utterances-1.json
+php artisan migrate:refresh --seed
+php artisan utterances:import --file=utterances-1.json
+history
+Get-History
+cat (Get-PSReadLineOption).HistorySavePath > vsc_history.txt
