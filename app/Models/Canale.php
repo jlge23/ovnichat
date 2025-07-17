@@ -13,8 +13,4 @@ class Canale extends Model
         return $this->hasMany(Mensaje::class);
     }
 
-    public function leads()
-    {
-        return $this->hasMany(Lead::class);
-    }
 }
