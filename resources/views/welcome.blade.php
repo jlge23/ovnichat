@@ -9,7 +9,7 @@
     <form class="form-horizontal" method="POST" action="{{ route('llama') }}">
         @csrf
         <div class="input-group mb-3">
-            <span class="input-group-text">Pregunta a la Ollama IA</span>
+            <span class="input-group-text">Frase (expresion) para entrenar</span>
             <input class="form-control" type="text" name="prompt" placeholder="Haz tu pregunta" required>
             <button class="btn btn-dark" type="submit">Enviar</button>
             <span class="input-group-text text-dark">debe tener el modelo: nomic-embed-text:v1.5</span>
