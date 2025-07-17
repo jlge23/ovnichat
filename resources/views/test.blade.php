@@ -9,7 +9,7 @@
     <form class="form-horizontal" method="POST" action="{{ route('testia') }}">
         @csrf
         <div class="input-group mb-3">
-            <span class="input-group-text">Pregunta a la Ollama IA</span>
+            <span class="input-group-text">Frase (expresion) para entrenar</span>
             <input class="form-control" type="text" name="msg" placeholder="Haz tu pregunta" required autofocus>
 
 {{--             <span class="input-group-text">Modelo de IA</span>
