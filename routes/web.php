@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
     return view('welcome');
 }); */
 Route::get('/',[ WelcomeController::class,'index'])->name('welcome');
+Route::post('/llama', [WelcomeController::class, 'llama'])->name('llama');
+Route::get('/autocurar' ,[WelcomeController::class ,'autocurar'])->name('autocurar');
 
 Route::get('/webhook/whatsapp',[WebhookController::class ,'verify']);
 Route::post('/webhook/whatsapp', [WebhookController::class, 'handleWhatsapp']);
@@ -40,14 +42,11 @@ Route::get('/canal', [CanaleController::class, 'index']);
     TestEvent::dispatch('Hola Mundo');
 }); */
 
-Route::get('/empezar', [MensajeController::class, 'empezar']);
-Route::get('/terminar', [MensajeController::class, 'terminar']);
-Route::post('/llama', [MensajeController::class, 'llama'])->name('llama');
+
 Route::get('/mie' ,[MensajeController::class ,'mie'])->name('mie');
 Route::get('/categorias' ,[MensajeController::class ,'categorias'])->name('categorias');
 Route::get('/consulta' ,[MensajeController::class ,'consulta'])->name('consulta');
 Route::get('/llm' ,[MensajeController::class ,'LLM'])->name('llm');
-Route::get('/autocurar' ,[MensajeController::class ,'autocurar'])->name('autocurar');
 
 
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');

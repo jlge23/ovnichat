@@ -2,22 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\SecureInputIAHelper;
-use App\Jobs\Llama32Job;
-use App\Jobs\PhiJob;
-use App\Jobs\ProcessGemmaIAJob;
-use App\Jobs\SendWhatsAppInteractiveListJob;
+use App\Helpers\SystemPromptHelper;
 use App\Models\BusinessModel;
 use App\Models\Categoria;
 use App\Models\Embedding;
-use App\Models\Entitie;
-use App\Models\Intent;
 use App\Models\Marca;
-use App\Models\Mensaje;
 use App\Models\Producto;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use App\Traits\UsesOllamaOptions;
 use Illuminate\Support\Facades\DB;
 use App\Traits\UsesSystemsOptions;
@@ -28,29 +18,6 @@ class MensajeController extends Controller
 {
     use UsesOllamaOptions, UsesSystemsOptions;
 
-    public function Intents(){
-        // 🧩 Intents con sus entidades asociadas
-        $embeddingsIntents = Embedding::with('intent')->get()->map(function ($embeddings) {
-            return "- Expresiones: {$embeddings->content} | Intent: {$embeddings->intent->intent} → id: {$embeddings->intent->id}";
-        })->implode("\n");
-
-        // 🎯 Prompt con estructura semántica real
-            $system = <<<PROMPT
-                Tu nombre es **OvniBot**. Eres un buscador de Expresiones e intents
-
-                🧾 “Usa únicamente las Expresiones e intents registrados en el sistema; no respondas mas nada.”
-                "primero, evalua bien todas las expreciones y luego selecciona el intent mas identico a la expresion"
-
-                Analiza los Intents disponibles, según la frase dada, la descripcion de cada Intent describe su funcion, usala como referencia:
-                Expresiones e Intents disponibles:
-                {$embeddingsIntents}
-
-                y responde solo con el id => id:
-
-                Si no encuentras un intent que coincida, responde '0'
-            PROMPT;
-        return $system;
-    }
     public function LLM()
     {
         $embeddings = Embedding::select('embeddings.content')->whereNull('intent_id')->orderBy('id', 'desc')->get();
@@ -69,7 +36,7 @@ class MensajeController extends Controller
                     'num_predict' => 300,           // Suficiente para respuestas estructuradas JSON
                     'seed' => null,                 // 🔄 Dejar null para variabilidad controlada
                 ];
-                $respuesta = Ollama::agent($this->Intents())->model(config('services.ollama.model'))->stream(false)->prompt($texto)->options($options)->ask();
+                $respuesta = Ollama::agent(SystemPromptHelper::UtterancesIntents())->model(config('services.ollama.model'))->stream(false)->prompt($texto)->options($options)->ask();
                 $output = $respuesta->json('response') ?? $respuesta->body();
                 $resultados['datos'][] = [
                     'content' => $texto." - ".$output['response'],
@@ -78,107 +45,6 @@ class MensajeController extends Controller
             return json_encode($resultados);
         }
         return "No hay frases huerfanas (sin intentos asociados)";
-    }
-
-    public function llama(Request $request)
-    {
-        $prompt = SecureInputIAHelper::sanitizarMensaje($request->input('prompt'));
-        if (!SecureInputIAHelper::entradaSegura($prompt)) {
-            $output = 'Mensaje bloqueado por seguridad. Intenta usar lenguaje natural.';
-            return back()->withErrors(['error' => $output]);
-        }
-        $prompt = 'search_document: ' . $prompt;
-
-        $respuesta = Ollama::model('nomic-embed-text:v1.5')->embeddings($prompt);
-        $vector = $respuesta['embedding'];
-
-        $cosineSimilarity = function ($vec1, $vec2) {
-            $dot = $normA = $normB = 0;
-            foreach ($vec1 as $i => $val) {
-                if (count($vec1) !== count($vec2)) {
-                    // Puedes saltarte ese vector, loguearlo, o lanzar advertencia
-                    continue; // evitar crash
-                }
-
-                $dot += $val * $vec2[$i];
-                $normA += $val ** 2;
-                $normB += $vec2[$i] ** 2;
-            }
-            return $dot / (sqrt($normA) * sqrt($normB));
-        };
-
-        // Verificar duplicado semántico
-        $duplicado = false;
-        foreach (Embedding::all() as $registro) {
-            $otroVector = is_array($registro->embedding)
-                ? $registro->embedding
-                : json_decode($registro->embedding, true);
-
-            $similitud = $cosineSimilarity($vector, $otroVector);
-            if ($similitud >= 0.95) {
-                $duplicado = true;
-                break;
-            }
-        }
-
-        if (!$duplicado) {
-            Embedding::create([
-                'content' => $request->input('prompt'),
-                'embedding' => json_encode($vector),
-                'intent_id' => $this->autocurar($request->input('prompt'))
-            ]);
-        }
-
-        // Mostrar todas las comparaciones + intent + entities
-        $comparaciones = [];
-        foreach (Embedding::with('intent.entities')->get() as $registro) {
-            $otroVector = is_array($registro->embedding)
-                ? $registro->embedding
-                : json_decode($registro->embedding, true);
-
-            $similitud = $cosineSimilarity($vector, $otroVector);
-
-            $comparaciones[] = [
-                'texto' => $registro->content ?? $registro->content,
-                'similitud' => round($similitud, 4),
-                'intent' => $registro->intent->intent ?? null,
-                'entities' => $registro->intent && $registro->intent->entities
-                    ? $registro->intent->entities->pluck('entity')->toArray()
-                    : []
-            ];
-        }
-
-        return view('welcome', compact('comparaciones'));
-    }
-
-    public function autocurar($texto)
-    {
-        $options = [
-            'temperature' => 0,           // 🔒 Baja aleatoriedad, evita creatividad excesiva
-            'top_p' => 1.0,                 // 🔒 Mantiene cobertura completa sin limitar tokens
-            'repeat_penalty' => 1.1,        // Penaliza redundancia moderadamente
-            'presence_penalty' => 1,      // Evita inventar nuevas ideas ausentes
-            'frequency_penalty' => 0.2,     // Reduce repeticiones del mismo término
-            'num_predict' => 300,           // Suficiente para respuestas estructuradas JSON
-            'seed' => null,                  // 🔄 Dejar null para variabilidad controlada
-        ];
-
-        $respuesta = Ollama::agent($this->Intents())->model(config('services.ollama.model'))->prompt($texto)->stream(false)->options($options)->ask();
-        $output = $respuesta['response'] ?? $respuesta->body();
-        if(is_numeric($output)){
-            preg_match('/\d+/', $output, $matches); // funcion para quitar caracteres adicionales y dejar solo numeros
-            $numero = $matches[0];  // Resultado: 27
-            return $numero; //consiguo el intent
-        }else{
-            if (preg_match('/^id:\s*\d+$/', $output)) {
-                preg_match('/\d+/', $output, $matches); // funcion para quitar caracteres adicionales y dejar solo numeros
-                $numero = $matches[0];
-                return $numero;
-            } else {
-                return $output;
-            }
-        }
-        return $output;
     }
 
     public function mie(){

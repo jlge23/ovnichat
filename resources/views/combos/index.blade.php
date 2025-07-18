@@ -79,9 +79,9 @@
                                     <li class="list-group-item list-group-item-action"><small>{{$producto->producto}}&nbsp;{{$producto->descripcion}}&nbsp;[{{$producto->pivot->cantidad}}]</small></li>
                                 @endforeach
                             </ol>
-                            <small id="edit{{$combo->id}}"><b class="btn btn-warning text text-dark ver_productos">haga click para cambiar</b></small>
+                            <small id="edit{{$combo->id}}"><b class="btn btn-warning text text-primary ver_productos">haga click para cambiar</b></small>
                         @else
-                            <small id="edit{{$combo->id}}"><b class="btn btn-info text text-dark ver_productos">haga click para asociar productos</b></small>
+                            <small id="edit{{$combo->id}}"><b class="btn btn-info text text-secondary ver_productos">haga click para asociar productos</b></small>
                         @endif
                     </td>
                     <td>

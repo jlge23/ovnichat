@@ -63,7 +63,7 @@
                     <td>{{$producto->proveedor->proveedor}}</td>
                     <td>{{$producto->stock_actual}}</td>
                     <td>
-                        <span {{($producto->active)? "class='bg-success'" : "class='bg-danger'"}}>{{($producto->active)? "Activo" : "Inactivo"}}</span>
+                        <p {{($producto->active = 'Activo')? "class='text-success'" : "class='text-danger'"}}>{{($producto->active)? "Activo" : "Inactivo"}}</p>
                     </td>
                 </tr>
             @endforeach

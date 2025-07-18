@@ -8,11 +8,12 @@
     <hr>
     <form class="form-horizontal" method="POST" action="{{ route('llama') }}">
         @csrf
+        @method('POST')
         <div class="input-group mb-3">
             <span class="input-group-text">Frase (expresion) para entrenar</span>
             <input class="form-control" type="text" name="prompt" placeholder="Haz tu pregunta" required>
-            <button class="btn btn-dark" type="submit">Enviar</button>
-            <span class="input-group-text text-dark">debe tener el modelo: nomic-embed-text:v1.5</span>
+            <button class="btn btn-secondary" type="submit">Enviar</button>
+            <span class="input-group-text">debe tener el modelo: nomic-embed-text:v1.5</span>
         </div>
     </form>
 
@@ -69,9 +70,13 @@
         <div class="alert alert-info">No se encontraron comparaciones disponibles.</div>
     @endif
 
-    @if(isset($error))
+    @if ($errors->any())
         <div class="alert alert-danger">
-            {{ $error }}
+            <ul>
+                @foreach ($errors->all() as $mensaje)
+                    <li>{{ $mensaje }}</li>
+                @endforeach
+            </ul>
         </div>
     @endif
 </div>

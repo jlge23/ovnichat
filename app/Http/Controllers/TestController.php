@@ -25,13 +25,6 @@ class TestController extends Controller{
     }
 
     public function testia(Request $request){
-
-        /* $messages = [
-            ['role' => 'system', 'content' => 'Tu nombre es OvniBot!. Eres un agente de atencion al cliente..'],
-            ['role' => 'user', 'content' => 'Pedí una computadora portátil hace 3 días pero no he recibido información de seguimiento.'],
-            ['role' => 'assistant', 'content' => 'Entiendo tu preocupación. Permíteme ayudarte a rastrear tu pedido de laptop. ¿Podrías proporcionarme tu número de pedido?'],
-            ['role' => 'user', 'content' => 'Mi número de pedido es ORD-12345']
-        ]; */
         $tools = [
             [
                 "type" => "function",
@@ -57,7 +50,7 @@ class TestController extends Controller{
             return view('test', compact('output'));
         }
 
-        $modoTecnico = Str::contains(Str::lower($msg), ['producto','productos']);//falata el filtro debido para que se dispare el tools
+        $modoTecnico = Str::contains(Str::lower($msg), ['producto','productos']);//falta el filtro debido para que se dispare el tools
         $response = Ollama::agent($this->construirSystemPrompt())
         ->model('llama3.2')
         ->options($this->ollamaOptions());
@@ -74,14 +67,16 @@ class TestController extends Controller{
                     $resultado = Producto::disponibilidad_producto(
                             $args['producto'] ?? null,
                     );
-                    $output = $resultado;
-                    //return $output;
+                    //$output = $resultado;
+                    $output = json_encode($response);
+                    return $output;
                     return view('test', compact('output'));
                 }
             }
         }else{
-            $output = $response['message']['content'];
-            //return $output;
+            $output = json_encode($response);
+            //$output = $response['message']['content'];
+            return $output;
             return view('test', compact('output'));
         }
 

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,11 +14,31 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js','resources/css/app.css'])
+    @vite(['resources/sass/app.scss', 'resources/css/app.css'])
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        const toggleBtn = document.getElementById('themeToggle');
+        const root = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            root.setAttribute('data-bs-theme', savedTheme);
+        }
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+            const currentTheme = root.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            });
+        }
+        });
+    </script>
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -39,6 +59,8 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
+                        <button id="themeToggle" class="btn btn-outline-secondary">🌗 Cambiar tema</button>
+
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -75,7 +97,7 @@
                 </div>
             </div>
         </nav>
-
+        @vite(['resources/js/app.js'])
         <main class="py-4">
             @yield('content')
         </main>
