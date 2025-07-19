@@ -15,6 +15,7 @@ use App\Traits\UsesSystemsOptions;
 use App\Helpers\SaludoHelper;
 use App\Models\Categoria;
 use App\Models\Producto;
+use Cloudstudio\Ollama\Facades\Ollama;
 use Illuminate\Support\Str;
 
 class ProcessOllamaIAJob implements ShouldQueue

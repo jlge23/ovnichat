@@ -37,6 +37,7 @@ $(function(){
 
     //Datatables
     $("table#DT_embeddings").DataTable({
-        "language" : language
+        "language" : language,
+        "order": [[1, 'desc']],
     });
 });

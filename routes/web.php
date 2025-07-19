@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/',[ WelcomeController::class,'index'])->name('welcome');
 Route::post('/llama', [WelcomeController::class, 'llama'])->name('llama');
 Route::get('/autocurar' ,[WelcomeController::class ,'autocurar'])->name('autocurar');
+Route::post('/asignarIntent/{embedding}', [WelcomeController::class, 'asignarIntent'])->name('asignarIntent');
+Route::delete('/embedding/{embedding}', [WelcomeController::class, 'destroy'])->name('destroy');
+
 
 Route::get('/webhook/whatsapp',[WebhookController::class ,'verify']);
 Route::post('/webhook/whatsapp', [WebhookController::class, 'handleWhatsapp']);

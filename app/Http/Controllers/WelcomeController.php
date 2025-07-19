@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Traits\UsesIAModelsList;
 use Cloudstudio\Ollama\Facades\Ollama;
 use App\Helpers\SecureInputIAHelper;
+use App\Helpers\TextCleanerHelp;
 use App\Models\Embedding;
+use App\Models\Intent;
 use Illuminate\Support\Facades\Log;
 
 class WelcomeController extends Controller
@@ -21,17 +23,62 @@ class WelcomeController extends Controller
 
     public function llama(Request $request)
     {
-        $entrada = SecureInputIAHelper::sanitizarMensaje($request->input('prompt'));
+        $entrada = SecureInputIAHelper::sanitizarMensaje($request->input('prompt')) ?? null;
         if (!SecureInputIAHelper::entradaSegura($entrada)) {
             $output = 'Mensaje bloqueado por seguridad. Intenta usar lenguaje natural.';
             return back()->withErrors(['error' => $output]);
         }
-        $entradaFiltrada = $entrada;
+        $entradaFiltrada = TextCleanerHelp::normalizarTexto($entrada);
         $prompt = 'search_document: ' . $entradaFiltrada;
 
         $respuesta = Ollama::model('nomic-embed-text:v1.5')->embeddings($prompt);
         $vector = $respuesta['embedding'];
 
+        $mejorSimilitud = 0;
+        $mejorIntent = null;
+        $existe = false;
+        $todosLosEmbeddings = Embedding::query();
+        foreach ($todosLosEmbeddings->get() as $existing) {
+            if (TextCleanerHelp::normalizarTexto($existing->content) === $entradaFiltrada) {
+                // Ya existe exactamente esta frase
+                $existe = true;
+                break;
+            }
+            $prev = is_array($existing->embedding) ? $existing->embedding : json_decode($existing->embedding, true);
+            $dot = $normA = $normB = 0;
+
+            for ($i = 0; $i < count($vector); $i++) {
+                $dot += $vector[$i] * $prev[$i];
+                $normA += $vector[$i] ** 2;
+                $normB += $prev[$i] ** 2;
+            }
+
+            $similarity = $dot / (sqrt($normA) * sqrt($normB));
+
+            if ($similarity > $mejorSimilitud) {
+                $mejorSimilitud = $similarity;
+                $mejorIntent = $existing->intent_id;
+            }
+        }
+        if(!$existe){
+            if ($mejorSimilitud > 0.75) {
+                Embedding::create([
+                    'content'    => $entradaFiltrada,
+                    'embedding'  => json_encode($vector),
+                    'intent_id'  => $mejorIntent
+                ]);
+            }else{
+
+                $intentAsignado = ($mejorSimilitud > 0.60) ? $mejorIntent : null;
+                Embedding::create([
+                    'content'   => $entradaFiltrada,
+                    'embedding' => json_encode($vector),
+                    'intent_id' => $intentAsignado
+                ]);
+            }
+        }
+
+        // Mostrar todas las comparaciones + intent + entities
         $cosineSimilarity = function ($vec1, $vec2) {
             $dot = $normA = $normB = 0;
             foreach ($vec1 as $i => $val) {
@@ -47,38 +94,8 @@ class WelcomeController extends Controller
             return $dot / (sqrt($normA) * sqrt($normB));
         };
 
-        // Verificar duplicado semántico
-        $duplicado = false;
-        foreach (Embedding::all() as $registro) {
-            $otroVector = is_array($registro->embedding)
-                ? $registro->embedding
-                : json_decode($registro->embedding, true);
-
-            $similitud = $cosineSimilarity($vector, $otroVector);
-            if ($similitud >= 0.95) {
-                $duplicado = true;
-                break;
-            }
-        }
-
-        if (!$duplicado) {
-            $autocuracion = AutocurarIntentsHelper::autocurar($entradaFiltrada);
-            if(is_numeric($autocuracion) && (!$autocuracion == 0)){
-                Embedding::create([
-                    'content' => $entradaFiltrada,
-                    'embedding' => json_encode($vector),
-                    'intent_id' => $autocuracion
-                ]);
-            }else{
-                $output = "No se detecto intentos que coincidan con esta expresión: ".$entradaFiltrada. " salida: ".$autocuracion;
-                Log::warning($output);
-                return back()->withErrors(['error' => $output]);
-            }
-        }
-
-        // Mostrar todas las comparaciones + intent + entities
         $comparaciones = [];
-        foreach (Embedding::with('intent.entities')->get() as $registro) {
+        foreach ($todosLosEmbeddings->with('intent.entities')->get() as $registro) {
             $otroVector = is_array($registro->embedding)
                 ? $registro->embedding
                 : json_decode($registro->embedding, true);
@@ -86,6 +103,7 @@ class WelcomeController extends Controller
             $similitud = $cosineSimilarity($vector, $otroVector);
 
             $comparaciones[] = [
+                'embeddingId' => $registro->id,
                 'texto' => $registro->content ?? $registro->content,
                 'similitud' => round($similitud, 4),
                 'intent' => $registro->intent->intent ?? null,
@@ -94,8 +112,21 @@ class WelcomeController extends Controller
                     : []
             ];
         }
+        //return $comparaciones;
+        //return redirect()->route('welcome')->with('comparaciones', $comparaciones);
+        $intents = Intent::all();
+        return view('welcome', compact('comparaciones', 'intents'));
+    }
 
-        return view('welcome', compact('comparaciones'));
+    public function asignarIntent(Request $request, Embedding $embedding){
+        $embedding->intent_id = $request->input('intent_id');
+        $embedding->save();
+        return view('welcome')->with('success', 'Expresión ['.$embedding->content.'] con intent ['.$embedding->intent->intent.'] asociado!');
+    }
+
+    public function destroy(Embedding $embedding){
+        $embedding->delete();
+        return redirect()->route('welcome');
     }
 
 }

@@ -4,7 +4,7 @@
 
 @section('content')
 @vite(['resources/css/app.css'])
-<div class="container">
+<div class="container-fluid">
     <hr>
     <form class="form-horizontal" method="POST" action="{{ route('llama') }}">
         @csrf
@@ -19,7 +19,7 @@
 
     <hr>
 
-    @if(isset($comparaciones) && count($comparaciones) > 0)
+    @if(isset($comparaciones) && count($comparaciones) > 0 )
         <h4>🔍 Textos similares encontrados:</h4>
         <table class="table table-striped" id="DT_embeddings">
             <thead>
@@ -28,6 +28,7 @@
                     <th>Similitud semántica</th>
                     <th>Intent</th>
                     <th>Entities</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,9 +49,36 @@
                         </td>
                         <td>
                             @if(isset($item['intent']))
-                                <span class="badge bg-primary">{{ $item['intent'] }}</span>
+                                <form method="POST" action="{{ route('asignarIntent', ['embedding' => $item['embeddingId']]) }}">
+                                    @csrf
+                                    @method('post')
+                                    <div class="input-group mb-3">
+                                        <select name="intent_id" class="form-select form-select-sm">
+                                            <option value="" disabled selected>Selecciona un intent</option>
+                                            @foreach($intents as $intent)
+                                                <option value="{{ $intent->id }}"
+                                                    @if(isset($item['intent']) && $item['intent'] == $intent->intent) selected @endif>
+                                                    {{ $intent->intent }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <button class="btn btn-outline-success" type="submit">Asignar</button>
+                                    </div>
+                                </form>
                             @else
-                                <em class="text-muted">Sin intentos</em>
+                                <form method="POST" action="{{ route('asignarIntent', ['embedding' => $item['embeddingId']]) }}">
+                                    @csrf
+                                    @method('post')
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text">Intents</span>
+                                        <select name="intent_id" class="form-select form-select-sm">
+                                            @foreach($intents as $intent)
+                                                <option value="{{ $intent->id }}">{{ $intent->intent }}</option>
+                                            @endforeach
+                                        </select>
+                                        <button class="btn btn-outline-success" type="submit">Asignar</button>
+                                    </div>
+                                </form>
                             @endif
                         </td>
                         <td>
@@ -62,12 +90,26 @@
                                 <em class="text-muted">Sin entidades</em>
                             @endif
                         </td>
+                        <td>
+                            <form action="{{ route('destroy', ['embedding' => $item['embeddingId']]) }}" method="POST" id="FRM_Embedding">
+                                @csrf
+                                @method('DELETE')
+                                <div class="btn-group" role="group">
+                                    <button type="submit" class="btn btn-sm btn-warning">Eliminar</button>&nbsp;
+                                </div>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     @else
         <div class="alert alert-info">No se encontraron comparaciones disponibles.</div>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
     @endif
 
     @if ($errors->any())

@@ -13,12 +13,12 @@ class SystemPromptHelper
 
         // 🎯 Prompt con estructura semántica real
             $system = <<<PROMPT
-                Tu nombre es **OvniBot**. Eres un buscador de Expresiones e intents
+                Eres un buscador de Expresiones e intents
 
                 🧾 “Usa únicamente las Expresiones e intents registrados en el sistema; no respondas mas nada.”
-                "primero, evalua bien todas las expreciones y luego selecciona el intent mas identico a la expresion"
+                "primero, evalua y compara bien todas las expreciones y luego selecciona el intent mas parecido"
 
-                Analiza los Intents disponibles, según la frase dada, la descripcion de cada Intent describe su funcion, usala como referencia:
+                la descripcion de cada Intent describe su funcion, usala como referencia:
                 Expresiones e Intents disponibles:
                 {$embeddingsIntents}
 

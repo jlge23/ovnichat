@@ -42,7 +42,7 @@ class TestController extends Controller{
                         "required" => ["producto"],
                     ]
                 ]
-            ]
+            ],
         ];
         $msg = SecureInputIAHelper::sanitizarMensaje($request->input('msg'));
         if (!SecureInputIAHelper::entradaSegura($msg)) {

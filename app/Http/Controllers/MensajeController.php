@@ -2,62 +2,328 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\AutocurarIntentsHelper;
 use App\Helpers\SystemPromptHelper;
 use App\Models\BusinessModel;
 use App\Models\Categoria;
-use App\Models\Embedding;
 use App\Models\Marca;
 use App\Models\Producto;
 use App\Traits\UsesOllamaOptions;
 use Illuminate\Support\Facades\DB;
 use App\Traits\UsesSystemsOptions;
 use Cloudstudio\Ollama\Facades\Ollama;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
+use App\Models\Intent;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 
 class MensajeController extends Controller
 {
     use UsesOllamaOptions, UsesSystemsOptions;
 
-    public function LLM()
+    public function mie(Request $request)
     {
-        $embeddings = Embedding::select('embeddings.content')->whereNull('intent_id')->orderBy('id', 'desc')->get();
+        $ver = AutocurarIntentsHelper::autocurar('Quiero tener una consulta con el odontologo');
+        return $ver;
 
-        $resultados = [];
-        if(!$embeddings->isEmpty()){
-            foreach ($embeddings as $registro) {
-                $texto = $registro->content;
+        // Mensaje entrante (puede venir de WhatsApp)
+        $mensaje = $request->input('mensaje') ?? 'Mano quiero comprar dos harinas de 1 kilo, dos atun de agua de 200 gramos y dos cajas de refrescos';
+        $intent = [
+            [
+                "intent" => " consultar_tipo_consulta"
+            ],
+            [
+                "intent" => " consultar_medico"
+            ],
+            [
+                "intent" => " reagendar_consulta"
+            ],
+            [
+                "intent" => " cancelar_consulta"
+            ],
+            [
+                "intent" => " consultar_resultados_examenes"
+            ],
+            [
+                "intent" => " consultar_seguro_aceptado"
+            ],
+            [
+                "intent" => " crear_reserva"
+            ],
+            [
+                "intent" => " consultar_reserva"
+            ],
+            [
+                "intent" => " modificar_reserva"
+            ],
+            [
+                "intent" => " cancelar_reserva"
+            ],
+            [
+                "intent" => " consultar_disponibilidad"
+            ],
+            [
+                "intent" => " consultar_politicas_reserva"
+            ],
+            [
+                "intent" => " consultar_estado_pedido"
+            ],
+            [
+                "intent" => " reporte_problema_producto"
+            ],
+            [
+                "intent" => " solicitar_devolucion"
+            ],
+            [
+                "intent" => " consultar_politicas_servicio"
+            ],
+            [
+                "intent" => " reclamo_facturacion"
+            ],
+            [
+                "intent" => " actualizar_datos_cliente"
+            ],
+            [
+                "intent" => " contactar_agente"
+            ],
+            [
+                "intent" => " buscar_vehiculo"
+            ],
+            [
+                "intent" => " agendar_test_drive"
+            ],
+            [
+                "intent" => " consultar_financiamiento"
+            ],
+            [
+                "intent" => " cotizar_vehiculo"
+            ],
+            [
+                "intent" => " consultar_servicios_postventa"
+            ],
+            [
+                "intent" => " agendar_servicio_tecnico"
+            ],
+            [
+                "intent" => " buscar_producto"
+            ],
+            [
+                "intent" => " consultar_precio"
+            ],
+            [
+                "intent" => " realizar_pedido"
+            ],
+            [
+                "intent" => " consultar_promociones"
+            ],
+            [
+                "intent" => " reservar_evento"
+            ],
+            [
+                "intent" => " consultar_membresias"
+            ],
+            [
+                "intent" => " contactar_personal"
+            ],
+            [
+                "intent" => " reservar_cita"
+            ],
+            [
+                "intent" => " consultar_servicios"
+            ],
+            [
+                "intent" => " cancelar_cita"
+            ],
+            [
+                "intent" => " opinion_servicio"
+            ],
+            [
+                "intent" => " buscar_paquete_turistico"
+            ],
+            [
+                "intent" => " consultar_precio_paquete"
+            ],
+            [
+                "intent" => " reserva_paquete"
+            ],
+            [
+                "intent" => " consultar_itinerario"
+            ],
+            [
+                "intent" => " asesoria_viaje"
+            ],
+            [
+                "intent" => " buscar_propiedad"
+            ],
+            [
+                "intent" => " agendar_visita"
+            ],
+            [
+                "intent" => " publicar_propiedad"
+            ],
+            [
+                "intent" => " realizar_compra"
+            ],
+            [
+                "intent" => " consultar_envio"
+            ],
+            [
+                "intent" => " postventa_soporte"
+            ],
+            [
+                "intent" => " buscar_promociones"
+            ],
+            [
+                "intent" => " consultar_detalle_promocion"
+            ],
+            [
+                "intent" => " filtrar_promociones"
+            ],
+            [
+                "intent" => " consultar_cupones"
+            ],
+            [
+                "intent" => " consultar_promociones_personalizadas"
+            ],
+            [
+                "intent" => " consultar_formas_aplicar_promocion"
+            ],
+            [
+                "intent" => " saludo"
+            ],
+            [
+                "intent" => " despedida"
+            ],
+            [
+                "intent" => " agradecimiento"
+            ],
+            [
+                "intent" => " nosotros"
+            ],
+            [
+                "intent" => " reclamo"
+            ],
+            [
+                "intent" => " consulta_horario"
+            ],
+            [
+                "intent" => " consulta_ubicacion"
+            ],
+            [
+                "intent" => " consulta_precio"
+            ],
+            [
+                "intent" => " consulta_promocion"
+            ],
+            [
+                "intent" => " consulta_forma_pago"
+            ],
+            [
+                "intent" => " consulta_tiempo_entrega"
+            ],
+            [
+                "intent" => " consulta_garantia"
+            ],
+            [
+                "intent" => " pedido_asistencia"
+            ],
+            [
+                "intent" => " cancelacion"
+            ],
+            [
+                "intent" => " preguntar_producto"
+            ],
+            [
+                "intent" => " disponibilidad_producto"
+            ],
+            [
+                "intent" => " confirmacion_pedido"
+            ]
+        ];
+        // ✅ Convertir el array en cadena JSON antes de insertarlo en el heredoc
+        $jsonIntents = json_encode($intent, JSON_PRETTY_PRINT);
 
-                $options = [
-                    'temperature' => 0.0,           // 🔒 Baja aleatoriedad, evita creatividad excesiva
-                    'top_p' => 1.0,                 // 🔒 Mantiene cobertura completa sin limitar tokens
-                    'repeat_penalty' => 1.1,        // Penaliza redundancia moderadamente
-                    'presence_penalty' => 0.3,      // Evita inventar nuevas ideas ausentes
-                    'frequency_penalty' => 0.2,     // Reduce repeticiones del mismo término
-                    'num_predict' => 300,           // Suficiente para respuestas estructuradas JSON
-                    'seed' => null,                 // 🔄 Dejar null para variabilidad controlada
-                ];
-                $respuesta = Ollama::agent(SystemPromptHelper::UtterancesIntents())->model(config('services.ollama.model'))->stream(false)->prompt($texto)->options($options)->ask();
-                $output = $respuesta->json('response') ?? $respuesta->body();
-                $resultados['datos'][] = [
-                    'content' => $texto." - ".$output['response'],
-                ];
-            }
-            return json_encode($resultados);
+        // Generar prompt personalizado para análisis gramatical
+        $prompt = <<<EOT
+                analisa el mensaje del user
+
+            1. Identifica el sujeto, el verbo y el predicado.
+            2. Describe brevemente la acción que realiza el sujeto.
+            3. Compara esta acción con las intenciónes registradas: {$jsonIntents}
+            4. Indica si la intención del mensaje coincide con las intenciónes registradas.
+            5. Organiza la cantidad de productos, unidad de medida, si  fuere necesario y la un listado
+            6. Devuelve un porcentaje estimado de coincidencia semántica entre el mensaje y la intención.
+            7. Responde de maner clara, precisa, completa y organizada, con lenguaje variado y natural (no robotico ni repetitivo)
+
+            Ejemplo de formato de respuesta:
+            - Sujeto: ...
+            - Verbo: ...
+            - Predicado: ...
+            - Acción detectada: ...
+            - Intención detectada: ...
+            - ¿Coincide?: Sí/No
+            - Porcentaje de coincidencia: ...%
+        EOT;
+
+        // Definir el rol de recepcionista en español
+        $agent = Ollama::agent($prompt)->options(['temperature' => 1])
+        //$agent = Ollama::agent($prompt)->options(['temperature' => 0.2])
+            ->model('gemma3:1b');
+            //$agent->prompt($mensaje);
+
+        // Crear mensaje estructurado con el prompt
+        $messages = [
+            ['role' => 'system', 'content' => $prompt],
+            ['role' => 'user', 'content' => $mensaje]
+        ];
+
+
+        // Ejemplo: si el mensaje contiene palabras relacionadas con productos, puedes también agregar tools
+        $triggerTools = Str::contains(Str::lower($mensaje), [
+            'temperatura', 'perro', 'producto', 'gato', 'caraotas', 'socio', 'marca', 'categoría'
+        ]);
+
+        if ($triggerTools) {
+            $tools = [
+                [
+                    "type" => "function",
+                    "function" => [
+                        "name" => "get_current_weather",
+                        "description" => "Get the current weather for a specific location",
+                        "parameters" => [
+                            "type" => "object",
+                            "properties" => [
+                                "location" => [
+                                    "type" => "string",
+                                    "description" => "The city and country, e.g. Tokyo, Japan",
+                                ],
+                                "unit" => [
+                                    "type" => "string",
+                                    "description" => "Temperature unit",
+                                    "enum" => ["celsius", "fahrenheit"],
+                                ],
+                            ],
+                            "required" => ["location"],
+                        ],
+                    ],
+                ]
+            ];
+
+            $agent->tools($tools);
         }
-        return "No hay frases huerfanas (sin intentos asociados)";
-    }
 
-    public function mie(){
-        $businessModelName = 'ventas_productos';
-        $entities = DB::table('business_model_intent')
-        ->join('entitie_intent', 'business_model_intent.intent_id', '=', 'entitie_intent.intent_id')
-        ->join('entities', 'entitie_intent.entitie_id', '=', 'entities.id')
-        ->join('business_models', 'business_model_intent.business_model_id', '=', 'business_models.id')
-        //->where('business_models.modelonegocio', $businessModelName)
-        ->select('entities.*')
-        ->distinct()
-        ->get();
-        return $entities;
+        // Ejecutar la consulta
+        $respuesta = $agent->chat($messages); http://127.0.0.1:11434/api/chat
+        //$respuesta = $agent->ask(); // http://127.0.0.1:11434/api/generate
+
+        // Devolver respuesta JSON
+        return response()->json([
+            'mensaje_original' => $mensaje,
+            'respuesta_estructura' => $respuesta['response'] ?? $respuesta
+        ]);
+
     }
 
     public function productos(){

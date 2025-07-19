@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('embeddings', function (Blueprint $table) {
             $table->id();
-            $table->text('content');            // El texto que convertiste en embedding
+            $table->text('content')->unique();            // El texto que convertiste en embedding
             $table->json('embedding');                // El array de 768 floats
             $table->foreignId('intent_id')->nullable()->constrained();
             $table->timestamps();                     // created_at y updated_at

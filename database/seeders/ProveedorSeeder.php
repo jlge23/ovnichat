@@ -14,6 +14,7 @@ class ProveedorSeeder extends Seeder
     public function run(): void
     {
         //['nombre','contacto','telefono','email'];
+        Proveedor::create(['proveedor' => 'NO APLICA','contacto' => '','telefono' => '','email' => '']);
         Proveedor::create(['proveedor' => 'THE CARMEN ALIMENTOS C.A.','contacto' => 'S/N','telefono' => '+584241954394','email' => 'thecarmenalimentos@gmail.com']);
     }
 }

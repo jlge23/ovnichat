@@ -68,10 +68,10 @@ class GetWhatsAppAudioJob implements ShouldQueue
 
         $extension = $extensiones[$this->mimetype] ?? 'bin';
         $audioFilename = "audio_".$this->timestamp."_".$this->telefono.".".$extension;
-        Storage::disk('audio')->put($audioFilename, $audioBinary);
+        Storage::disk('WhatsAppAudio')->put("/Received/".$audioFilename, $audioBinary);
         Log::info($audioFilename);
         // enviar audio a Whisper para convertirlo a texto
-        $ruta = Storage::disk('audio')->path($audioFilename); // Ruta completa al archivo
+        $ruta = Storage::disk('WhatsAppAudio')->path("/Received/".$audioFilename); // Ruta completa al archivo
         // 🧪 Verificar si el archivo existe
         if (!file_exists($ruta)) {
             throw new \Exception("El archivo de audio no existe: $ruta");

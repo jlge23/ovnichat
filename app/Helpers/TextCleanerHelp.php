@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-class TextCleaner
+class TextCleanerHelp
 {
     /**
      * Limpia cadenas JSON que contienen caracteres escapados doblemente,
@@ -22,5 +22,13 @@ class TextCleaner
         $decoded = json_decode($jsonFormatted);
 
         return $decoded ?? $rawText;
+    }
+
+    public static function normalizarTexto($texto) {
+        $texto = strtolower($texto); // todo en minúsculas
+        $texto = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $texto); // elimina tildes
+        $texto = preg_replace('/[^\w\s]/u', '', $texto); // elimina signos de puntuación
+        $texto = preg_replace('/\s+/', ' ', $texto); // normaliza espacios
+        return trim($texto);
     }
 }
