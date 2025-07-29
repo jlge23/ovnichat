@@ -12,14 +12,15 @@ use App\Models\Embedding;
 use App\Models\Intent;
 use Illuminate\Support\Facades\Log;
 use App\Traits\UsesOllamaOptions;
+use Inertia\Inertia;
 
 class WelcomeController extends Controller
 {
     use UsesIAModelsList, UsesOllamaOptions;
     public function index(){
+        return Inertia::render("Home");
         //$modelos = $this->modelosLocales();
         //return $modelos;
-        return view('welcome');
     }
 
     public function llama(Request $request)

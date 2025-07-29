@@ -13,12 +13,12 @@ use Illuminate\Support\Str;
 class Producto extends Model
 {
     use HasSku;
-    protected $fillable = ['gtin','sku','producto','descripcion','unidad_medida_id','precio_detal','precio_embalaje','costo_detal','stock_actual','marca_id','unidades_por_embalaje','categoria_id','proveedor_id','embalaje_id','image','active'];
+    protected $fillable = ['gtin', 'sku', 'nombre', 'descripcion', 'unidad_medida_id', 'precio_detal', 'precio_embalaje', 'costo_detal', 'stock_actual', 'marca_id', 'unidades_por_embalaje', 'categoria_id', 'proveedor_id', 'embalaje_id', 'image', 'active'];
 
     public function skuOptions(): SkuOptions
     {
         return SkuOptions::make()
-            ->from(['producto', 'descripcion'])
+            ->from(['nombre', 'descripcion'])
             ->target('sku')
             ->using('-')
             ->forceUnique(true)
@@ -26,7 +26,6 @@ class Producto extends Model
             ->refreshOnUpdate(false);
     }
 
-    protected $fillable = ['gtin', 'sku', 'nombre', 'descripcion', 'unidad_medida_id', 'precio_detal', 'precio_embalaje', 'costo_detal', 'stock_actual', 'marca_id', 'unidades_por_embalaje', 'categoria_id', 'proveedor_id', 'embalaje_id', 'image', 'active'];
     public function categoria()
     {
         return $this->belongsTo(Categoria::class);
@@ -57,33 +56,37 @@ class Producto extends Model
     }
 
     //Consulta de items
-    public static function disponibilidad_producto($item){
+    public static function disponibilidad_producto($item)
+    {
         try {
             $item = mb_strtoupper($item);
             $query = Producto::query()
-            ->join('categorias', 'productos.categoria_id', '=', 'categorias.id')
-            ->join('embalajes', 'productos.embalaje_id', '=', 'embalajes.id')
-            ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
-            ->where('productos.active', true)
-            ->where(function ($q) use ($item) {
-                    if ($item)  $q->orWhere('productos.producto', 'LIKE', "%{$item}%");
-                    if ($item)  $q->orWhere('categorias.categoria', 'LIKE', "%{$item}%");
-                    if ($item)  $q->orWhere('marcas.marca', 'LIKE', "%{$item}%");
-            })
-            ->select(
-                'productos.producto',
-                'productos.descripcion',
-                'productos.costo_detal',
-                'productos.precio_detal',
-                'productos.precio_embalaje',
-                'productos.stock_actual',
-                'embalajes.embalaje AS embalaje',
-                'categorias.categoria AS categoria',
-                'marcas.marca AS marca'
-            );
+                ->join('categorias', 'productos.categoria_id', '=', 'categorias.id')
+                ->join('embalajes', 'productos.embalaje_id', '=', 'embalajes.id')
+                ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
+                ->where('productos.active', true)
+                ->where(function ($q) use ($item) {
+                    if ($item)
+                        $q->orWhere('productos.nombre', 'LIKE', "%{$item}%");
+                    if ($item)
+                        $q->orWhere('categorias.categoria', 'LIKE', "%{$item}%");
+                    if ($item)
+                        $q->orWhere('marcas.marca', 'LIKE', "%{$item}%");
+                })
+                ->select(
+                    'productos.nombre',
+                    'productos.descripcion',
+                    'productos.costo_detal',
+                    'productos.precio_detal',
+                    'productos.precio_embalaje',
+                    'productos.stock_actual',
+                    'embalajes.embalaje AS embalaje',
+                    'categorias.categoria AS categoria',
+                    'marcas.marca AS marca'
+                );
             $query->groupBy(
                 'productos.id',
-                'productos.producto',
+                'productos.nombre',
                 'productos.descripcion',
                 'productos.stock_actual',
                 'productos.costo_detal',
@@ -96,8 +99,8 @@ class Producto extends Model
             $resultados = $query->get();
             $items = collect(); // 🧃 Aquí van solo las líneas individuales
 
-            foreach($resultados as $res){
-                $items->push("✅ *{$res->producto} {$res->descripcion}* - marca: *{$res->marca}* - categoría *{$res->categoria}* [stock: *{$res->stock_actual}*]. precio detal: \${$res->costo_detal}. por *{$res->embalaje}*: \${$res->precio_embalaje}");
+            foreach ($resultados as $res) {
+                $items->push("✅ *{$res->nombre} {$res->descripcion}* - marca: *{$res->marca}* - categoría *{$res->categoria}* [stock: *{$res->stock_actual}*]. precio detal: \${$res->costo_detal}. por *{$res->embalaje}*: \${$res->precio_embalaje}");
             }
 
             if ($items->isEmpty()) {

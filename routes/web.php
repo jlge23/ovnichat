@@ -13,16 +13,12 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render("Home");
-});
-
 /* Route::get('/', function () {
     return view('welcome');
 }); */
-Route::get('/',[ WelcomeController::class,'index'])->name('welcome');
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::post('/llama', [WelcomeController::class, 'llama'])->name('llama');
-Route::get('/autocurar' ,[WelcomeController::class ,'autocurar'])->name('autocurar');
+Route::get('/autocurar', [WelcomeController::class, 'autocurar'])->name('autocurar');
 Route::post('/asignarIntent/{embedding}', [WelcomeController::class, 'asignarIntent'])->name('asignarIntent');
 Route::delete('/embedding/{embedding}', [WelcomeController::class, 'destroy'])->name('destroy');
 
@@ -51,20 +47,20 @@ Route::get('/canal', [CanaleController::class, 'index']);
 }); */
 
 
-Route::get('/mie' ,[MensajeController::class ,'mie'])->name('mie');
-Route::get('/categorias' ,[MensajeController::class ,'categorias'])->name('categorias');
-Route::get('/consulta' ,[MensajeController::class ,'consulta'])->name('consulta');
-Route::get('/llm' ,[MensajeController::class ,'LLM'])->name('llm');
-Route::get('/system' ,[MensajeController::class ,'construirSystemPrompt'])->name('system');
+Route::get('/mie', [MensajeController::class, 'mie'])->name('mie');
+Route::get('/categorias', [MensajeController::class, 'categorias'])->name('categorias');
+Route::get('/consulta', [MensajeController::class, 'consulta'])->name('consulta');
+Route::get('/llm', [MensajeController::class, 'LLM'])->name('llm');
+Route::get('/system', [MensajeController::class, 'construirSystemPrompt'])->name('system');
 
 
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
-Route::get('/test',[ TestController::class,'index'])->name('test');
+Route::get('/test', [TestController::class, 'index'])->name('test');
 Route::post('/testia', [TestController::class, 'testia'])->name('testia');
 
-Route::get('/chatbot' , function(){
+Route::get('/chatbot', function () {
     return view('ChatbotBuilder.index');
 })->name('chatbot');
 
@@ -89,7 +85,7 @@ Route::middleware("auth")->group(function () {
 
     // Route::get('/products', [ProductoController::class, 'index'])->name('productos.index');
     Route::resource('products', ProductoController::class)->names([
-        'index'   => 'productos.index',
-        'create'  => 'productos.create'
+        'index' => 'productos.index',
+        'create' => 'productos.create'
     ]);
 });
