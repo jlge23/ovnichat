@@ -12,23 +12,17 @@ import SelectField, { SelectOption } from "@/components/SelectField";
 import { Button } from "@/components/Button";
 import Textarea from "@/components/Textarea";
 import Spinner from "@/components/Spinner";
-import { fetchProductSelectOptions } from "@/api/products";
+import { fetchProductSelectOptions, ProductProps } from "@/api/products";
 import { formatToSelect } from "@/utils/select";
 import ToggleSwitch from "@/components/ToggleSwitch";
 
-type ProductProps = {
-    id: string;
-    nombre: string;
-    codigo_sku: string;
-    descripcion: string;
-    categoria: {
-        nombre: string;
-    };
-    active: boolean;
-    image: string;
-};
-
-const Product = ({ product }: { product: ProductProps }) => {
+const Product = ({
+    product,
+    onClick,
+}: {
+    product: ProductProps;
+    onClick: () => void;
+}) => {
     const [open, setOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -47,7 +41,10 @@ const Product = ({ product }: { product: ProductProps }) => {
     }, []);
 
     return (
-        <div className="bg-white border border-gray-200 dark:border-gray-700 shadow-sm product-card drop-shadow-lg drop-shadow-gray-300 dark:drop-shadow-gray-900">
+        <div
+            onClick={onClick}
+            className="bg-white border border-gray-200 dark:border-gray-700 shadow-sm product-card drop-shadow-lg drop-shadow-gray-300 dark:drop-shadow-gray-900"
+        >
             <div className="img-container">
                 <img
                     src={`${
@@ -59,7 +56,7 @@ const Product = ({ product }: { product: ProductProps }) => {
                 />
             </div>
             <div className="title-container font-bold line-clamp-1 text-lg text-white">
-                <p>#{product.id + " " + product.nombre}</p>
+                <p>{product.nombre}</p>
             </div>
             <div className="text-category text-gray-700 line-clamp-1 font-semibold">
                 <p>{product.categoria?.nombre}</p>
@@ -250,6 +247,27 @@ export default function Products() {
         toggleModal();
     }
 
+    function openProduct(product: ProductProps) {
+        setData({
+            gtin: product.gtin,
+            nombre: product.nombre,
+            descripcion: product.descripcion,
+            marca_id: product.marca_id,
+            categoria_id: product.categoria_id,
+            proveedor_id: product.proveedor_id,
+            unidad_medida_id: product.unidad_medida_id,
+            stock_actual: product.stock_actual,
+            embalaje_id: product.embalaje_id,
+            unidades_por_embalaje: product.unidades_por_embalaje,
+            precio_detal: product.precio_detal,
+            precio_embalaje: product.precio_embalaje,
+            costo_detal: product.costo_detal,
+            active: product.active,
+            image: null,
+        });
+        toggleModal();
+    }
+
     async function getProductSelectOptions() {
         try {
             const res = await fetchProductSelectOptions();
@@ -287,7 +305,10 @@ export default function Products() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full">
                     {products.map((item, key) => (
                         <div key={key}>
-                            <Product product={item} />
+                            <Product
+                                onClick={() => openProduct(item)}
+                                product={item}
+                            />
                         </div>
                     ))}
                 </div>

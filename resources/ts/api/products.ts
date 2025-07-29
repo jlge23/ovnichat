@@ -38,6 +38,31 @@ type Metric = {
     updated_at: Date;
 };
 
+export type ProductProps = {
+    id: string;
+    gtin: string;
+    nombre: string;
+    codigo_sku: string;
+    descripcion: string;
+    categoria: Category;
+    active: boolean;
+    image: string;
+    marca: Brand;
+    proveedor: Provider;
+    unidad_medida: Metric;
+    stock_actual: number;
+    embalaje: Packaging;
+    unidades_por_embalaje: number;
+    precio_detal: number;
+    precio_embalaje: number;
+    costo_detal: number;
+    marca_id: number;
+    categoria_id: number;
+    proveedor_id: number;
+    unidad_medida_id: number;
+    embalaje_id: number;
+};
+
 type ProductSelectOptions = {
     categorias: Category[];
     embalajes: Packaging[];
