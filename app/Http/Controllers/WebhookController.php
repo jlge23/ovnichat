@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Events\WhatsappEvent;
 use App\Jobs\GetWhatsAppAudioJob;
 use App\Jobs\MarcarMensajeComoLeidoJob;
+use App\Jobs\ProcessEmbeddingJob;
 use App\Jobs\ProcessOllamaIAJob;
 use App\Jobs\ProcessWitAIJob;
 use Illuminate\Support\Facades\Log;
@@ -80,8 +81,9 @@ class WebhookController extends Controller
             $numCli = $request->input('entry.0.changes.0.value.contacts.0.wa_id');
             //event(new WhatsappEvent($nombre." dice: ".$mensaje));
             dispatch(new MarcarMensajeComoLeidoJob($msg_id));
-            //ProcessOllamaIAJob::dispatch($numCli,$nombre,$mensaje);
-            ProcessWitAIJob::dispatch($numCli,$nombre,$mensaje);
+            //ProcessOllamaIAJob::dispatch($numCli,$nombre,$mensaje,$msg_id);
+            //ProcessWitAIJob::dispatch($numCli,$nombre,$mensaje,$msg_id);
+            ProcessEmbeddingJob::dispatch($numCli,$nombre,$mensaje,$msg_id);
         }catch (Exception $e) {
             //event(new WhatsappEvent("Error inesperado: " . $e->getMessage()));
         }

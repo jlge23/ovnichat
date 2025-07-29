@@ -50,6 +50,7 @@ Route::get('/mie' ,[MensajeController::class ,'mie'])->name('mie');
 Route::get('/categorias' ,[MensajeController::class ,'categorias'])->name('categorias');
 Route::get('/consulta' ,[MensajeController::class ,'consulta'])->name('consulta');
 Route::get('/llm' ,[MensajeController::class ,'LLM'])->name('llm');
+Route::get('/system' ,[MensajeController::class ,'construirSystemPrompt'])->name('system');
 
 
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');

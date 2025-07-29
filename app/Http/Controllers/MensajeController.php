@@ -490,4 +490,97 @@ class MensajeController extends Controller
                 })
         */
     }
+
+    public function construirSystemPrompt(): string
+    {
+
+        // Listado de Productos disponibles
+
+        $productos = Producto::query()
+        ->join('categorias', 'productos.categoria_id', '=', 'categorias.id')
+        ->join('embalajes', 'productos.embalaje_id', '=', 'embalajes.id')
+        ->join('marcas', 'productos.marca_id', '=', 'marcas.id')
+        ->where('productos.active', true)
+        ->select(
+            'productos.producto',
+            'productos.descripcion',
+            'productos.costo_detal',
+            'productos.precio_detal',
+            'productos.precio_embalaje',
+            'productos.stock_actual',
+            'embalajes.embalaje AS embalaje',
+            'categorias.categoria AS categoria',
+            'marcas.marca AS marca'
+        )->get()
+        ->map(function($producto){
+            return "- Producto: {$producto->producto} | Descripción: {$producto->descripcion} | Precio detal: {$producto->precio_detal} | Precio por embalaje: {$producto->precio_embalaje} | Stock:  {$producto->stock_actual} | Embalaje: {$producto->embalaje} | Categoria: {$producto->categoria} | Marca: {$producto->marca}";
+        })->implode("\n");
+
+        // Listado de Categorias disponibles
+        $categorias = Categoria::has('productos')->whereNot('id',1)->get()
+        ->map(function ($categoria) {
+            return "Categoria: {$categoria->categoria} | Descripción: {$categoria->descripcion}";
+        })->implode("\n");
+
+        // Listado de Marcas disponibles
+        $marcas = Marca::has('productos')->whereNot('id',1)->get()
+        ->map(function ($marca) {
+            return "Marca: {$marca->marca}";
+        })->implode("\n");
+
+        $ModeloNegocio = BusinessModel::with(['intents.entities'])
+        ->where('id', 9)
+        ->get()
+        ->map(function ($modelo) {
+            return [
+                'modelo' => $modelo->modelonegocio,
+                'desc_modelo' => $modelo->description,
+                'intents_con_entities' => $modelo->intents->map(function ($intent) {
+                    return [
+                        'nombre' => $intent->intent,
+                        'descripcion' => $intent->description,
+                        'entidades' => ['entidad' => $intent->entities->pluck('entity')->toArray(), 'descripcion' => $intent->entities->pluck('description')->toArray()]
+                    ];
+                })
+            ];
+        });
+
+
+
+        if ($ModeloNegocio->isEmpty()) {
+            $ModeloNegocio = "No hay configuración del modelo de negocio actual.";
+        }
+
+        return <<<PROMPT
+            Tu nombre es OvniBot. Eres un agente de atención al cliente especializado en {$ModeloNegocio->pluck('desc_modelo')->implode(', ')}. Tu propósito es asistir con cordialidad, claridad y empatía en consultas relacionadas con productos del inventario.
+
+            Tu tarea es detectar si el mensaje del usuario corresponde a alguno de los siguientes intents y entities con sus descripciones:
+            {$ModeloNegocio->pluck('intents_con_entities')} y extraer las entidades relevantes.
+
+            tambien debes ayudar al cliente si te pide información sobre productos, categorías o marcas. Dispones de inventario detallado en tres niveles:
+
+            **Productos disponibles**
+            {$productos}
+
+            **Categorías disponibles:**
+            {$categorias}
+
+            **Marcas disponibles:**
+            {$marcas}
+
+            ---
+
+            📌 Si el cliente menciona explícitamente algún producto, muestra de inmediato la información del producto.
+
+            🚫 Si no detectas coincidencias, responde de forma cortés indicando que no hay registros, y si lo consideras útil, sugiere alternativas similares que sí estén disponibles.
+
+            💬 Si el mensaje es un saludo o conversación casual, responde de forma natural, amistosa y sin invocar herramientas. Puedes hacer preguntas suaves para continuar la charla si es adecuado.
+
+            🌐 Responde siempre en español, con un estilo conversacional, accesible y humano. Evita lenguaje técnico salvo que el cliente lo solicite.
+
+            🎯 Tu objetivo es sonar útil, simpático y confiable. No des información vacía ni generes respuestas extensas si no agregan valor.
+
+        PROMPT;
+
+    }
 }

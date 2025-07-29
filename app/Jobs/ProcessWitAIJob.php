@@ -23,12 +23,14 @@ class ProcessWitAIJob implements ShouldQueue
     protected string $telefono;
     protected string $nombre;
     protected string $mensaje;
+    protected string $msg_id;
 
-    public function __construct(string $telefono, string $nombre, string $mensaje)
+    public function __construct(string $telefono, string $nombre, string $mensaje, string $msg_id)
     {
         $this->telefono = $telefono;
         $this->nombre = $nombre;
         $this->mensaje = $mensaje;
+        $this->msg_id = $msg_id;
     }
     public function handle(): void
     {
@@ -36,8 +38,8 @@ class ProcessWitAIJob implements ShouldQueue
             if (strpos($this->mensaje, 'cat_') === 0) {
                 $categoria_id = str_replace('cat_', '', $this->mensaje);
                 $respuesta = Categoria::productosXcategoria($categoria_id);
-                event(new WhatsappEvent($respuesta));
-                SendWhatsAppMessageJob::dispatch($this->telefono, $respuesta);
+                //event(new WhatsappEvent($respuesta));
+                SendWhatsAppMessageJob::dispatch($this->telefono, $respuesta, $this->msg_id);
                 return;
             }else{
                 Log::info("{$this->nombre} escribe a WitAI:", [$this->mensaje]);
@@ -68,12 +70,12 @@ class ProcessWitAIJob implements ShouldQueue
                     'consulta_tiempo_entrega' => '🚚 En *Guayaquil* entregamos el mismo día. ¿Dónde estás ubicado tú?',
                     'consulta_garantia' => '🛡️ Sí, ofrecemos garantía. ¿Sobre qué producto necesitas información?',
                     'consulta_promocion' => '🎉 ¡Tenemos varias promos! ¿Qué producto te interesa revisar?',
-                    'preguntar_producto' => Categoria::SeleccionarCategorias($this->telefono),
+                    'preguntar_producto' => Categoria::SeleccionarCategorias($this->telefono,$this->msg_id),
                     'disponibilidad_producto' => $this->procesarPedido(data_get($analisis, 'entities')),
                     'nosotros' => Categoria::listarCategorias(),
-                    null => ProcessOllamaIAJob::dispatch($this->telefono,$this->nombre,$this->mensaje),
+                    null => ProcessOllamaIAJob::dispatch($this->telefono,$this->nombre,$this->mensaje, $this->msg_id),
                 };
-                (!empty($respuesta)) ? SendWhatsAppMessageJob::dispatch($this->telefono, $respuesta) : ProcessOllamaIAJob::dispatch($this->telefono,$this->nombre,$this->mensaje);
+                (!empty($respuesta)) ? SendWhatsAppMessageJob::dispatch($this->telefono, $respuesta, $this->msg_id) : ProcessOllamaIAJob::dispatch($this->telefono,$this->nombre,$this->mensaje,$this->msg_id);
                 //event(new WhatsappEvent($respuesta));
                 return;
             }
@@ -140,7 +142,7 @@ class ProcessWitAIJob implements ShouldQueue
             }
             return $mensajeFinal;
         }elseif($categorias){
-            Categoria::SeleccionarCategorias($this->telefono);
+            Categoria::SeleccionarCategorias($this->telefono, $this->msg_id);
             $mensajeFinal = "📦 *Aquí esta una lista de Categorias disponibles:*\n\n";
             return $mensajeFinal;
         }

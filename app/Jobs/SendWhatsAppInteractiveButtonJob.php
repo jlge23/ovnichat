@@ -14,14 +14,15 @@ class SendWhatsAppInteractiveButtonJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $to, $header, $title, $buttons;
+    protected $to, $header, $title, $buttons, $msgId;
 
-    public function __construct($to, $header, $title, $buttons)
+    public function __construct($to, $header, $title, $buttons, $msgId)
     {
         $this->to = $to;
         $this->header = $header;
         $this->title = $title;
         $this->buttons = $buttons;
+        $this->msgId = $msgId;
     }
 
     public function handle()
@@ -30,6 +31,9 @@ class SendWhatsAppInteractiveButtonJob implements ShouldQueue
             'messaging_product' => 'whatsapp',
             'to' => $this->to,
             'type' => 'interactive',
+            'context' => [
+                'message_id' => $this->msgId
+            ],
             'interactive' => [
                 'type' => 'button',
                 'body' => [

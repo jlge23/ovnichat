@@ -14,15 +14,16 @@ class SendWhatsAppInteractiveListJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $to, $header, $body, $footer, $list;
+    protected $to, $header, $body, $footer, $list, $msgId;
 
-    public function __construct($to, $header, $body, $footer, $list)
+    public function __construct($to, $header, $body, $footer, $list, $msgId)
     {
         $this->to = $to;
         $this->header = $header;
         $this->body = $body;
         $this->footer = $footer;
         $this->list = $list;
+        $this->msgId = $msgId;
     }
 
     public function handle()
@@ -31,6 +32,9 @@ class SendWhatsAppInteractiveListJob implements ShouldQueue
             'messaging_product' => 'whatsapp',
             'to' => $this->to,
             'type' => 'interactive',
+            'context' => [
+                'message_id' => $this->msgId
+            ],
             'interactive' => [
                 'type' => 'list',
                 'header' => [

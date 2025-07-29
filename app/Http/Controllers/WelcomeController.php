@@ -11,10 +11,11 @@ use App\Helpers\TextCleanerHelp;
 use App\Models\Embedding;
 use App\Models\Intent;
 use Illuminate\Support\Facades\Log;
+use App\Traits\UsesOllamaOptions;
 
 class WelcomeController extends Controller
 {
-    use UsesIAModelsList;
+    use UsesIAModelsList, UsesOllamaOptions;
     public function index(){
         //$modelos = $this->modelosLocales();
         //return $modelos;
@@ -28,7 +29,14 @@ class WelcomeController extends Controller
             $output = 'Mensaje bloqueado por seguridad. Intenta usar lenguaje natural.';
             return back()->withErrors(['error' => $output]);
         }
+
         $entradaFiltrada = TextCleanerHelp::normalizarTexto($entrada);
+        /* $system = "Corrige solo errores ortográficos del mensaje siguiente sin modificar el contexto ni sustituir ideas. No reemplaces palabras con sinónimos ni cambies el significado. No inventes nombres ni lugares:\n\n\"$entradaFiltrada\"";
+        $respuesta = Ollama::agent($system)->options($this->ollamaOptions())->model('phi3:latest')->prompt($entradaFiltrada)->ask();
+        $mensajeCorregido = $respuesta['response'] ?? $entradaFiltrada;
+        Log::info("📘 Reescritura por IA: $mensajeCorregido");
+
+        $prompt = 'search_document: ' . $mensajeCorregido; */
         $prompt = 'search_document: ' . $entradaFiltrada;
 
         $respuesta = Ollama::model('nomic-embed-text:v1.5')->embeddings($prompt);
@@ -83,7 +91,6 @@ class WelcomeController extends Controller
             $dot = $normA = $normB = 0;
             foreach ($vec1 as $i => $val) {
                 if (count($vec1) !== count($vec2)) {
-                    // Puedes saltarte ese vector, loguearlo, o lanzar advertencia
                     continue; // evitar crash
                 }
 
@@ -112,8 +119,7 @@ class WelcomeController extends Controller
                     : []
             ];
         }
-        //return $comparaciones;
-        //return redirect()->route('welcome')->with('comparaciones', $comparaciones);
+
         $intents = Intent::all();
         return view('welcome', compact('comparaciones', 'intents'));
     }

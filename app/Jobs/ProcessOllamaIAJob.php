@@ -17,6 +17,7 @@ use App\Models\Categoria;
 use App\Models\Producto;
 use Cloudstudio\Ollama\Facades\Ollama;
 use Illuminate\Support\Str;
+use App\Helpers\SecureInputIAHelper;
 
 class ProcessOllamaIAJob implements ShouldQueue
 {
@@ -25,34 +26,34 @@ class ProcessOllamaIAJob implements ShouldQueue
     protected string $telefono;
     protected string $nombre;
     protected string $mensaje;
+    protected string $msg_id;
 
-    public function __construct(string $telefono, string $nombre, string $mensaje)
+    public function __construct(string $telefono, string $nombre, string $mensaje, $msg_id)
     {
         $this->telefono = $telefono;
         $this->nombre = $nombre;
         $this->mensaje = $mensaje;
+        $this->msg_id = $msg_id;
     }
 
     public function handle(): void
     {
         try {
+            $msg = SecureInputIAHelper::sanitizarMensaje($this->mensaje);
+            if (!SecureInputIAHelper::entradaSegura($msg)) {
+                $output = 'Lo sentimos. Mensaje bloqueado por seguridad. vuelva a plantear su solicitud.';
+                Log::warning($output);
+                //SendWhatsAppMessageJob::dispatch($this->telefono, $output);
+            }
             Log::info("{$this->nombre} escribe a Ollama:", [$this->mensaje]);
             //$respuesta = json_decode(Http::timeout(100)->post(config("services.ollama.urlGenerate"), [
-            $respuesta = Http::timeout(100)->post(config("services.ollama.urlChat"), [
-                'model'  => config("services.ollama.model"),
-                //'prompt' => $this->mensaje,
-                'system' => $this->construirSystemPrompt(),
-                'stream' => false,
-                'options' => $this->ollamaOptions(),
-                'messages' => [
-                    [ 'role' => 'system', 'content' => $this->construirSystemPrompt()],
-                    [ 'role' => 'user',   'content' =>  $this->mensaje],
-                    [ 'role' => 'assistant', 'content' => 'tu respuesta...' ]
-                ]
-            ]);
-            //]), true);
+            $respuesta = Ollama::agent($this->construirSystemPrompt())
+            ->stream(false)
+            ->options($this->ollamaOptions())
+            ->model('llama3.2')
+            ->chat(['role' => 'user', 'content' => $msg]);
             Log::info($respuesta);
-            SendWhatsAppMessageJob::dispatch($this->telefono, $respuesta->json()['message']['content']);
+            //SendWhatsAppMessageJob::dispatch($this->telefono, $respuesta->json()['message']['content'],$this->msg_id);
         } catch (\Throwable $e) {
             Log::error('Error en ProcessOllamaIAJob: ' . $e->getMessage());
         }

@@ -10,10 +10,10 @@
         @csrf
         @method('POST')
         <div class="input-group mb-3">
-            <span class="input-group-text">Frase (expresion) para entrenar</span>
-            <input class="form-control" type="text" name="prompt" placeholder="Haz tu pregunta" required>
+            <span class="input-group-text">Registrar frase</span>
+            <input class="form-control" type="text" name="prompt" placeholder="Frase" required>
             <button class="btn btn-secondary" type="submit">Enviar</button>
-            <span class="input-group-text">debe tener el modelo: nomic-embed-text:v1.5</span>
+            <span class="input-group-text">nomic-embed-text:v1.5</span>
         </div>
     </form>
 
@@ -70,8 +70,8 @@
                                     @csrf
                                     @method('post')
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text">Intents</span>
-                                        <select name="intent_id" class="form-select form-select-sm">
+                                        <select name="intent_id" class="form-select form-select-sm" required>
+                                            <option value="" selected disabled>Sin Intent</option>
                                             @foreach($intents as $intent)
                                                 <option value="{{ $intent->id }}">{{ $intent->intent }}</option>
                                             @endforeach

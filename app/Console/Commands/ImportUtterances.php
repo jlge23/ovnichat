@@ -5,15 +5,18 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-
+use App\Helpers\SecureInputIAHelper;
+use App\Helpers\TextCleanerHelp;
 use App\Models\Intent;
 use App\Models\Entitie;
 use App\Models\Embedding;
 use App\Models\EntityIntent; // tabla pivote
 use Cloudstudio\Ollama\Facades\Ollama;
+use App\Traits\UsesOllamaOptions;
 
 class ImportUtterances extends Command
 {
+    use UsesOllamaOptions;
     protected $signature = 'utterances:import {--file=utterances-1.json}';
     protected $description = 'Importar utterances desde un archivo JSON, crear embeddings y relaciones';
 
@@ -57,7 +60,18 @@ class ImportUtterances extends Command
 
             // Generar embedding vía Ollama
 
-            $prompt = 'search_document: ' . $text;
+            $entrada = SecureInputIAHelper::sanitizarMensaje($text);
+            if (!SecureInputIAHelper::entradaSegura($entrada)) {
+                $this->warn("⏩ Mensaje bloqueado por seguridad. Intenta usar lenguaje natural: '$text'");
+                continue;
+            }
+
+            /* $entradaFiltrada = TextCleanerHelp::normalizarTexto($entrada);
+            $system = "Corrige solo errores ortográficos del mensaje siguiente sin modificar el contexto ni sustituir ideas. No reemplaces palabras con sinónimos ni cambies el significado. No inventes nombres ni lugares:\n\n\"$entradaFiltrada\"";
+            $respuesta = Ollama::agent($system)->options($this->ollamaOptions())->model('phi3:latest')->prompt($entradaFiltrada)->ask();
+            $mensajeCorregido = $respuesta['response'] ?? $entradaFiltrada;
+            $prompt = 'search_document: ' . $mensajeCorregido; */
+            $prompt = 'search_document: ' . $entrada;
             $response = Ollama::model('nomic-embed-text:v1.5')->embeddings($prompt);
 
             if (!$response) {

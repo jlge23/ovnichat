@@ -30,7 +30,7 @@ class Categoria extends Model
     }
 
     //Metodo para listar todas las categorias
-    public static function SeleccionarCategorias($telefono){
+    public static function SeleccionarCategorias($telefono,$msgId){
         $categorias = Categoria::has('productos')->whereNot('id',1)->get();
         $list = $categorias->map(function ($categoria) {
             return [
@@ -39,7 +39,7 @@ class Categoria extends Model
                 'description' => $categoria->descripcion ?: 'Sin descripción'
             ];
         })->values()->toArray();
-        SendWhatsAppInteractiveListJob::dispatch($telefono,'📚 Categorías disponibles', 'Selecciona una categoría para continuar:', 'GRGROUPS Comercial S.A', $list);
+        SendWhatsAppInteractiveListJob::dispatch($telefono,'📚 Categorías disponibles', 'Selecciona una categoría para continuar:', 'GRGROUPS Comercial S.A', $list, $msgId);
         return;
     }
     //Metodo para consultar productos por categoria

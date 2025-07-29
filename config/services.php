@@ -49,14 +49,7 @@ return [
     'ollama' => [
         'urlChat' => env('OLLAMA_URL_CHAT'),
         'model' => env('OLLAMA_MODEL'),
-        'model2' => env('OLLAMA_MODEL_2'),
-        'model3' => env('OLLAMA_MODEL_3'),
-        'model4' => env('OLLAMA_MODEL_4'),
-        'model5' => env('OLLAMA_MODEL_5'),
         'prefix' => env('OLLAMA_PREFIX'),
-        'urlGenerate' => env('OLLAMA_URL_GENERATE'),
-        'urlTranscribe' => env('OLLAMA_URL_TRANSCRIBE'),
-        'urlEmbeddings' => env('OLLAMA_URL_EMBEDDINGS'),
     ],
     'messenger' => [
         'token' => env('MESSENGER_PAGE_ACCESS_TOKEN'),

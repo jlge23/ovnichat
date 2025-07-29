@@ -11,7 +11,7 @@ class SecureInputIAHelper
         // ⚠️ Lista de comandos sospechosos
         $bloqueados = [
             '\\restart-ai', '\\inject', '/system', '/debug', '/shutdown',
-            'role: system', '"role": "system"', 'reset context', '#prompt',
+            'role: system', '"role": "system"', 'reset context', '#prompt','/restart','/restart-ai','/restart-all-ais',
             'system:', 'clear memory', 'reconfigure','restart-ai','restart-ai-aio','systemprompt','system-prompt','system prompt'
         ];
 
