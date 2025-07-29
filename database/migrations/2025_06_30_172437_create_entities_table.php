@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('entities', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique(); // ej. fecha, hora, sucursal
+            $table->string('entity')->unique(); // ej. fecha, hora, sucursal
             $table->string('description')->nullable();
             $table->timestamps();
         });

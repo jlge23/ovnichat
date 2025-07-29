@@ -14,11 +14,11 @@ class EstadoLeadSeeder extends Seeder
     public function run(): void
     {
         EstadoLead::insert([
-            ['codigo' => 'nuevo', 'nombre' => 'Nuevo contacto'],
-            ['codigo' => 'interesado', 'nombre' => 'Interesado'],
-            ['codigo' => 'calificado', 'nombre' => 'Calificado'],
-            ['codigo' => 'convertido', 'nombre' => 'Convertido'],
-            ['codigo' => 'sin_interes', 'nombre' => 'Sin interés'],
+            ['codigo' => 'nuevo', 'estado' => 'Nuevo contacto'],
+            ['codigo' => 'interesado', 'estado' => 'Interesado'],
+            ['codigo' => 'calificado', 'estado' => 'Calificado'],
+            ['codigo' => 'convertido', 'estado' => 'Convertido'],
+            ['codigo' => 'sin_interes', 'estado' => 'Sin interés'],
         ]);
 
     }

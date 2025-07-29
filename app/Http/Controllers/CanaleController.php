@@ -11,28 +11,10 @@ class CanaleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    /* public function index()
+    public function index()
     {
-        $instruccion = config("services.ollama.prefix");
-            $prompt = "conoces algo sobre la biblia en hebreo?";
 
-            $respuesta = Http::post(config("services.ollama.url"), [
-                'model' => config("services.ollama.model"),
-                'prompt' => $prompt,
-            ]);
-            $fragmentos = explode("\n", $respuesta->body());
-            $texto = '';
-            foreach ($fragmentos as $linea) {
-                if (trim($linea) === '') continue;
-
-                $chunk = json_decode($linea, true);
-                if (isset($chunk['response'])) {
-                    $texto .= $chunk['response'];
-                }
-            }
-            return $texto;
-
-    } */
+    }
 
     /**
      * Show the form for creating a new resource.

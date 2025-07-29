@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('estado_leads', function (Blueprint $table) {
             $table->id();
             $table->string('codigo')->unique();    // 'nuevo', 'interesado'
-            $table->string('nombre');
+            $table->string('estado');
             $table->text('descripcion')->nullable();
             $table->timestamps();
         });

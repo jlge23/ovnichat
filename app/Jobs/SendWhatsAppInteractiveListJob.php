@@ -14,25 +14,27 @@ class SendWhatsAppInteractiveListJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $to, $header, $body, $footer, $list;
+    protected $to, $header, $body, $footer, $list, $msgId;
 
-    public function __construct($to, $header, $body, $footer, $list)
+    public function __construct($to, $header, $body, $footer, $list, $msgId)
     {
         $this->to = $to;
         $this->header = $header;
         $this->body = $body;
         $this->footer = $footer;
         $this->list = $list;
+        $this->msgId = $msgId;
     }
 
     public function handle()
     {
-        Log::info("Ejecutando SendWhatsAppInteractiveListJob para {$this->to}");
-
         $data = [
             'messaging_product' => 'whatsapp',
             'to' => $this->to,
             'type' => 'interactive',
+            'context' => [
+                'message_id' => $this->msgId
+            ],
             'interactive' => [
                 'type' => 'list',
                 'header' => [
@@ -56,8 +58,6 @@ class SendWhatsAppInteractiveListJob implements ShouldQueue
                 ]
             ]
         ];
-        Log::info($data);
-        Log::info("Enviando solicitud a WhatsApp...");
         $response = Http::withToken(config('services.whatsapp.token'))
             ->withHeaders(['Content-Type' => 'application/json'])
             ->post(config('services.whatsapp.url'), $data);

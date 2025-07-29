@@ -14,12 +14,13 @@ class SendWhatsAppMessageJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $to, $text;
+    protected $to, $text, $msgId;
 
-    public function __construct($to, $text)
+    public function __construct($to, $text, $msgId)
     {
         $this->to = $to;
         $this->text = $text;
+        $this->msgId = $msgId;
     }
 
     public function handle()
@@ -30,6 +31,9 @@ class SendWhatsAppMessageJob implements ShouldQueue
             "recipient_type" => "individual",
             "to" => $this->to,
             "type" => "text",
+            'context' => [
+                'message_id' => $this->msgId
+            ],
             "text" => ["body" => $this->text]
         ];
         Log::info($data);

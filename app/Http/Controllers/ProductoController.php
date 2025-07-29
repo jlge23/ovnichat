@@ -217,7 +217,7 @@ class ProductoController extends Controller
 
         $guardado = $producto->update([
             'gtin' => ($request->gtin) ? $request->gtin : null,
-            'nombre' => strtoupper($request->nombre),
+            'producto' => strtoupper($request->producto),
             'descripcion' => strtoupper($request->descripcion),
             'precio_detal' => $request->precio_detal,
             'precio_embalaje' => $request->precio_embalaje,

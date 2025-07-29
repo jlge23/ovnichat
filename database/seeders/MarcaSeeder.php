@@ -18,6 +18,6 @@ class MarcaSeeder extends Seeder
         Marca::create(['marca' => 'CAFFAS']);
         Marca::create(['marca' => 'AREL']);
         Marca::create(['marca' => 'TERRA HISPANICA']);
-        Marca::create(['marca' => 'PÁFIA']);
+        Marca::create(['marca' => 'PAFIA']);
     }
 }

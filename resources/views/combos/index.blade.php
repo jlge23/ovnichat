@@ -28,7 +28,7 @@
             @method('POST')
             <div class="input-group">
                 <span class="input-group-text">Nombre del combo</span>
-                <input class="form-control form-control-lg" type="text" placeholder="Combo Navideño" id="nombre" name="nombre" required>
+                <input class="form-control form-control-lg" type="text" placeholder="Combo Navideño" id="combo" name="combo" required>
 
             </div>
             <div class="input-group">
@@ -56,7 +56,7 @@
         <thead>
             <tr>
                 <th>N°</th>
-                <th>Nombre</th>
+                <th>Combo</th>
                 <th>Descripción</th>
                 <th>Precio</th>
                 <th>Status</th>
@@ -68,7 +68,7 @@
             @foreach ($combos as $combo)
                 <tr>
                     <td>{{$combo->id}}</td>
-                    <td>{{$combo->nombre}}</td>
+                    <td>{{$combo->combo}}</td>
                     <td>{{$combo->descripcion}}</td>
                     <td>{{$combo->precio}}</td>
                     <td>{{$combo->status}}</td>
@@ -76,12 +76,12 @@
                         @if ($combo->productos->isNotEmpty())
                             <ol class="list-group list-group-numbered">
                                 @foreach ($combo->productos as $producto)
-                                    <li class="list-group-item list-group-item-action"><small>{{$producto->nombre}}&nbsp;{{$producto->descripcion}}&nbsp;[{{$producto->pivot->cantidad}}]</small></li>
+                                    <li class="list-group-item list-group-item-action"><small>{{$producto->producto}}&nbsp;{{$producto->descripcion}}&nbsp;[{{$producto->pivot->cantidad}}]</small></li>
                                 @endforeach
                             </ol>
-                            <small id="edit{{$combo->id}}"><b class="btn btn-warning text text-dark ver_productos">haga click para cambiar</b></small>
+                            <small id="edit{{$combo->id}}"><b class="btn btn-warning text text-primary ver_productos">haga click para cambiar</b></small>
                         @else
-                            <small id="edit{{$combo->id}}"><b class="btn btn-info text text-dark ver_productos">haga click para asociar productos</b></small>
+                            <small id="edit{{$combo->id}}"><b class="btn btn-info text text-secondary ver_productos">haga click para asociar productos</b></small>
                         @endif
                     </td>
                     <td>
@@ -100,7 +100,7 @@
         </tbody>
         <tfoot>
             <th>N°</th>
-            <th>Nombre</th>
+            <th>Combo</th>
             <th>Descripción</th>
             <th>Precio</th>
             <th>Status</th>
@@ -128,7 +128,7 @@
                         <thead>
                             <tr>
                                 <th>N°</th>
-                                <th>Nombre</th>
+                                <th>Producto</th>
                                 <th>Descripción</th>
                                 <th>Stock actual</th>
                                 <th>Asignado</th>
@@ -140,7 +140,7 @@
                         <tfoot>
                             <tr>
                                 <th>N°</th>
-                                <th>Nombre</th>
+                                <th>Producto</th>
                                 <th>Descripción</th>
                                 <th>Stock actual</th>
                                 <th>Asignado</th>

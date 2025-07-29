@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('intents', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique(); // ej. consultar_disponibilidad
+            $table->string('intent')->unique(); // ej. consultar_disponibilidad
             $table->string('description')->nullable();
             $table->unsignedSmallInteger('priority')->default(0); // para jerarquía
             $table->timestamps();

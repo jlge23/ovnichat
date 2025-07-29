@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Events\WhatsappEvent;
+use App\Jobs\GetWhatsAppAudioJob;
 use App\Jobs\MarcarMensajeComoLeidoJob;
+use App\Jobs\ProcessEmbeddingJob;
 use App\Jobs\ProcessOllamaIAJob;
 use App\Jobs\ProcessWitAIJob;
 use Illuminate\Support\Facades\Log;
@@ -48,22 +50,42 @@ class WebhookController extends Controller
                 $msg_id = $request->input('entry.0.changes.0.value.messages.0.id');
 
             }
-            // Es un mensaje de respuesta de tipo lista
+
+            // Es un mensaje de respuesta de tipo audio
+            if ($request->has('entry.0.changes.0.value.messages.0.audio')) {
+                $audio = $request->input('entry.0.changes.0.value.messages.0.audio.id');
+                $mimetype = $request->input('entry.0.changes.0.value.messages.0.audio.mime_type');
+                $timestamp = $request->input('entry.0.changes.0.value.messages.0.timestamp');
+                $numCli = $request->input('entry.0.changes.0.value.messages.0.from');
+                $msg_id = $request->input('entry.0.changes.0.value.messages.0.id');
+                $nombre = $request->input('entry.0.changes.0.value.contacts.0.profile.name');
+                dispatch(new MarcarMensajeComoLeidoJob($msg_id));
+                dispatch(new GetWhatsAppAudioJob($numCli, $audio, $mimetype, $nombre, $timestamp));
+                return;
+            }
+            // Es un mensaje interactivo
             if ($request->has('entry.0.changes.0.value.messages.0.interactive')) {
+                //mensaje tipo list_reply
                 if ($request->has('entry.0.changes.0.value.messages.0.interactive.list_reply')) {
-                    $mensaje = $request->input('entry.0.changes.0.value.messages.0.interactive.list_reply.title');
+                    $mensaje = $request->input('entry.0.changes.0.value.messages.0.interactive.list_reply.id');//id categoria
+                    $msg_id = $request->input('entry.0.changes.0.value.messages.0.context.id');
+                }
+                //mensaje tipo button_reply
+                if ($request->has('entry.0.changes.0.value.messages.0.interactive.button_reply')) {
+                    $button_reply_id = $request->input('entry.0.changes.0.value.messages.0.interactive.button_reply.id');//id categoria
+                    $button_reply_title = $request->input('entry.0.changes.0.value.messages.0.interactive.button_reply.title');//Titulo de boton
                     $msg_id = $request->input('entry.0.changes.0.value.messages.0.context.id');
                 }
             }
             $nombre = $request->input('entry.0.changes.0.value.contacts.0.profile.name');
             $numCli = $request->input('entry.0.changes.0.value.contacts.0.wa_id');
-            event(new WhatsappEvent($nombre." dice: ".$mensaje));
-            //Log::info($nombre." dice: ".$mensaje);
+            //event(new WhatsappEvent($nombre." dice: ".$mensaje));
             dispatch(new MarcarMensajeComoLeidoJob($msg_id));
-            ProcessOllamaIAJob::dispatch($numCli,$nombre,$mensaje);
-            //ProcessWitAIJob::dispatch($numCli,$nombre,$mensaje);
+            //ProcessOllamaIAJob::dispatch($numCli,$nombre,$mensaje,$msg_id);
+            //ProcessWitAIJob::dispatch($numCli,$nombre,$mensaje,$msg_id);
+            ProcessEmbeddingJob::dispatch($numCli,$nombre,$mensaje,$msg_id);
         }catch (Exception $e) {
-            event(new WhatsappEvent("Error inesperado: " . $e->getMessage()));
+            //event(new WhatsappEvent("Error inesperado: " . $e->getMessage()));
         }
     }
 

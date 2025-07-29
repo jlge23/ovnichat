@@ -17,26 +17,26 @@ class OtrosSeeder extends Seeder
     public function run(): void
     {
         $intents = [
-            ['name' => 'saludo', 'description' => 'Saludo inicial', 'priority' => 1],
-            ['name' => 'despedida', 'description' => 'Despedida del usuario', 'priority' => 1],
-            ['name' => 'agradecimiento', 'description' => 'Expresión de gratitud', 'priority' => 1],
-            ['name' => 'nosotros', 'description' => 'Consulta sobre la empresa', 'priority' => 1],
-            ['name' => 'reclamo', 'description' => 'Reclamo o queja', 'priority' => 1],
-            ['name' => 'consulta_horario', 'description' => 'Consulta de horarios', 'priority' => 1],
-            ['name' => 'consulta_ubicacion', 'description' => 'Consulta de ubicación', 'priority' => 1],
-            ['name' => 'consulta_precio', 'description' => 'Consulta de precios', 'priority' => 1],
-            ['name' => 'consulta_promocion', 'description' => 'Consulta de promociones', 'priority' => 1],
-            ['name' => 'consulta_forma_pago', 'description' => 'Consulta sobre formas de pago', 'priority' => 1],
-            ['name' => 'consulta_tiempo_entrega', 'description' => 'Consulta sobre tiempo de entrega', 'priority' => 1],
-            ['name' => 'consulta_garantia', 'description' => 'Consulta sobre garantía', 'priority' => 1],
-            ['name' => 'pedido_asistencia', 'description' => 'Solicitud de asistencia', 'priority' => 1],
-            ['name' => 'cancelacion', 'description' => 'Cancelación de pedido', 'priority' => 1],
-            ['name' => 'preguntar_producto', 'description' => 'Consulta general sobre productos', 'priority' => 1],
-            ['name' => 'disponibilidad_producto', 'description' => 'Consulta de disponibilidad de producto', 'priority' => 1],
+            ['intent' => 'saludo', 'description' => 'Saludo inicial', 'priority' => 1],
+            ['intent' => 'despedida', 'description' => 'Despedida del usuario', 'priority' => 1],
+            ['intent' => 'agradecimiento', 'description' => 'Expresión de gratitud', 'priority' => 1],
+            ['intent' => 'nosotros', 'description' => 'Consulta sobre la empresa', 'priority' => 1],
+            ['intent' => 'reclamo', 'description' => 'Reclamo o queja', 'priority' => 1],
+            ['intent' => 'consulta_horario', 'description' => 'Consulta de horarios', 'priority' => 1],
+            ['intent' => 'consulta_ubicacion', 'description' => 'Consulta de ubicación', 'priority' => 1],
+            ['intent' => 'consulta_precio', 'description' => 'Consulta de precios', 'priority' => 1],
+            ['intent' => 'consulta_promocion', 'description' => 'Consulta de promociones', 'priority' => 1],
+            ['intent' => 'consulta_forma_pago', 'description' => 'Consulta sobre formas de pago', 'priority' => 1],
+            ['intent' => 'consulta_tiempo_entrega', 'description' => 'Consulta sobre tiempo de entrega', 'priority' => 1],
+            ['intent' => 'consulta_garantia', 'description' => 'Consulta sobre garantía', 'priority' => 1],
+            ['intent' => 'pedido_asistencia', 'description' => 'Solicitud de asistencia', 'priority' => 1],
+            ['intent' => 'cancelacion', 'description' => 'Cancelación de pedido', 'priority' => 1],
+            ['intent' => 'preguntar_producto', 'description' => 'Consulta general sobre productos', 'priority' => 1],
+            ['intent' => 'disponibilidad_producto', 'description' => 'Consulta de disponibilidad de producto', 'priority' => 1],
         ];
 
         foreach ($intents as $intent) {
-            \App\Models\Intent::firstOrCreate(['name' => $intent['name']], $intent);
+            Intent::firstOrCreate(['intent' => $intent['intent']], $intent);
         }
 
         $entities = [
@@ -61,9 +61,9 @@ class OtrosSeeder extends Seeder
         ];
 
         foreach ($entities as $nombre) {
-            if (!Entitie::where('name', $nombre)->exists()) {
+            if (!Entitie::where('entity', $nombre)->exists()) {
                 Entitie::create([
-                    'name' => $nombre,
+                    'entity' => $nombre,
                     'description' => ucfirst(str_replace('_', ' ', $nombre))
                 ]);
                 echo "✅ Insertada entity: {$nombre}\n";
@@ -73,7 +73,7 @@ class OtrosSeeder extends Seeder
         }
 
         $businessModels = BusinessModel::all();
-        $intents = Intent::whereIn('name', array_column($intents, 'name'))->get();
+        $intents = Intent::whereIn('intent', array_column($intents, 'intent'))->get();
 
         foreach ($businessModels as $model) {
             foreach ($intents as $intent) {
@@ -101,7 +101,7 @@ class OtrosSeeder extends Seeder
         ];
 
         foreach ($map as $intentName => $entityNames) {
-            $intent = Intent::where('name', $intentName)->first();
+            $intent = Intent::where('intent', $intentName)->first();
 
             if (!$intent) {
                 echo "🟥 Intent no encontrado: {$intentName}\n";
@@ -109,7 +109,7 @@ class OtrosSeeder extends Seeder
             }
 
             foreach ($entityNames as $entityName) {
-                $entity = Entitie::where('name', $entityName)->first();
+                $entity = Entitie::where('entity', $entityName)->first();
 
                 if (!$entity) {
                     echo "🟥 Entitie no encontrada: {$entityName}\n";

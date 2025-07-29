@@ -14,13 +14,13 @@ class CanaleSeeder extends Seeder
     public function run(): void
     {
         Canale::create([
-            'nombre' => 'Página Facebook Principal',
+            'canal' => 'Página Facebook Principal',
             'plataforma' => 'messenger',
             'token' => 'FAKE_TOKEN_MESSENGER'
         ]);
 
         Canale::create([
-            'nombre' => 'WhatsApp Business',
+            'canal' => 'WhatsApp Business',
             'plataforma' => 'whatsapp',
             'token' => 'FAKE_TOKEN_WHATSAPP'
         ]);

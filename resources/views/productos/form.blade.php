@@ -36,7 +36,7 @@
         <div class="col-md-12 col-sm-12 col-lg-12">
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Nombre del producto&nbsp;<i class="fa-brands fa-product-hunt"></i></span>
-                <input type="text" name="nombre" id="nombre" class="form-control" value="{{$producto->nombre ?? old('nombre')}}" required>
+                <input type="text" name="producto" id="producto" class="form-control" value="{{$producto->producto ?? old('producto')}}" required>
             </div>
         </div>
     </div>
@@ -86,15 +86,15 @@
                         @foreach ($categorias as $categoria)
                             @if(isset($producto))
                                 @if (($producto->categoria_id == $categoria->id) or ($producto->categoria_id == old('categoria_id')))
-                                    <option value="{{$categoria->id}}" selected>{{$categoria->nombre}}</option>
+                                    <option value="{{$categoria->id}}" selected>{{$categoria->categoria}}</option>
                                 @else
-                                    <option value="{{$categoria->id}}">{{$categoria->nombre}}</option>
+                                    <option value="{{$categoria->id}}">{{$categoria->categoria}}</option>
                                 @endif
                             @else
                                 @if ($categoria->id == old('categoria_id'))
-                                    <option value="{{$categoria->id}}" selected>{{$categoria->nombre}}</option>
+                                    <option value="{{$categoria->id}}" selected>{{$categoria->categoria}}</option>
                                 @else
-                                    <option value="{{$categoria->id}}">{{$categoria->nombre}}</option>
+                                    <option value="{{$categoria->id}}">{{$categoria->categoria}}</option>
                                 @endif
                             @endif
                         @endforeach
@@ -113,15 +113,15 @@
                         @foreach ($proveedores as $proveedor)
                             @if(isset($producto))
                                 @if (($producto->proveedor_id == $proveedor->id) or ($producto->proveedor_id == old('proveedor_id')))
-                                    <option value="{{$proveedor->id}}" selected>{{$proveedor->nombre}}</option>
+                                    <option value="{{$proveedor->id}}" selected>{{$proveedor->proveedor}}</option>
                                 @else
-                                    <option value="{{$proveedor->id}}">{{$proveedor->nombre}}</option>
+                                    <option value="{{$proveedor->id}}">{{$proveedor->proveedor}}</option>
                                 @endif
                             @else
                                 @if ($proveedor->id == old('proveedor_id'))
-                                    <option value="{{$proveedor->id}}" selected>{{$proveedor->nombre}}</option>
+                                    <option value="{{$proveedor->id}}" selected>{{$proveedor->proveedor}}</option>
                                 @else
-                                    <option value="{{$proveedor->id}}">{{$proveedor->nombre}}</option>
+                                    <option value="{{$proveedor->id}}">{{$proveedor->proveedor}}</option>
                                 @endif
                             @endif
                         @endforeach
@@ -142,15 +142,15 @@
                         @foreach ($unidadesMedidas as $unidadMedidas)
                             @if(isset($producto))
                                 @if (($producto->unidad_medida_id == $unidadMedidas->id) or ($producto->unidad_medida_id == old('unidad_medida_id')))
-                                    <option value="{{$unidadMedidas->id}}" selected>{{$unidadMedidas->nombre}}</option>
+                                    <option value="{{$unidadMedidas->id}}" selected>{{$unidadMedidas->unidad}}</option>
                                 @else
-                                    <option value="{{$unidadMedidas->id}}">{{$unidadMedidas->nombre}}</option>
+                                    <option value="{{$unidadMedidas->id}}">{{$unidadMedidas->unidad}}</option>
                                 @endif
                             @else
                                 @if ($unidadMedidas->id == old('unidad_medida_id'))
-                                    <option value="{{$unidadMedidas->id}}" selected>{{$unidadMedidas->nombre}}</option>
+                                    <option value="{{$unidadMedidas->id}}" selected>{{$unidadMedidas->unidad}}</option>
                                 @else
-                                    <option value="{{$unidadMedidas->id}}">{{$unidadMedidas->nombre}}</option>
+                                    <option value="{{$unidadMedidas->id}}">{{$unidadMedidas->unidad}}</option>
                                 @endif
                             @endif
                         @endforeach

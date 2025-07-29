@@ -18,7 +18,7 @@ class ComboController extends Controller
         foreach($combos as $combo){
             $data['data'][] = array(
                 'id' => $combo->id,
-                'nonbre' => $combo->nombre,
+                'nonbre' => $combo->combo,
                 'descripcion' => $combo->descripcion,
                 'precio' => $combo->precio,
                 'productos' => $combo->productos,
@@ -41,7 +41,7 @@ class ComboController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nombre' => 'required|string|max:255',
+            'combo' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
             'precio' => 'required|numeric|min:0',
             'status' => 'required|in:activo,inactivo,agotado',
@@ -73,7 +73,7 @@ class ComboController extends Controller
             }
             return [
                 'id' => $producto->id,
-                'nombre' => $producto->nombre,
+                'producto' => $producto->producto,
                 'descripcion' => $producto->descripcion,
                 'stock_actual' => $producto->stock_actual,
                 'asignado' => $asignado,
@@ -84,7 +84,7 @@ class ComboController extends Controller
         foreach ($productosMarcados as $producto) {
             $data['data'][] = [
                 'id' => $producto['id'],
-                'nombre' => $producto['nombre'],
+                'producto' => $producto['producto'],
                 'descripcion' => $producto['descripcion'],
                 'stock_actual' => $producto['stock_actual'],
                 'asignado' => $producto['asignado'],

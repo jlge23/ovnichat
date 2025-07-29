@@ -100,10 +100,10 @@ class BusinessModelIntentSeeder extends Seeder
         ];
 
         foreach ($map as $businessModel => $intents) {
-            $businessModelId = DB::table('business_models')->where('name', $businessModel)->value('id');
+            $businessModelId = DB::table('business_models')->where('modelonegocio', $businessModel)->value('id');
 
             foreach ($intents as $intentName) {
-                $intentId = DB::table('intents')->where('name', $intentName)->value('id');
+                $intentId = DB::table('intents')->where('intent', $intentName)->value('id');
 
                 if ($businessModelId && $intentId) {
                     DB::table('business_model_intent')->insert([

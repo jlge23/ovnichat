@@ -7,7 +7,7 @@ use App\Models\Lead;
 
 class EstadoLead extends Model
 {
-    protected $fillable = ['codigo','nombre','descripcion'];
+    protected $fillable = ['codigo','estado','descripcion'];
 
     public function leads(){
         return $this->hasMany(Lead::class, 'estado_lead_id');

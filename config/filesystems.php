@@ -53,6 +53,12 @@ return [
             'url' => env('APP_URL').'/storage/images',
             'visibility' => 'public',
         ],
+        'WhatsAppAudio' => [
+            'driver' => 'local',
+            'root' => storage_path('app/WhatsAppAudio'),
+            //'url' => env('APP_URL').'/storage/audio',
+            'visibility' => 'private',
+        ],
 
         's3' => [
             'driver' => 's3',
