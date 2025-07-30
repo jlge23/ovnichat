@@ -39,7 +39,7 @@ type Metric = {
 };
 
 export type ProductProps = {
-    id: string;
+    id: number;
     gtin: string;
     nombre: string;
     codigo_sku: string;
@@ -82,7 +82,7 @@ export type ProductForm = Omit<
     | "unidad_medida"
     | "embalaje"
 > & {
-    image: File | null;
+    image: File | string | null;
 };
 
 export async function fetchProductSelectOptions(): Promise<ProductSelectOptions> {

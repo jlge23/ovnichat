@@ -182,7 +182,7 @@ class ProductoController extends Controller
             'proveedor_id' => 'nullable|exists:proveedores,id',
             'embalaje_id' => 'nullable|exists:embalajes,id',
             'unidad_medida_id' => 'nullable|exists:unidad_medidas,id',
-            'image' => 'image|mimes:png,gif,jpeg,jpg|max:3072',
+            'image' => 'nullable|image|mimes:png,gif,jpeg,jpg|max:3072',
             'active' => 'required|boolean',
         ]);
         if ($request->hasFile('image') && $request->image) {

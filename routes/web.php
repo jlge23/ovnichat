@@ -36,7 +36,7 @@ Route::put('/combos/{combo}', [ComboController::class, 'update'])->name('combos.
 Route::delete('/combos/{combo}', [ComboController::class, 'destroy'])->name('combos.destroy');
 
 
-Route::resource('productos', ProductoController::class);
+// Route::resource('productos', ProductoController::class);
 
 Route::get('/canal', [CanaleController::class, 'index']);
 
@@ -86,6 +86,7 @@ Route::middleware("auth")->group(function () {
     // Route::get('/products', [ProductoController::class, 'index'])->name('productos.index');
     Route::resource('products', ProductoController::class)->names([
         'index' => 'productos.index',
-        'create' => 'productos.create'
+        'create' => 'productos.create',
+        'update' => 'productos.update'
     ]);
 });

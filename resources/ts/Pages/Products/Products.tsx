@@ -5,20 +5,15 @@ import "./Products.css";
 import { InertiaSharedProps } from "@/types/inertia";
 import FAB from "@/components/FAB";
 import Modal from "@/components/Modal";
-import Input from "@/components/Input";
 import { useForm } from "@inertiajs/react";
 import { route } from "ziggy-js";
-import SelectField, { SelectOption } from "@/components/SelectField";
-import { Button } from "@/components/Button";
-import Textarea from "@/components/Textarea";
-import Spinner from "@/components/Spinner";
 import {
     fetchProductSelectOptions,
     ProductForm,
     ProductProps,
 } from "@/api/products";
 import { formatToSelect } from "@/utils/select";
-import ToggleSwitch from "@/components/ToggleSwitch";
+import Form, { FromOptions } from "./components/Form";
 
 const Product = ({
     product,
@@ -124,20 +119,12 @@ const Product = ({
     );
 };
 
-type FromOptions = {
-    categorias: SelectOption[];
-    embalajes: SelectOption[];
-    marcas: SelectOption[];
-    proveedores: SelectOption[];
-    unidadesMedidas: SelectOption[];
-};
-
 export default function Products() {
     // const { url } = usePage<InertiaSharedProps>();
 
     const [showModal, setShowModal] = useState<boolean>(false);
     const [formOptions, setFormOptions] = useState<FromOptions | null>(null);
-    const { data, setData, post, processing, errors, reset } =
+    const { data, setData, post, processing, errors, reset, put } =
         useForm<ProductForm>({
             gtin: "",
             nombre: "",
@@ -163,7 +150,9 @@ export default function Products() {
     const [products, setProducts] = useState<ProductProps[]>([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
-    const [editingProduct, setEditingProduct] = useState(false);
+    const [activeProduct, setEditingProduct] = useState<
+        ProductProps | undefined
+    >();
 
     const handleScroll = () => {
         if (loading) return;
@@ -221,6 +210,15 @@ export default function Products() {
 
         if (processing) return;
 
+        if (activeProduct) {
+            put(route("productos.update", activeProduct), {
+                onSuccess: () => {
+                    cancelForm();
+                },
+            });
+            return;
+        }
+
         post(route("productos.store"), {
             onSuccess: () => {
                 reset();
@@ -230,12 +228,13 @@ export default function Products() {
     };
 
     function cancelForm() {
+        setEditingProduct(undefined);
         reset();
         toggleModal();
     }
 
     function openProduct(product: ProductProps) {
-        setData((prev) => ({
+        setData(() => ({
             gtin: product.gtin,
             nombre: product.nombre,
             descripcion: product.descripcion,
@@ -250,10 +249,10 @@ export default function Products() {
             precio_embalaje: product.precio_embalaje,
             costo_detal: product.costo_detal,
             active: product.active,
-            image: null,
+            image: product.image,
         }));
         toggleModal();
-        setEditingProduct(true);
+        setEditingProduct(product);
     }
 
     async function getProductSelectOptions() {
@@ -305,243 +304,16 @@ export default function Products() {
             <FAB onClick={toggleModal} />
             <Modal show={showModal} toggleModal={toggleModal}>
                 <Modal show={showModal} toggleModal={toggleModal}>
-                    <form onSubmit={submit}>
-                        <h2 className="text-lg font-semibold mb-4">
-                            Registrar Producto
-                        </h2>
-
-                        <Input
-                            darkMode={false}
-                            label="Imagen"
-                            name="image"
-                            type="file"
-                            onChange={(e) =>
-                                setData("image", e.target.files?.[0] || null)
-                            }
-                            errorMessage={errors.image}
-                            errorActive={!!errors.image}
-                        />
-
-                        <Input
-                            darkMode={false}
-                            label="Código GTIN"
-                            name="gtin"
-                            value={data.gtin}
-                            onChange={(e) => setData("gtin", e.target.value)}
-                            errorMessage={errors.gtin}
-                            errorActive={!!errors.gtin}
-                        />
-
-                        <Input
-                            darkMode={false}
-                            label="Nombre del producto"
-                            name="nombre"
-                            value={data.nombre}
-                            onChange={(e) => setData("nombre", e.target.value)}
-                            errorMessage={errors.nombre}
-                            errorActive={!!errors.nombre}
-                            required
-                        />
-
-                        {/* Descripción */}
-                        <Textarea
-                            label="Descripción"
-                            name="descripcion"
-                            value={data.descripcion}
-                            onChange={(e) =>
-                                setData("descripcion", e.target.value)
-                            }
-                            errorMessage={errors.descripcion}
-                            errorActive={!!errors.descripcion}
-                            darkMode={false}
-                        />
-
-                        {formOptions ? (
-                            <>
-                                <SelectField
-                                    label="Marca"
-                                    name="marca_id"
-                                    errorMessage={errors.marca_id}
-                                    errorActive={!!errors.marca_id}
-                                    options={formOptions.marcas}
-                                    darkMode={false}
-                                    value={data.marca_id}
-                                    onChange={(e) =>
-                                        setData(
-                                            "marca_id",
-                                            parseInt(e.target.value)
-                                        )
-                                    }
-                                    showDefaultField={false}
-                                />
-
-                                <SelectField
-                                    label="Categoría"
-                                    name="categoria_id"
-                                    errorMessage={errors.categoria_id}
-                                    errorActive={!!errors.categoria_id}
-                                    options={formOptions?.categorias}
-                                    darkMode={false}
-                                    value={data.categoria_id}
-                                    onChange={(e) =>
-                                        setData(
-                                            "categoria_id",
-                                            parseInt(e.target.value)
-                                        )
-                                    }
-                                    showDefaultField={false}
-                                />
-
-                                <SelectField
-                                    label="Proveedor"
-                                    name="proveedor_id"
-                                    errorMessage={errors.proveedor_id}
-                                    errorActive={!!errors.proveedor_id}
-                                    options={formOptions.proveedores}
-                                    darkMode={false}
-                                    value={data.proveedor_id}
-                                    onChange={(e) =>
-                                        setData(
-                                            "proveedor_id",
-                                            parseInt(e.target.value)
-                                        )
-                                    }
-                                    showDefaultField={false}
-                                />
-
-                                <SelectField
-                                    label="Unidad de medida"
-                                    name="unidad_medida_id"
-                                    errorMessage={errors.unidad_medida_id}
-                                    errorActive={!!errors.unidad_medida_id}
-                                    options={formOptions.unidadesMedidas}
-                                    darkMode={false}
-                                    value={data.unidad_medida_id}
-                                    onChange={(e) =>
-                                        setData(
-                                            "unidad_medida_id",
-                                            parseInt(e.target.value)
-                                        )
-                                    }
-                                    showDefaultField={false}
-                                />
-
-                                <SelectField
-                                    label="Embalaje"
-                                    name="embalaje_id"
-                                    errorMessage={errors.embalaje_id}
-                                    errorActive={!!errors.embalaje_id}
-                                    options={formOptions.embalajes}
-                                    darkMode={false}
-                                    value={data.embalaje_id}
-                                    onChange={(e) =>
-                                        setData(
-                                            "embalaje_id",
-                                            parseInt(e.target.value)
-                                        )
-                                    }
-                                    showDefaultField={false}
-                                />
-                            </>
-                        ) : (
-                            <div className="flex justify-center">
-                                <div className="size-20">
-                                    <Spinner />
-                                </div>
-                            </div>
-                        )}
-
-                        <Input
-                            darkMode={false}
-                            type="number"
-                            name={"stock_actual"}
-                            label={"Stock actual"}
-                            value={data.stock_actual}
-                            onChange={(e) =>
-                                setData(
-                                    "stock_actual",
-                                    parseInt(e.target.value)
-                                )
-                            }
-                            errorMessage={errors.stock_actual}
-                            errorActive={!!errors.stock_actual}
-                        />
-
-                        <Input
-                            darkMode={false}
-                            type="number"
-                            name={"unidades_por_embalaje"}
-                            label={"Unidades por embalaje"}
-                            value={data.unidades_por_embalaje}
-                            onChange={(e) =>
-                                setData(
-                                    "unidades_por_embalaje",
-                                    parseInt(e.target.value)
-                                )
-                            }
-                            errorMessage={errors.unidades_por_embalaje}
-                            errorActive={!!errors.unidades_por_embalaje}
-                        />
-
-                        <Input
-                            darkMode={false}
-                            type="number"
-                            name={"precio_detal"}
-                            label={"Precio por unidad"}
-                            value={data.precio_detal}
-                            onChange={(e) =>
-                                setData(
-                                    "precio_detal",
-                                    parseInt(e.target.value)
-                                )
-                            }
-                            errorMessage={errors.precio_detal}
-                            errorActive={!!errors.precio_detal}
-                        />
-
-                        <Input
-                            darkMode={false}
-                            type="number"
-                            name={"precio_embalaje"}
-                            label={"Precio por embalaje"}
-                            value={data.precio_embalaje}
-                            onChange={(e) =>
-                                setData(
-                                    "precio_embalaje",
-                                    parseInt(e.target.value)
-                                )
-                            }
-                            errorMessage={errors.precio_embalaje}
-                            errorActive={!!errors.precio_embalaje}
-                        />
-
-                        <div>
-                            <ToggleSwitch
-                                name="active"
-                                checked={data.active}
-                                onChange={(val) => setData("active", val)}
-                                label="Producto activo"
-                                darkMode={false}
-                            />
-                        </div>
-
-                        <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                            <Button
-                                type="submit"
-                                variant="purple"
-                                disabled={processing}
-                            >
-                                Aceptar
-                            </Button>
-                            <Button
-                                type="button"
-                                variant="light"
-                                onClick={cancelForm}
-                            >
-                                Cancelar
-                            </Button>
-                        </div>
-                    </form>
+                    <Form
+                        submit={submit}
+                        data={data}
+                        formOptions={formOptions}
+                        setData={setData}
+                        errors={errors}
+                        processing={processing}
+                        cancelForm={cancelForm}
+                        productId={activeProduct?.id}
+                    />
                 </Modal>
             </Modal>
         </LayoutAuth>
