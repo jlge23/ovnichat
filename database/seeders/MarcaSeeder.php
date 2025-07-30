@@ -13,11 +13,17 @@ class MarcaSeeder extends Seeder
      */
     public function run(): void
     {
-        Marca::create(['marca' => 'NO APLICA']);
-        Marca::create(['marca' => 'GLORIA']);
-        Marca::create(['marca' => 'CAFFAS']);
-        Marca::create(['marca' => 'AREL']);
-        Marca::create(['marca' => 'TERRA HISPANICA']);
-        Marca::create(['marca' => 'PAFIA']);
+        $marcas = [
+            'NO APLICA',
+            'GLORIA',
+            'CAFFAS',
+            'AREL',
+            'TERRA HISPANICA',
+            'PAFIA',
+        ];
+
+        foreach ($marcas as $marca) {
+            Marca::create(['nombre' => $marca]);
+        }
     }
 }

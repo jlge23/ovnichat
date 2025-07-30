@@ -10,7 +10,7 @@ type Category = {
 
 type Packaging = {
     id: number;
-    tipo_embalaje: string;
+    nombre: string;
     descripcion: string;
     created_at: Date;
     updated_at: Date;
@@ -18,7 +18,7 @@ type Packaging = {
 
 type Brand = {
     id: number;
-    marca: string;
+    nombre: string;
     created_at: Date;
     updated_at: Date;
 };
@@ -69,6 +69,20 @@ type ProductSelectOptions = {
     marcas: Brand[];
     proveedores: Provider[];
     unidadesMedidas: Metric[];
+};
+
+export type ProductForm = Omit<
+    ProductProps,
+    | "id"
+    | "image"
+    | "codigo_sku"
+    | "categoria"
+    | "marca"
+    | "proveedor"
+    | "unidad_medida"
+    | "embalaje"
+> & {
+    image: File | null;
 };
 
 export async function fetchProductSelectOptions(): Promise<ProductSelectOptions> {

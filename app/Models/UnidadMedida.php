@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UnidadMedida extends Model
 {
-    protected $fillable = ['unidad','simbolo'];
+    protected $fillable = ['nombre','simbolo'];
     public function productos(){
         return $this->hasMany(Producto::class);
     }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Marca extends Model
 {
-    protected $fillable = ['marca'];
+    protected $fillable = ['nombre'];
     public function Productos()
     {
         return $this->hasMany(Producto::class,'marca_id','id');

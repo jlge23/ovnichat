@@ -11,6 +11,7 @@ type SelectFieldProps = SelectHTMLAttributes<HTMLSelectElement> & {
     errorMessage?: string;
     errorActive?: boolean;
     darkMode?: boolean;
+    showDefaultField?: boolean;
 };
 
 export default function SelectField({
@@ -23,6 +24,7 @@ export default function SelectField({
     errorActive = false,
     required,
     darkMode = true,
+    showDefaultField = true,
 }: SelectFieldProps) {
     return (
         <div className="mb-3">
@@ -56,7 +58,7 @@ export default function SelectField({
                           }`
                 }`}
             >
-                <option value="">Seleccione</option>
+                {showDefaultField ? <option value="">Seleccione</option> : null}
                 {options.map((opt) => (
                     <option key={opt.value} value={opt.value}>
                         {opt.label}

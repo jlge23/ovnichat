@@ -12,7 +12,11 @@ import SelectField, { SelectOption } from "@/components/SelectField";
 import { Button } from "@/components/Button";
 import Textarea from "@/components/Textarea";
 import Spinner from "@/components/Spinner";
-import { fetchProductSelectOptions, ProductProps } from "@/api/products";
+import {
+    fetchProductSelectOptions,
+    ProductForm,
+    ProductProps,
+} from "@/api/products";
 import { formatToSelect } from "@/utils/select";
 import ToggleSwitch from "@/components/ToggleSwitch";
 
@@ -120,24 +124,6 @@ const Product = ({
     );
 };
 
-type ProductForm = {
-    gtin: string;
-    nombre: string;
-    descripcion: string;
-    marca_id: string;
-    categoria_id: string;
-    proveedor_id: string;
-    unidad_medida_id: string;
-    stock_actual: string;
-    embalaje_id: string;
-    unidades_por_embalaje: string;
-    precio_detal: string;
-    precio_embalaje: string;
-    costo_detal: string;
-    active: boolean;
-    image: File | null;
-};
-
 type FromOptions = {
     categorias: SelectOption[];
     embalajes: SelectOption[];
@@ -156,16 +142,16 @@ export default function Products() {
             gtin: "",
             nombre: "",
             descripcion: "",
-            marca_id: "",
-            categoria_id: "",
-            proveedor_id: "",
-            unidad_medida_id: "",
-            stock_actual: "",
-            embalaje_id: "",
-            unidades_por_embalaje: "",
-            precio_detal: "",
-            precio_embalaje: "",
-            costo_detal: "",
+            marca_id: 1,
+            categoria_id: 1,
+            proveedor_id: 1,
+            unidad_medida_id: 1,
+            stock_actual: 0,
+            embalaje_id: 1,
+            unidades_por_embalaje: 0,
+            precio_detal: 0,
+            precio_embalaje: 0,
+            costo_detal: 0,
             active: true,
             image: null,
         });
@@ -177,6 +163,7 @@ export default function Products() {
     const [products, setProducts] = useState<ProductProps[]>([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
+    const [editingProduct, setEditingProduct] = useState(false);
 
     const handleScroll = () => {
         if (loading) return;
@@ -248,7 +235,7 @@ export default function Products() {
     }
 
     function openProduct(product: ProductProps) {
-        setData({
+        setData((prev) => ({
             gtin: product.gtin,
             nombre: product.nombre,
             descripcion: product.descripcion,
@@ -264,8 +251,9 @@ export default function Products() {
             costo_detal: product.costo_detal,
             active: product.active,
             image: null,
-        });
+        }));
         toggleModal();
+        setEditingProduct(true);
     }
 
     async function getProductSelectOptions() {
@@ -274,8 +262,8 @@ export default function Products() {
 
             const formated = {
                 categorias: formatToSelect(res.categorias, "id", "nombre"),
-                embalajes: formatToSelect(res.embalajes, "id", "tipo_embalaje"),
-                marcas: formatToSelect(res.marcas, "id", "marca"),
+                embalajes: formatToSelect(res.embalajes, "id", "nombre"),
+                marcas: formatToSelect(res.marcas, "id", "nombre"),
                 proveedores: formatToSelect(res.proveedores, "id", "nombre"),
                 unidadesMedidas: formatToSelect(
                     res.unidadesMedidas,
@@ -379,8 +367,12 @@ export default function Products() {
                                     darkMode={false}
                                     value={data.marca_id}
                                     onChange={(e) =>
-                                        setData("marca_id", e.target.value)
+                                        setData(
+                                            "marca_id",
+                                            parseInt(e.target.value)
+                                        )
                                     }
+                                    showDefaultField={false}
                                 />
 
                                 <SelectField
@@ -392,8 +384,12 @@ export default function Products() {
                                     darkMode={false}
                                     value={data.categoria_id}
                                     onChange={(e) =>
-                                        setData("categoria_id", e.target.value)
+                                        setData(
+                                            "categoria_id",
+                                            parseInt(e.target.value)
+                                        )
                                     }
+                                    showDefaultField={false}
                                 />
 
                                 <SelectField
@@ -405,8 +401,12 @@ export default function Products() {
                                     darkMode={false}
                                     value={data.proveedor_id}
                                     onChange={(e) =>
-                                        setData("proveedor_id", e.target.value)
+                                        setData(
+                                            "proveedor_id",
+                                            parseInt(e.target.value)
+                                        )
                                     }
+                                    showDefaultField={false}
                                 />
 
                                 <SelectField
@@ -420,9 +420,10 @@ export default function Products() {
                                     onChange={(e) =>
                                         setData(
                                             "unidad_medida_id",
-                                            e.target.value
+                                            parseInt(e.target.value)
                                         )
                                     }
+                                    showDefaultField={false}
                                 />
 
                                 <SelectField
@@ -434,12 +435,20 @@ export default function Products() {
                                     darkMode={false}
                                     value={data.embalaje_id}
                                     onChange={(e) =>
-                                        setData("embalaje_id", e.target.value)
+                                        setData(
+                                            "embalaje_id",
+                                            parseInt(e.target.value)
+                                        )
                                     }
+                                    showDefaultField={false}
                                 />
                             </>
                         ) : (
-                            <Spinner />
+                            <div className="flex justify-center">
+                                <div className="size-20">
+                                    <Spinner />
+                                </div>
+                            </div>
                         )}
 
                         <Input
@@ -449,7 +458,10 @@ export default function Products() {
                             label={"Stock actual"}
                             value={data.stock_actual}
                             onChange={(e) =>
-                                setData("stock_actual", e.target.value)
+                                setData(
+                                    "stock_actual",
+                                    parseInt(e.target.value)
+                                )
                             }
                             errorMessage={errors.stock_actual}
                             errorActive={!!errors.stock_actual}
@@ -462,7 +474,10 @@ export default function Products() {
                             label={"Unidades por embalaje"}
                             value={data.unidades_por_embalaje}
                             onChange={(e) =>
-                                setData("unidades_por_embalaje", e.target.value)
+                                setData(
+                                    "unidades_por_embalaje",
+                                    parseInt(e.target.value)
+                                )
                             }
                             errorMessage={errors.unidades_por_embalaje}
                             errorActive={!!errors.unidades_por_embalaje}
@@ -475,7 +490,10 @@ export default function Products() {
                             label={"Precio por unidad"}
                             value={data.precio_detal}
                             onChange={(e) =>
-                                setData("precio_detal", e.target.value)
+                                setData(
+                                    "precio_detal",
+                                    parseInt(e.target.value)
+                                )
                             }
                             errorMessage={errors.precio_detal}
                             errorActive={!!errors.precio_detal}
@@ -488,7 +506,10 @@ export default function Products() {
                             label={"Precio por embalaje"}
                             value={data.precio_embalaje}
                             onChange={(e) =>
-                                setData("precio_embalaje", e.target.value)
+                                setData(
+                                    "precio_embalaje",
+                                    parseInt(e.target.value)
+                                )
                             }
                             errorMessage={errors.precio_embalaje}
                             errorActive={!!errors.precio_embalaje}

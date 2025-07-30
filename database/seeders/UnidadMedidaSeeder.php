@@ -13,32 +13,39 @@ class UnidadMedidaSeeder extends Seeder
      */
     public function run(): void
     {
-        UnidadMedida::create(['unidad' => 'No aplica', 'simbolo' => 'N/A']);
-        UnidadMedida::create(['unidad' => 'Milímetro [0.001 metros]', 'simbolo' => 'mm']);
-        UnidadMedida::create(['unidad' => 'Centímetro [0.01 metros]', 'simbolo' => 'cm']);
-        UnidadMedida::create(['unidad' => 'Decímetro [0.1 metros]', 'simbolo' => 'dm']);
-        UnidadMedida::create(['unidad' => 'Metros', 'simbolo' => 'm']);
-        UnidadMedida::create(['unidad' => 'Decámetro [10 metros]', 'simbolo' => 'dam']);
-        UnidadMedida::create(['unidad' => 'Hectómetro [100 metros]', 'simbolo' => 'hm']);
-        UnidadMedida::create(['unidad' => 'Kilómetros [1000 metros]', 'simbolo' => 'km']);
-        UnidadMedida::create(['unidad' => 'Milímetro cuadrado [0.000001 metros cuadrados]', 'simbolo' => 'mm²']);
-        UnidadMedida::create(['unidad' => 'Centímetro cuadrado [0.0001 metros cuadrados]', 'simbolo' => 'cm²']);
-        UnidadMedida::create(['unidad' => 'Decímetro cuadrado [0.01 metros cuadrados]', 'simbolo' => 'dm²']);
-        UnidadMedida::create(['unidad' => 'Metros cuadrados', 'simbolo' => 'm²']);
-        UnidadMedida::create(['unidad' => 'Decámetro cuadrado [10 metros cuadrados]', 'simbolo' => 'dam²']);
-        UnidadMedida::create(['unidad' => 'Hectómetro cuadrado [100 metros cuadrados]', 'simbolo' => 'hm²']);
-        UnidadMedida::create(['unidad' => 'Kilómetro cuadrado [1,000,000 metros cuadrados]', 'simbolo' => 'km²']);
-        UnidadMedida::create(['unidad' => 'Nanogramos [1/1000 de un microgramo]', 'simbolo' => 'ng']);
-        UnidadMedida::create(['unidad' => 'Microgramos [1/1000 de un miligramo]', 'simbolo' => 'µg']);
-        UnidadMedida::create(['unidad' => 'Miligramos [1/1000 de un gramo]', 'simbolo' => 'mg']);
-        UnidadMedida::create(['unidad' => 'Gramo [1/1000 de un kilogramo]', 'simbolo' => 'g']);
-        UnidadMedida::create(['unidad' => 'Kilogra mos', 'simbolo' => 'kg']);
-        UnidadMedida::create(['unidad' => 'Mililitro [1/1000]', 'simbolo' => 'ml']);
-        UnidadMedida::create(['unidad' => 'Centilitro [1/100]', 'simbolo' => 'cl']);
-        UnidadMedida::create(['unidad' => 'Decilitro [1/10]', 'simbolo' => 'dl']);
-        UnidadMedida::create(['unidad' => 'Litro', 'simbolo' => 'l']);
-        UnidadMedida::create(['unidad' => 'Decámetro cúbico [100 litros]', 'simbolo' => 'dam³']);
-        UnidadMedida::create(['unidad' => 'Hectómetro cúbico [1000 litros]', 'simbolo' => 'hm³']);
-        UnidadMedida::create(['unidad' => 'Kilómetro cúbico [1.000.000 litros]', 'simbolo' => 'km³']);
+        $unidades = [
+            ['No aplica', 'N/A'],
+            ['Milímetro [0.001 metros]', 'mm'],
+            ['Centímetro [0.01 metros]', 'cm'],
+            ['Decímetro [0.1 metros]', 'dm'],
+            ['Metros', 'm'],
+            ['Decámetro [10 metros]', 'dam'],
+            ['Hectómetro [100 metros]', 'hm'],
+            ['Kilómetros [1000 metros]', 'km'],
+            ['Milímetro cuadrado [0.000001 metros cuadrados]', 'mm²'],
+            ['Centímetro cuadrado [0.0001 metros cuadrados]', 'cm²'],
+            ['Decímetro cuadrado [0.01 metros cuadrados]', 'dm²'],
+            ['Metros cuadrados', 'm²'],
+            ['Decámetro cuadrado [10 metros cuadrados]', 'dam²'],
+            ['Hectómetro cuadrado [100 metros cuadrados]', 'hm²'],
+            ['Kilómetro cuadrado [1,000,000 metros cuadrados]', 'km²'],
+            ['Nanogramos [1/1000 de un microgramo]', 'ng'],
+            ['Microgramos [1/1000 de un miligramo]', 'µg'],
+            ['Miligramos [1/1000 de un gramo]', 'mg'],
+            ['Gramo [1/1000 de un kilogramo]', 'g'],
+            ['Kilogra mos', 'kg'],
+            ['Mililitro [1/1000]', 'ml'],
+            ['Centilitro [1/100]', 'cl'],
+            ['Decilitro [1/10]', 'dl'],
+            ['Litro', 'l'],
+            ['Decámetro cúbico [100 litros]', 'dam³'],
+            ['Hectómetro cúbico [1000 litros]', 'hm³'],
+            ['Kilómetro cúbico [1.000.000 litros]', 'km³']
+        ];
+
+        foreach ($unidades as $unidad) {
+            UnidadMedida::create(['nombre' => $unidad[0], 'simbolo' => $unidad[1]]);
+
+        }
     }
 }

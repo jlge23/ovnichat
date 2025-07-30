@@ -13,13 +13,19 @@ class EmbalajeSeeder extends Seeder
      */
     public function run(): void
     {
-        Embalaje::create(['embalaje' => 'N/A', 'descripcion' => 'No aplica']);
-        Embalaje::create(['embalaje' => 'Caja', 'descripcion' => 'Caja de cartón']);
-        Embalaje::create(['embalaje' => 'Bolsa', 'descripcion' => 'Bolsa de plástico']);
-        Embalaje::create(['embalaje' => 'Saco', 'descripcion' => 'Saco de tela']);
-        Embalaje::create(['embalaje' => 'Bulto', 'descripcion' => 'Bulto de plástico']);
-        Embalaje::create(['embalaje' => 'Contenedor', 'descripcion' => 'Contenedor de plástico']);
-        Embalaje::create(['embalaje' => 'Fardo', 'descripcion' => 'Fardo de tela']);
-        Embalaje::create(['embalaje' => 'Barril', 'descripcion' => 'Barril de plástico']);
+        $embalajes = [
+            ['nombre' => 'N/A', 'descripcion' => 'No aplica'],
+            ['nombre' => 'Caja', 'descripcion' => 'Caja de cartón'],
+            ['nombre' => 'Bolsa', 'descripcion' => 'Bolsa de plástico'],
+            ['nombre' => 'Saco', 'descripcion' => 'Saco de tela'],
+            ['nombre' => 'Bulto', 'descripcion' => 'Bulto de plástico'],
+            ['nombre' => 'Contenedor', 'descripcion' => 'Contenedor de plástico'],
+            ['nombre' => 'Fardo', 'descripcion' => 'Fardo de tela'],
+            ['nombre' => 'Barril', 'descripcion' => 'Barril de plástico'],
+        ];
+
+        foreach ($embalajes as $embalaje) {
+            Embalaje::create(['nombre' => $embalaje['nombre'], 'descripcion' => $embalaje['descripcion']]);
+        }
     }
 }

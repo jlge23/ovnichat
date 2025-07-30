@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('unidad_medidas', function (Blueprint $table) {
             $table->id();
-            $table->string('unidad');
+            $table->string('nombre');
             $table->string('simbolo');
             $table->timestamps();
         });
