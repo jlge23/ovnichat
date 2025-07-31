@@ -167,7 +167,6 @@ class ProductoController extends Controller
 
     public function update(Request $request, Producto $producto)
     {
-        //dd($request->all());
         $request->validate([
             'gtin' => ['nullable', 'digits_between:8,14', 'regex:/^\d+$/'],
             'nombre' => 'required|string|max:255',
@@ -185,6 +184,7 @@ class ProductoController extends Controller
             'image' => 'nullable|image|mimes:png,gif,jpeg,jpg|max:3072',
             'active' => 'required|boolean',
         ]);
+
         if ($request->hasFile('image') && $request->image) {
             $file = $request->file('image');
             $imagen = $file->getClientOriginalName();
@@ -217,8 +217,8 @@ class ProductoController extends Controller
 
         $guardado = $producto->update([
             'gtin' => ($request->gtin) ? $request->gtin : null,
-            'producto' => strtoupper($request->producto),
-            'descripcion' => strtoupper($request->descripcion),
+            'nombre' => strtoupper($request->nombre),
+            'descripcion' => strtoupper($request->descripcion ?? ""),
             'precio_detal' => $request->precio_detal,
             'precio_embalaje' => $request->precio_embalaje,
             'costo_detal' => $request->costo_detal,

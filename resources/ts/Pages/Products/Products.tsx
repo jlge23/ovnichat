@@ -212,9 +212,10 @@ export default function Products() {
 
         if (activeProduct) {
             put(route("productos.update", activeProduct), {
-                onSuccess: () => {
+                onSuccess: (res) => {
                     cancelForm();
                 },
+                onError: (error) => console.error(error),
             });
             return;
         }

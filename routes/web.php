@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-/* Route::get('/', function () {
-    return view('welcome');
-}); */
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::post('/llama', [WelcomeController::class, 'llama'])->name('llama');
 Route::get('/autocurar', [WelcomeController::class, 'autocurar'])->name('autocurar');
@@ -64,8 +61,6 @@ Route::get('/chatbot', function () {
     return view('ChatbotBuilder.index');
 })->name('chatbot');
 
-Route::resource('productos', ProductoController::class);
-
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -83,8 +78,7 @@ Route::get('/login', fn() => Inertia::render("Login"))->name("login");
 Route::middleware("auth")->group(function () {
     Route::get("/dashboard", fn() => Inertia::render("Dashboard"));
 
-    // Route::get('/products', [ProductoController::class, 'index'])->name('productos.index');
-    Route::resource('products', ProductoController::class)->names([
+    Route::resource('productos', ProductoController::class)->names([
         'index' => 'productos.index',
         'create' => 'productos.create',
         'update' => 'productos.update'
