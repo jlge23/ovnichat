@@ -40,12 +40,12 @@ export default function Form({
 }: Form) {
     return (
         <div>
-            <form onSubmit={submit}>
+            <form onSubmit={submit} encType="multipart/form-data">
                 <h2 className="text-lg font-semibold mb-4">
                     {productId ? "Modificar " : "Registrar "}
                     Producto
                 </h2>
-                {typeof data.image === "string" ? (
+                {typeof data.image === "string" && data.image ? (
                     <img
                         src={`/storage/images/${data.image}`}
                         alt="photo"
@@ -77,7 +77,9 @@ export default function Form({
                     label="Nombre del producto"
                     name="nombre"
                     value={data.nombre}
-                    onChange={(e) => setData("nombre", e.target.value)}
+                    onChange={(e) =>
+                        setData("nombre", e.target.value.toUpperCase())
+                    }
                     errorMessage={errors.nombre}
                     errorActive={!!errors.nombre}
                     required

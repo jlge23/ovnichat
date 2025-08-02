@@ -14,8 +14,8 @@ class ProveedorSeeder extends Seeder
     public function run(): void
     {
         $proveedores = [
-            ['nombre' => 'NO APLICA', 'contacto' => '', 'telefono' => '', 'email' => ''],
-            ['nombre' => 'THE CARMEN ALIMENTOS C.A.', 'contacto' => 'S/N', 'telefono' => '+584241954394', 'email' => 'thecarmenalimentos@gmail.com']
+            ['nombre' => 'No Aplica', 'contacto' => '', 'telefono' => '', 'email' => ''],
+            ['nombre' => 'The Carmen Alimentos C.A.', 'contacto' => 'S/N', 'telefono' => '+584241954394', 'email' => 'thecarmenalimentos@gmail.com']
         ];
 
         foreach ($proveedores as $proveedor) {

@@ -81,6 +81,7 @@ Route::middleware("auth")->group(function () {
     Route::resource('productos', ProductoController::class)->names([
         'index' => 'productos.index',
         'create' => 'productos.create',
-        'update' => 'productos.update'
+        'update' => 'productos.update',
+        'destroy' => 'productos.destroy'
     ]);
 });

@@ -167,6 +167,8 @@ class ProductoController extends Controller
 
     public function update(Request $request, Producto $producto)
     {
+        dd($request->all());
+
         $request->validate([
             'gtin' => ['nullable', 'digits_between:8,14', 'regex:/^\d+$/'],
             'nombre' => 'required|string|max:255',
@@ -234,7 +236,7 @@ class ProductoController extends Controller
         ]);
 
         if ($guardado) {
-            return back()->with('success', 'Datos actualizados exitosamente!');
+            return back()->with(['success' => 'Datos actualizados exitosamente!']);
         } else {
             return back()->withErrors(['error' => 'Hubo un problema al actualizar los datos.']);
         }
@@ -242,7 +244,7 @@ class ProductoController extends Controller
 
     public function destroy(Producto $producto)
     {
-        if ($producto->image !== 'no-photo.png') {
+        if ($producto->image) {
             Storage::disk('images')->delete($producto->image);
         }
         $producto->delete();

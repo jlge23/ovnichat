@@ -14,12 +14,12 @@ class MarcaSeeder extends Seeder
     public function run(): void
     {
         $marcas = [
-            'NO APLICA',
-            'GLORIA',
-            'CAFFAS',
-            'AREL',
-            'TERRA HISPANICA',
-            'PAFIA',
+            'No Aplica',
+            'Gloria',
+            'Caffas',
+            'Arel',
+            'Terra Hispanica',
+            'Pafia',
         ];
 
         foreach ($marcas as $marca) {
