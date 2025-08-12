@@ -18,7 +18,7 @@ const Menu = ({
 
     const urls: { href: string; description: string; icon: string }[] = [
         {
-            href: "/dashboard",
+            href: route("dashboard"),
             description: "Inicio",
             icon: "M600-160v-280h280v280H600ZM440-520v-280h440v280H440ZM80-160v-280h440v280H80Zm0-360v-280h280v280H80Zm440-80h280v-120H520v120ZM160-240h280v-120H160v120Zm520 0h120v-120H680v120ZM160-600h120v-120H160v120Zm360 0Zm-80 240Zm240 0ZM280-600Z",
         },
@@ -26,6 +26,11 @@ const Menu = ({
             href: route("productos.index"),
             description: "Productos",
             icon: "M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z",
+        },
+        {
+            href: route("flujos.index"),
+            description: "Constructor de Flujos",
+            icon: "M600-160v-80H440v-200h-80v80H80v-240h280v80h80v-200h160v-80h280v240H600v-80h-80v320h80v-80h280v240H600Zm80-80h120v-80H680v80ZM160-440h120v-80H160v80Zm520-200h120v-80H680v80Zm0 400v-80 80ZM280-440v-80 80Zm400-200v-80 80Z",
         },
         {
             href: "#",
@@ -40,13 +45,16 @@ const Menu = ({
     ];
 
     function urlIsActive(path: string) {
-        return url === path;
+        if (path === "#") return false;
+
+        const currentPath = new URL(path).pathname;
+        return url === currentPath;
     }
 
     return (
         <div
             className={`fixed p-2 transition-all ${
-                showMenu ? "w-[160px]" : "w-[90px]"
+                showMenu ? "w-[190px]" : "w-[90px]"
             }`}
         >
             <Card className="p-3 rounded-xl">
@@ -78,7 +86,7 @@ const Menu = ({
                                     ${
                                         showMenu
                                             ? "opacity-100 translate-x-0"
-                                            : "opacity-0 -translate-x-10"
+                                            : "opacity-0 -translate-x-10 text-nowrap"
                                     }
                                 `}
                                 >
@@ -119,7 +127,7 @@ export default function LayoutAuth({ children }: LayoutAuthProps) {
             </div>
             <div
                 className={`flex-1 transition-all duration-300 ${
-                    showMenu ? "ml-[160px]" : "ml-[90px]"
+                    showMenu ? "ml-[190px]" : "ml-[90px]"
                 }`}
             >
                 <header className="px-2 py-5">

@@ -9,6 +9,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\FlujoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -76,7 +77,7 @@ Route::get('/probar-php', function () {
 Route::get('/login', fn() => Inertia::render("Login"))->name("login");
 
 Route::middleware("auth")->group(function () {
-    Route::get("/dashboard", fn() => Inertia::render("Dashboard"));
+    Route::get("/dashboard", fn() => Inertia::render("Dashboard"))->name("dashboard");
 
     Route::resource('productos', ProductoController::class)->names([
         'index' => 'productos.index',
@@ -84,4 +85,6 @@ Route::middleware("auth")->group(function () {
         'update' => 'productos.update',
         'destroy' => 'productos.destroy'
     ]);
+
+    Route::resource("flujos", FlujoController::class)->names(['index' => 'flujos.index']);
 });
