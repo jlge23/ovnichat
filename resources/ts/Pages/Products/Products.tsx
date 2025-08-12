@@ -16,6 +16,9 @@ import { formatToSelect } from "@/utils/select";
 import Form, { FromOptions } from "./components/Form";
 import ProductCard from "./components/ProductCard";
 import Swal from "sweetalert2";
+import { showToast } from "@/utils/Toast";
+
+type Props = InertiaSharedProps & { productos: null | ProductProps[] };
 
 export default function Products() {
     // const { url } = usePage<InertiaSharedProps>();
@@ -28,8 +31,8 @@ export default function Products() {
         post,
         processing,
         errors,
+        clearErrors,
         reset,
-        put,
         delete: destroy,
         transform,
     } = useForm<ProductForm>({
@@ -52,12 +55,12 @@ export default function Products() {
 
     const {
         props: { appName, productos },
-    } = usePage<InertiaSharedProps & { productos: null | ProductProps[] }>();
+    } = usePage<Props>();
 
     const [products, setProducts] = useState<ProductProps[]>([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
-    const [activeProduct, setEditingProduct] = useState<
+    const [editingProduct, setEditingProduct] = useState<
         ProductProps | undefined
     >();
 
@@ -112,37 +115,64 @@ export default function Products() {
         setShowModal(!showModal);
     }
 
-    const submit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
         if (processing) return;
 
-        if (activeProduct) {
-            put(route("productos.update", activeProduct), {
-                onSuccess: () => {
+        if (editingProduct) {
+            transform((data) => ({
+                ...data,
+                image: data.image instanceof File ? data.image : null,
+                _method: "PUT",
+            }));
+
+            const prodId = editingProduct.id;
+
+            post(route("productos.update", prodId), {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: (res: { props: Props }) => {
+                    const updatedProd: ProductProps =
+                        res.props.productos?.data.find(
+                            (v: ProductProps) => v.id === prodId
+                        );
+
                     setProducts((prev) =>
-                        prev.map((p) =>
-                            p.id === activeProduct.id
-                                ? {
-                                      ...p,
-                                      ...data,
-                                      image:
-                                          typeof data.image === "string"
-                                              ? data.image
-                                              : "",
-                                  }
-                                : p
-                        )
+                        prev.map((p) => {
+                            if (p.id !== editingProduct.id) return p;
+
+                            return {
+                                ...p,
+                                ...updatedProd,
+                            };
+                        })
                     );
+
                     cancelForm();
+
+                    showToast(
+                        "success",
+                        `El producto ${updatedProd.nombre} ha sido actualizado.`
+                    );
                 },
-                onError: (error) => console.error(error),
+                onError: (err) => {
+                    showToast(
+                        "error",
+                        `Error al actualizar el producto ${editingProduct.nombre}.`
+                    );
+                    console.error(err);
+                },
             });
             return;
         }
 
         post(route("productos.store"), {
             onSuccess: () => {
+                showToast(
+                    "success",
+                    `El producto ${data.nombre} ha sido registrado correctamente.`
+                );
                 reset();
                 toggleModal();
             },
@@ -152,6 +182,7 @@ export default function Products() {
     function cancelForm() {
         setEditingProduct(undefined);
         reset();
+        clearErrors();
         toggleModal();
     }
 
@@ -254,18 +285,16 @@ export default function Products() {
             </div>
             <FAB onClick={toggleModal} />
             <Modal show={showModal} toggleModal={toggleModal}>
-                <Modal show={showModal} toggleModal={toggleModal}>
-                    <Form
-                        submit={submit}
-                        data={data}
-                        formOptions={formOptions}
-                        setData={setData}
-                        errors={errors}
-                        processing={processing}
-                        cancelForm={cancelForm}
-                        productId={activeProduct?.id}
-                    />
-                </Modal>
+                <Form
+                    submit={handleSubmit}
+                    data={data}
+                    formOptions={formOptions}
+                    setData={setData}
+                    errors={errors}
+                    processing={processing}
+                    cancelForm={cancelForm}
+                    productId={editingProduct?.id}
+                />
             </Modal>
         </LayoutAuth>
     );

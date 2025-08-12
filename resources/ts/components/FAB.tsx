@@ -4,7 +4,7 @@ export default function FAB({ onClick }: { onClick?: () => void }) {
             <button className="p-0 size-18 bg-purple-500 rounded-full hover:bg-purple-700 cursor-pointer active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none">
                 <svg
                     viewBox="0 0 20 20"
-                    enable-background="new 0 0 20 20"
+                    enableBackground="new 0 0 20 20"
                     className="size-9 inline-block"
                 >
                     <path

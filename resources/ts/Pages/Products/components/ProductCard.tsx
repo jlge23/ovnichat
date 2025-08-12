@@ -55,6 +55,7 @@ export default function ProductCard({
                             : "/images/no-photo.png"
                     }`}
                     alt="image"
+                    className="object-cover"
                 />
             </div>
             <div className="title-container font-bold line-clamp-1 text-lg text-white">
