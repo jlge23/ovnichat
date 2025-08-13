@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import LayoutAuth from "@/Layouts/LayoutAuth";
-import { Head, usePage } from "@inertiajs/react";
+import { Head, router, usePage } from "@inertiajs/react";
 import {
     ReactFlow,
     applyNodeChanges,
@@ -21,6 +21,7 @@ import {
 import "@xyflow/react/dist/style.css";
 import FAB from "@/components/FAB";
 import { showToast } from "@/utils/Toast";
+import { route } from "ziggy-js";
 
 // Definición de tipos
 type MyNodeData = { label: string; type?: string };
@@ -117,10 +118,15 @@ export default function Flow() {
         const nodeType = event.dataTransfer.getData("application/reactflow");
         if (!nodeType) return;
 
-        const bounds = event.currentTarget.getBoundingClientRect();
+        // Verificar si ya existe un nodo de tipo 'end'
+        const hasEndNode = nodes.some((node) => node.data.type === "end");
+        if (nodeType === "end" && hasEndNode) {
+            return; // No permitir agregar más nodos de tipo 'end'
+        }
+
         const position = {
-            x: event.clientX - bounds.left,
-            y: event.clientY - bounds.top,
+            x: 0,
+            y: 100,
         };
 
         const newNode: Node<MyNodeData> = {
@@ -136,13 +142,37 @@ export default function Flow() {
     function handleSave() {
         if (edges.length <= 0) return;
 
+        const data = {
+            nodes: nodes.map(({ id, position, data }) => ({
+                id,
+                position,
+                data,
+            })),
+            edges: edges.map(({ id, source, target, type }) => ({
+                id,
+                source,
+                target,
+                type,
+            })),
+        };
+
+        router.post(route("flujos.store"), data, {
+            onSuccess: () =>
+                showToast(
+                    "success",
+                    "Cambios al diagrama de flujo guardados correctamente."
+                ),
+            onError: (err) => {
+                showToast(
+                    "error",
+                    "Error al guardar los datos del diagrama de flujo."
+                );
+                console.error(err);
+            },
+        });
+
         console.log("nodes: ", nodes);
         console.log("edges: ", edges);
-
-        showToast(
-            "success",
-            "Cambios al diagrama de flujo guardados correctamente."
-        );
     }
 
     return (

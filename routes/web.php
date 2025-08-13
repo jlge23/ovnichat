@@ -86,5 +86,8 @@ Route::middleware("auth")->group(function () {
         'destroy' => 'productos.destroy'
     ]);
 
-    Route::resource("flujos", FlujoController::class)->names(['index' => 'flujos.index']);
+    Route::resource("flujos", FlujoController::class)->names([
+        'index' => 'flujos.index',
+        'store' => 'flujos.store'
+    ]);
 });
