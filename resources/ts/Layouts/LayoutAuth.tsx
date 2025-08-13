@@ -68,7 +68,7 @@ const Menu = ({
                         <li key={key}>
                             <Link
                                 href={val.href}
-                                className={`flex gap-2 mb-2 ml-2 hover:text-gray-600 dark:hover:text-white ${
+                                className={`flex gap-2 mb-2 ml-2 hover:text-gray-600 dark:hover:text-white overflow-hidden ${
                                     urlIsActive(val.href)
                                         ? "font-bold dark:text-white text-gray-600"
                                         : "text-gray-400"
